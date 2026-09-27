@@ -1,26 +1,48 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import logo from "../public/images/lyst-logo.png";
 
-const NAV = [
-  { label: "პროდუქტი", href: "#product" },
-  { label: "მოსაწვევები", href: "#path" },
-  { label: "გამოცდილებები", href: "#experiences" },
-  { label: "როგორ მუშაობს", href: "#how" },
-  { label: "ფასები", href: "#path" },
-  { label: "ჩვენ შესახებ", href: "#trust" },
+type NavItem = { label: string; href: string };
+
+// The homepage frame and the inner-page frames use slightly different menus.
+const HOME_NAV: NavItem[] = [
+  { label: "პროდუქტი", href: "/product" },
+  { label: "მოსაწვევები", href: "/invitations" },
+  { label: "გამოცდილებები", href: "/#experiences" },
+  { label: "როგორ მუშაობს", href: "/how-it-works" },
+  { label: "ფასები", href: "/pricing" },
+  { label: "ჩვენ შესახებ", href: "/about" },
 ];
 
-export default function Header() {
+const INNER_NAV: NavItem[] = [
+  { label: "პროდუქტი", href: "/product" },
+  { label: "მოსაწვევები", href: "/invitations" },
+  { label: "ფუნქციები", href: "/features" },
+  { label: "როგორ მუშაობს", href: "/how-it-works" },
+  { label: "ფასები", href: "/pricing" },
+  { label: "ჩვენ შესახებ", href: "/about" },
+];
+
+export default function Header({
+  variant = "inner",
+}: {
+  variant?: "home" | "inner";
+}) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const nav = variant === "home" ? HOME_NAV : INNER_NAV;
   const close = () => setOpen(false);
+  const current = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined;
 
   return (
-    <header className="header">
+    <header className={`header header--${variant}`}>
       <div className="header-bar">
-        <a href="#top" className="logo-group" aria-label="LYST" onClick={close}>
+        <Link href="/" className="logo-group" aria-label="LYST" onClick={close}>
           <Image
             src={logo}
             alt="LYST"
@@ -30,23 +52,27 @@ export default function Header() {
             className="logo-img"
           />
           <span className="badge">პლატფორმა</span>
-        </a>
+        </Link>
 
         <nav className="nav-links" aria-label="მთავარი ნავიგაცია">
-          {NAV.map((item) => (
-            <a key={item.label} href={item.href}>
+          {nav.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={current(item.href)}
+            >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="auth-group">
-          <a href="#" className="auth-login">
+          <Link href="/login" className="auth-login">
             შესვლა
-          </a>
-          <a href="#" className="btn btn-primary btn-sm">
+          </Link>
+          <Link href="/create" className="btn btn-primary btn-sm">
             შექმენი მოსაწვევი
-          </a>
+          </Link>
         </div>
 
         <button
@@ -64,16 +90,21 @@ export default function Header() {
 
       <div id="mobile-menu" className="mobile-menu" hidden={!open}>
         <nav aria-label="მობილური ნავიგაცია">
-          {NAV.map((item) => (
-            <a key={item.label} href={item.href} onClick={close}>
+          {nav.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={current(item.href)}
+              onClick={close}
+            >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="mobile-menu-actions">
-          <a href="#" className="btn btn-primary" onClick={close}>
+          <Link href="/create" className="btn btn-primary" onClick={close}>
             შექმენი მოსაწვევი
-          </a>
+          </Link>
         </div>
       </div>
     </header>

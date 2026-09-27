@@ -8,6 +8,12 @@
   --color-text-primary: #111111;
   --color-text-secondary: #6b6b69;
   --color-action-primary: #000000;
+  --color-text-tertiary: #a8a8a5;
+  --color-success-bg: #f0f4ee;
+  --color-success-text: #445f2c;
+  --color-warning-bg: #fff8f0;
+  --color-warning-text: #9e601c;
+  --color-live: #ff3b30;
 
   --radius-4: 4px;
   --radius-8: 8px;
@@ -64,11 +70,13 @@ h1,
 h2,
 h3,
 p,
-ul {
+ul,
+ol {
   margin: 0;
 }
 
-ul {
+ul,
+ol {
   padding: 0;
   list-style: none;
 }
@@ -174,6 +182,16 @@ img {
   font-size: 14px;
 }
 
+.btn-md {
+  padding: 12px 24px;
+  font-size: 14px;
+}
+
+.btn-lg {
+  padding: 16px 32px;
+  font-size: 15px;
+}
+
 .text-link {
   display: inline-flex;
   align-items: center;
@@ -253,6 +271,28 @@ img {
 
 .nav-links a:hover {
   color: var(--color-text-primary);
+}
+
+/* inner pages: 80px bar, current page bold with a short underline */
+.header--inner .header-bar {
+  height: 80px;
+}
+
+.nav-links a[aria-current="page"] {
+  position: relative;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.nav-links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-action-primary);
 }
 
 .auth-group {
@@ -819,6 +859,99 @@ img {
 }
 
 /* ------------------------------------------------------------------ *
+ * Shared: divider, viewport helpers, inner-page footer
+ * ------------------------------------------------------------------ */
+.divider {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 1px;
+}
+
+.m-only {
+  display: none;
+}
+
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 80px var(--gutter);
+  border-top: 1px solid var(--color-border-default);
+  background: var(--color-background-subtle);
+}
+
+.site-footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.site-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site-footer-logo {
+  width: 98px;
+  height: 35px;
+  object-fit: contain;
+}
+
+.site-footer-brand p {
+  width: 320px;
+  max-width: 100%;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.site-footer-links {
+  display: flex;
+  gap: 48px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.site-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site-footer-col h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.site-footer-col a {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.site-footer a:hover {
+  color: var(--color-text-primary);
+}
+
+.site-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 13px;
+  line-height: normal;
+  color: var(--color-text-secondary);
+}
+
+.site-footer-social {
+  display: flex;
+  gap: 24px;
+}
+
+/* ------------------------------------------------------------------ *
  * Tablet (<= 1024px): stack split layouts
  * ------------------------------------------------------------------ */
 @media (max-width: 1024px) {
@@ -869,6 +1002,11 @@ img {
   .footer-nav-groups {
     flex-wrap: wrap;
     gap: 24px 48px;
+  }
+
+  .site-footer-top {
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
 }
 
@@ -923,8 +1061,10 @@ img {
     line-height: 1.5;
   }
 
-  /* buttons: full-width 44px */
-  .btn {
+  /* homepage buttons: full-width 44px */
+  .hero-actions .btn,
+  .price-action .btn,
+  .cta-actions .btn {
     width: 100%;
     height: 44px;
     padding: 0;
@@ -1190,5 +1330,46 @@ img {
     order: 7;
     padding: 12px 0 40px;
     border-top: 1px solid rgba(255, 255, 255, 0.149);
+  }
+
+  /* viewport helpers */
+  .m-only {
+    display: block;
+  }
+
+  .d-only {
+    display: none;
+  }
+
+  /* inner-page footer */
+  .site-footer {
+    gap: 32px;
+    padding: 48px 20px;
+  }
+
+  .site-footer-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 32px;
+  }
+
+  .site-footer-brand {
+    gap: 16px;
+  }
+
+  .site-footer-brand p {
+    width: auto;
+    font-size: 13px;
+    line-height: normal;
+  }
+
+  .site-footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .site-footer-bottom {
+    font-size: 12px;
   }
 }

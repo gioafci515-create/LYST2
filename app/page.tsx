@@ -85,7 +85,7 @@ function ArrowIcon() {
 export default function Home() {
   return (
     <>
-      <Header />
+      <Header variant="home" />
       <main id="top">
         <section className="section hero">
           <div className="hero-split">
