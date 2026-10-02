@@ -103,6 +103,54 @@ img {
 }
 
 /* ------------------------------------------------------------------ *
+ * Page transition + scroll reveal (app/template.tsx)
+ * ------------------------------------------------------------------ */
+.page-transition {
+  animation: page-in var(--duration-editorial) var(--ease-premium);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Visible by default — JS only ever ADDS a one-time entrance animation
+   when a section scrolls into view. If IntersectionObserver never fires
+   for any reason (old browser, backgrounded tab throttling it, JS
+   disabled), content simply stays visible with no animation: there is
+   no failure mode where it gets stuck hidden. */
+main section.reveal-play {
+  animation: section-reveal var(--duration-editorial) var(--ease-premium) both;
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
+
+  main section.reveal-play {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Typography
  * ------------------------------------------------------------------ */
 .t-display,
@@ -414,12 +462,22 @@ img {
   border: 0;
   background: transparent;
   cursor: pointer;
+  transition: transform var(--duration-instant) var(--ease-premium);
+}
+
+.menu-toggle:active {
+  transform: scale(0.88);
 }
 
 .menu-toggle img {
   display: block;
   width: 20px;
   height: 20px;
+  transition: transform var(--duration-standard) var(--ease-premium);
+}
+
+.menu-toggle[aria-expanded="true"] img {
+  transform: rotate(90deg);
 }
 
 .mobile-menu {
@@ -427,16 +485,28 @@ img {
   top: 100%;
   left: 0;
   right: 0;
+  max-height: 0;
+  background: var(--color-background-primary);
+  border-bottom: 1px solid transparent;
+  overflow: hidden;
+  transition: max-height var(--duration-standard) var(--ease-premium),
+    border-color var(--duration-standard) var(--ease-premium);
+}
+
+.mobile-menu[data-open="true"] {
+  max-height: 600px;
+  border-bottom-color: var(--color-border-default);
+}
+
+.mobile-menu[data-open="false"] {
+  pointer-events: none;
+}
+
+.mobile-menu-inner {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 16px var(--gutter) 24px;
-  background: var(--color-background-primary);
-  border-bottom: 1px solid var(--color-border-default);
-}
-
-.mobile-menu[hidden] {
-  display: none;
 }
 
 .mobile-menu nav {

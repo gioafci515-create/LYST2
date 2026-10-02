@@ -199,7 +199,7 @@ function StepEventType({
   patch: (fields: Partial<WizardData>) => void;
 }) {
   return (
-    <section className={styles.content}>
+    <div className={styles.content}>
       <div className={styles.contentHead}>
         <p className={styles.stepEyebrow}>01 / 05</p>
         <h1 className={styles.stepTitle}>აირჩიე ღონისძიების ტიპი</h1>
@@ -232,7 +232,7 @@ function StepEventType({
           );
         })}
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -247,7 +247,7 @@ function StepTemplate({
   patch: (fields: Partial<WizardData>) => void;
 }) {
   return (
-    <section className={styles.content}>
+    <div className={styles.content}>
       <div className={styles.contentHead}>
         <p className={styles.stepEyebrow}>02 / 05</p>
         <h1 className={styles.stepTitle}>აირჩიე მოსაწვევის სტილი</h1>
@@ -291,7 +291,7 @@ function StepTemplate({
         <Icon src="/images/create/m-info.svg" width={16} height={16} />
         ყველა შაბლონი სრულად რედაქტირებადია.
       </p>
-    </section>
+    </div>
   );
 }
 
@@ -308,7 +308,7 @@ function StepDetails({
   template: (typeof CREATION_TEMPLATES)[number];
 }) {
   return (
-    <section className={`${styles.content} ${styles.detailsContent}`}>
+    <div className={`${styles.content} ${styles.detailsContent}`}>
       <div className={styles.detailsMain}>
         <div className={styles.contentHead}>
           <p className={styles.stepEyebrow}>03 / 05</p>
@@ -414,7 +414,7 @@ function StepDetails({
         )}
         <p className={styles.previewTemplateNote}>შაბლონი: {template.title}</p>
       </aside>
-    </section>
+    </div>
   );
 }
 
@@ -448,7 +448,7 @@ function StepRsvp({
   patchSettings: (key: keyof WizardData["settings"], value: boolean) => void;
 }) {
   return (
-    <section className={styles.content}>
+    <div className={styles.content}>
       <div className={styles.contentHead}>
         <p className={styles.stepEyebrow}>04 / 05</p>
         <h1 className={styles.stepTitle}>RSVP და სტუმრების პარამეტრები</h1>
@@ -480,7 +480,7 @@ function StepRsvp({
           გსურთ დამატებითი გამოცდილებები? დაჯავშნეთ კონსულტაცია →
         </Link>
       </div>
-    </section>
+    </div>
   );
 }
 
@@ -506,7 +506,7 @@ function StepPreview({
   ].filter(Boolean) as string[];
 
   return (
-    <section className={styles.content}>
+    <div className={styles.content}>
       <div className={styles.contentHead}>
         <p className={styles.stepEyebrow}>05 / 05</p>
         <h1 className={styles.stepTitle}>გადახედე და გამოაქვეყნე</h1>
@@ -600,6 +600,6 @@ function StepPreview({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

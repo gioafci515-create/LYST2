@@ -88,23 +88,26 @@ export default function Header({
         </button>
       </div>
 
-      <div id="mobile-menu" className="mobile-menu" hidden={!open}>
-        <nav aria-label="მობილური ნავიგაცია">
-          {nav.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              aria-current={current(item.href)}
-              onClick={close}
-            >
-              {item.label}
+      <div id="mobile-menu" className="mobile-menu" data-open={open} aria-hidden={!open}>
+        <div className="mobile-menu-inner">
+          <nav aria-label="მობილური ნავიგაცია">
+            {nav.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                aria-current={current(item.href)}
+                onClick={close}
+                tabIndex={open ? undefined : -1}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mobile-menu-actions">
+            <Link href="/create" className="btn btn-primary" onClick={close} tabIndex={open ? undefined : -1}>
+              შექმენი მოსაწვევი
             </Link>
-          ))}
-        </nav>
-        <div className="mobile-menu-actions">
-          <Link href="/create" className="btn btn-primary" onClick={close}>
-            შექმენი მოსაწვევი
-          </Link>
+          </div>
         </div>
       </div>
     </header>
