@@ -32,6 +32,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform var(--duration-standard) var(--ease-premium);
+}
+
+.card:hover .image img {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image img {
+    transition: none;
+  }
+
+  .card:hover .image img {
+    transform: none;
+  }
 }
 
 .body {

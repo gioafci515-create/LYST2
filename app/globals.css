@@ -1036,6 +1036,30 @@ main section.reveal-play {
   width: 100%;
   max-width: none;
   height: 1px;
+  transform-origin: left;
+}
+
+/* visible by default everywhere (e.g. the footer); only the copy inside a
+   section that is actively playing its entrance animation also plays an
+   expand-from-left — never a persistent hidden/collapsed base state */
+main section.reveal-play .divider {
+  animation: divider-expand var(--duration-standard) var(--ease-premium) both;
+  animation-delay: 120ms;
+}
+
+@keyframes divider-expand {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main section.reveal-play .divider {
+    animation: none;
+  }
 }
 
 .m-only {

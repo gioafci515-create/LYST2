@@ -103,7 +103,9 @@ export default function CreateWizard() {
             className={`btn btn-primary ${styles.continueBtn} ${styles.publishBtn}`}
             onClick={handlePublish}
             disabled={published}
+            data-loading={published}
           >
+            {published && <span className="btn-spinner" aria-hidden="true" />}
             {published ? "იქვეყნება…" : "მოსაწვევის გამოქვეყნება"}
           </button>
         )}
