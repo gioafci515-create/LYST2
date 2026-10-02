@@ -11,7 +11,7 @@ const NAV_GROUPS = [
 const QUICK_LINKS = [
   { label: "ფასები", href: "#path" },
   { label: "ჩვენ შესახებ", href: "#trust" },
-  { label: "შესვლა", href: "#" },
+  { label: "შესვლა", href: "/login" },
 ];
 
 export default function Footer() {
@@ -67,8 +67,8 @@ export default function Footer() {
       <div className="footer-bottom">
         <p>© LYST. ყველა უფლება დაცულია.</p>
         <div className="footer-legal">
-          <a href="#">კონფიდენციალურობა</a>
-          <a href="#">პირობები</a>
+          <a>კონფიდენციალურობა</a>
+          <a>პირობები</a>
         </div>
       </div>
     </footer>

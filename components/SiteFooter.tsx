@@ -63,11 +63,15 @@ export default function SiteFooter() {
               className={`site-footer-col${col.mobileHidden ? " d-only" : ""}`}
             >
               <h3>{col.title}</h3>
-              {col.links.map((link) => (
-                <Link key={link.label} href={link.href}>
-                  {link.label}
-                </Link>
-              ))}
+              {col.links.map((link) =>
+                link.href === "#" ? (
+                  <a key={link.label}>{link.label}</a>
+                ) : (
+                  <Link key={link.label} href={link.href}>
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </div>
           ))}
         </nav>
@@ -79,9 +83,7 @@ export default function SiteFooter() {
         <p>© LYST. ყველა უფლება დაცულია.</p>
         <div className="site-footer-social d-only">
           {SOCIAL.map((name) => (
-            <a key={name} href="#">
-              {name}
-            </a>
+            <a key={name}>{name}</a>
           ))}
         </div>
       </div>

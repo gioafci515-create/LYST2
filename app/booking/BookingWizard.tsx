@@ -62,8 +62,8 @@ function Footer() {
     <footer className={styles.footer}>
       <p>© LYST. ყველა უფლება დაცულია.</p>
       <div className={styles.footerLinks}>
-        <a href="#">კონფიდენციალურობა</a>
-        <a href="#">წესები და პირობები</a>
+        <a>კონფიდენციალურობა</a>
+        <a>წესები და პირობები</a>
       </div>
     </footer>
   );

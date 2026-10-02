@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import avatar from "../../../public/images/dashboard/avatar-client.png";
+import MobileInviteActions from "./MobileInviteActions";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
 };
 
 const SIDEBAR_NAV = [
-  { icon: "home", label: "მთავარი", active: true },
-  { icon: "calendarB", label: "ჩემი ღონისძიებები" },
-  { icon: "mail", label: "მოსაწვევები" },
-  { icon: "usersB", label: "სტუმრები" },
-  { icon: "image", label: "გალერეა" },
-  { icon: "settings", label: "პარამეტრები" },
+  { icon: "home", label: "მთავარი", href: "/dashboard/client", active: true },
+  { icon: "calendarB", label: "ჩემი ღონისძიებები", href: "#events" },
+  { icon: "mail", label: "მოსაწვევები", href: "/invitations" },
+  { icon: "usersB", label: "სტუმრები", href: "/features/guest-management" },
+  { icon: "image", label: "გალერეა", href: "/features/event-camera" },
+  { icon: "settings", label: "პარამეტრები", href: "/login" },
 ];
 
 const STATS = [
@@ -62,11 +63,11 @@ export default function ClientDashboardPage() {
               </Link>
               <nav className={styles.sidebarNav}>
                 {SIDEBAR_NAV.map((item) => (
-                  <span key={item.label} className={styles.navLink} data-active={item.active}>
+                  <Link key={item.label} href={item.href} className={styles.navLink} data-active={item.active}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={`/images/dashboard/icon-${item.icon}.svg`} alt="" width={18} height={18} />
                     <span>{item.label}</span>
-                  </span>
+                  </Link>
                 ))}
               </nav>
             </div>
@@ -74,9 +75,9 @@ export default function ClientDashboardPage() {
               <Image src={avatar} alt="" width={40} height={40} className={styles.avatar} />
               <div className={styles.sidebarFooterText}>
                 <p className={styles.userName}>მარიამ წიკლაური</p>
-                <a href="#" target="_blank" rel="noreferrer" className={styles.profileLink}>
+                <Link href="/login" className={styles.profileLink}>
                   პროფილი
-                </a>
+                </Link>
               </div>
             </div>
           </aside>
@@ -142,25 +143,25 @@ export default function ClientDashboardPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/dashboard/line2.svg" alt="" className={styles.divider} />
               <div className={styles.quickActions}>
-                <Link href={`/invite/moonlight`} className={styles.actionBtn}>
+                <Link href="/invitations/moonlight" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-eye.svg" alt="" width={16} height={16} />
                   მოსაწვევის ნახვა
                 </Link>
-                <button type="button" className={styles.actionBtn}>
+                <Link href="/features/guest-management" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-users-3.svg" alt="" width={16} height={16} />
                   სტუმრების მართვა
-                </button>
-                <button type="button" className={styles.actionBtn}>
+                </Link>
+                <Link href="/features/event-camera" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-image.svg" alt="" width={16} height={16} />
                   გალერეა
-                </button>
+                </Link>
               </div>
             </section>
 
-            <section className={styles.bottomGrid}>
+            <section id="events" className={styles.bottomGrid}>
               <div className={styles.eventsPanel}>
                 <h2 className={styles.sectionTitle}>მომავალი ღონისძიებები</h2>
                 <div className={styles.tableContainer}>
@@ -234,14 +235,7 @@ export default function ClientDashboardPage() {
                   <p className={styles.mInviteTitle}>გიორგი & ნინო</p>
                   <p className={styles.mInviteLocation}>ლოკაცია: შერატონ მეტეხი პალასი, თბილისი</p>
                 </div>
-                <div className={styles.mInviteActions}>
-                  <button type="button" className={styles.mBtnAccept}>
-                    მივიღებ
-                  </button>
-                  <button type="button" className={styles.mBtnDecline}>
-                    ვერ მივალ
-                  </button>
-                </div>
+                <MobileInviteActions />
               </div>
             </div>
 

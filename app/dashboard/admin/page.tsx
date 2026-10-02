@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import avatar from "../../../public/images/dashboard/avatar-admin.png";
 import styles from "./page.module.css";
 
@@ -9,14 +10,14 @@ export const metadata: Metadata = {
 };
 
 const SIDEBAR_NAV = [
-  { icon: "home", label: "მთავარი", active: true },
-  { icon: "bag", label: "შეკვეთები" },
-  { icon: "usersB", label: "კლიენტები" },
-  { icon: "calendarB", label: "ღონისძიებები" },
-  { icon: "barchart", label: "ანალიტიკა" },
-  { icon: "dollar", label: "ფინანსები" },
-  { icon: "usercheck", label: "გუნდი" },
-  { icon: "settings", label: "პარამეტრები" },
+  { icon: "home", label: "მთავარი", href: "/dashboard/admin", active: true },
+  { icon: "bag", label: "შეკვეთები", href: "#orders" },
+  { icon: "usersB", label: "კლიენტები", href: "/dashboard/client" },
+  { icon: "calendarB", label: "ღონისძიებები", href: "/dashboard/host" },
+  { icon: "barchart", label: "ანალიტიკა", href: "#analytics" },
+  { icon: "dollar", label: "ფინანსები", href: "#finance" },
+  { icon: "usercheck", label: "გუნდი", href: "#activity" },
+  { icon: "settings", label: "პარამეტრები", href: "/login" },
 ];
 
 const STATS = [
@@ -88,11 +89,11 @@ export default function AdminDashboardPage() {
               </div>
               <nav className={styles.sidebarNav}>
                 {SIDEBAR_NAV.map((item) => (
-                  <span key={item.label} className={styles.navLink} data-active={item.active}>
+                  <Link key={item.label} href={item.href} className={styles.navLink} data-active={item.active}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={`/images/dashboard/icon-${item.icon}.svg`} alt="" width={18} height={18} />
                     <span>{item.label}</span>
-                  </span>
+                  </Link>
                 ))}
               </nav>
             </div>
@@ -129,7 +130,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className={styles.statsRow}>
+            <div id="finance" className={styles.statsRow}>
               {STATS.map((stat) => (
                 <div key={stat.label} className={styles.statCard}>
                   <div className={styles.statHead}>
@@ -158,7 +159,7 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className={styles.chartRow}>
-              <div className={styles.chartCard}>
+              <div id="analytics" className={styles.chartCard}>
                 <div className={styles.chartHead}>
                   <div>
                     <p className={styles.chartTitle}>შემოსავლების დინამიკა</p>
@@ -177,7 +178,7 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              <div className={styles.activityCard}>
+              <div id="activity" className={styles.activityCard}>
                 <div className={styles.activityHead}>
                   <p className={styles.chartTitle}>ბოლო აქტივობა</p>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -197,12 +198,12 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className={styles.tableCard}>
+            <div id="orders" className={styles.tableCard}>
               <div className={styles.tableHead}>
                 <p className={styles.chartTitle}>ბოლო შეკვეთები</p>
-                <button type="button" className={styles.viewAllBtn}>
+                <Link href="#orders" className={styles.viewAllBtn}>
                   ყველას ნახვა
-                </button>
+                </Link>
               </div>
               <div className={styles.table}>
                 <div className={`${styles.row} ${styles.rowHead}`}>

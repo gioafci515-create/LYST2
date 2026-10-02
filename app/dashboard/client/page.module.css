@@ -696,6 +696,41 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-premium),
+    opacity var(--duration-fast) var(--ease-premium),
+    transform var(--duration-instant) var(--ease-premium);
+}
+
+.mBtnAccept:active,
+.mBtnDecline:active {
+  transform: translateY(1px);
+}
+
+.mInviteResponded {
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--color-background-subtle);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-align: center;
+  animation: invite-responded-in var(--duration-standard) var(--ease-premium);
+}
+
+.mInviteResponded[data-accepted="true"] {
+  background: #f0f4ee;
+  color: #445f2c;
+}
+
+@keyframes invite-responded-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .mBtnAccept {

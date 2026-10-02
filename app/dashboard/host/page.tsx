@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import avatar from "../../../public/images/dashboard/avatar-host.png";
+import ShareLinkButton from "./ShareLinkButton";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -11,11 +12,11 @@ export const metadata: Metadata = {
 
 const SIDEBAR_NAV = [
   { icon: "overview", label: "მიმოხილვა", href: "/dashboard/host", active: true },
-  { icon: "users", label: "სტუმრები", href: "#" },
-  { icon: "mail", label: "მოწვევა", href: "#" },
-  { icon: "image", label: "გამოცდილება", href: "#" },
-  { icon: "mic", label: "არქივი", href: "#" },
-  { icon: "lock", label: "პარამეტრები", href: "#" },
+  { icon: "users", label: "სტუმრები", href: "#rsvp-summary" },
+  { icon: "mail", label: "მოწვევა", href: "/invitations/moonlight" },
+  { icon: "image", label: "გამოცდილება", href: "/features/event-camera" },
+  { icon: "mic", label: "არქივი", href: "/invitations" },
+  { icon: "lock", label: "პარამეტრები", href: "/login" },
 ];
 
 const RSVP_FEED = [
@@ -135,34 +136,34 @@ export default function HostDashboardPage() {
                 </div>
               </div>
               <div className={styles.heroActions}>
-                <Link href={`/invite/moonlight`} className={`btn btn-primary ${styles.heroBtn}`}>
+                <Link href="/invitations/moonlight" className={`btn btn-primary ${styles.heroBtn}`}>
                   მოსაწვევის ნახვა
                 </Link>
-                <button type="button" className={`btn btn-secondary ${styles.heroBtn}`}>
+                <Link href="#rsvp-summary" className={`btn btn-secondary ${styles.heroBtn}`}>
                   სტუმრების მართვა
-                </button>
-                <button type="button" className={`btn btn-secondary ${styles.heroBtn}`}>
+                </Link>
+                <Link href="/features/event-camera" className={`btn btn-secondary ${styles.heroBtn}`}>
                   გალერეა
-                </button>
-                <button type="button" className={`btn btn-secondary ${styles.heroBtn}`}>
+                </Link>
+                <Link href="/login" className={`btn btn-secondary ${styles.heroBtn}`}>
                   პარამეტრები
-                </button>
+                </Link>
               </div>
             </section>
 
-            <section className={styles.rsvpSummary}>
+            <section id="rsvp-summary" className={styles.rsvpSummary}>
               <h2 className={styles.sectionTitle}>სტუმრების პასუხები</h2>
               <div className={styles.rsvpSummaryBlock}>
                 <p className={styles.rsvpBig}>89 / 120 სტუმარმა დაადასტურა</p>
                 <p className={styles.rsvpSub}>16 პასუხს ელოდებით. 15 სტუმარმა ვერ დაესწრება.</p>
-                <button type="button" className={styles.rsvpLink}>
+                <Link href="#feed" className={styles.rsvpLink}>
                   სტუმრების ნახვა
-                </button>
+                </Link>
               </div>
             </section>
 
             <section className={styles.splitSection}>
-              <div className={styles.feedCard}>
+              <div id="feed" className={styles.feedCard}>
                 <h2 className={styles.sectionTitle}>ბოლო დასწრების პასუხები</h2>
                 <div className={styles.feedList}>
                   {RSVP_FEED.map((item) => (
@@ -261,16 +262,12 @@ export default function HostDashboardPage() {
             <div className={styles.mSection}>
               <p className={styles.mSectionTitle}>სწრაფი მოქმედებები</p>
               <div className={styles.mActionsGrid}>
-                <button type="button" className={styles.mActionBtn}>
+                <Link href="/features/guest-management" className={styles.mActionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/m-plus-circle.svg" alt="" width={20} height={20} />
                   <span>სტუმრის დამატება</span>
-                </button>
-                <button type="button" className={styles.mActionBtn}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/dashboard/m-share.svg" alt="" width={20} height={20} />
-                  <span>ბმულის გაზიარება</span>
-                </button>
+                </Link>
+                <ShareLinkButton className={styles.mActionBtn} />
               </div>
             </div>
 

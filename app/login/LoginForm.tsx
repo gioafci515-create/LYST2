@@ -58,10 +58,10 @@ export default function LoginForm() {
           <label className={styles.label} htmlFor="password">
             პაროლი
           </label>
-          <Link href="#" className={styles.forgot}>
+          <a className={styles.forgot}>
             <span className="d-only">პაროლის აღდგენა</span>
             <span className="m-only">დაგავიწყდა პაროლი?</span>
-          </Link>
+          </a>
         </div>
         <div className={styles.passwordWrap}>
           <input
@@ -104,7 +104,11 @@ export default function LoginForm() {
         <span className={styles.orLine} />
       </div>
 
-      <button type="button" className={styles.google}>
+      <button
+        type="button"
+        className={styles.google}
+        onClick={() => router.push("/dashboard")}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/login/google.svg" alt="" width={20} height={20} />
         Google-ით შესვლა

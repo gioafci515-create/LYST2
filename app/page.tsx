@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import heroImage from "../public/images/hero-image.png";
@@ -98,9 +99,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="hero-actions">
-                <a href="#" className="btn btn-primary">
+                <Link href="/create" className="btn btn-primary">
                   შექმენი მოსაწვევი
-                </a>
+                </Link>
                 <a href="#path" className="btn btn-secondary hero-consult">
                   დაჯავშნე კონსულტაცია
                   <ArrowIcon />
@@ -188,9 +189,9 @@ export default function Home() {
               </div>
               <div className="price-action">
                 <p className="price">ფასი დადასტურდება გამოქვეყნებამდე</p>
-                <a href="#" className="btn btn-primary">
+                <Link href="/create" className="btn btn-primary">
                   შექმენი მოსაწვევი
-                </a>
+                </Link>
               </div>
             </article>
             <article className="path-card">
@@ -282,9 +283,9 @@ export default function Home() {
             </p>
           </div>
           <div className="cta-actions">
-            <a href="#" className="btn btn-primary">
+            <Link href="/create" className="btn btn-primary">
               შექმენი მოსაწვევი
-            </a>
+            </Link>
             <a href="#path" className="btn btn-secondary">
               დაჯავშნე კონსულტაცია
             </a>
