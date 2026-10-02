@@ -202,12 +202,12 @@ export default function PricingPage() {
         <section className={styles.faq}>
           <h2 className={styles.sectionTitle}>ხშირად დასმული კითხვები</h2>
           <div className={styles.faqList}>
-            {FAQ_DESKTOP.map((item) => (
-              <details key={item.q} className={styles.faqItem} open>
+            {FAQ_DESKTOP.map((item, i) => (
+              <details key={item.q} className={styles.faqItem} open={i === 0}>
                 <summary className={styles.faqSummary}>
                   <span>{item.q}</span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/pricing/chevron-down-16.svg" alt="" width={16} height={16} />
+                  <img src="/images/pricing/chevron-down-16.svg" alt="" width={16} height={16} className={styles.faqChevron} />
                 </summary>
                 <p className={styles.faqAnswer}>{item.a}</p>
               </details>
@@ -223,12 +223,12 @@ export default function PricingPage() {
               ციფრული მოსაწვევი შექმენი თვითმომსახურებით; დამატებითი
               გამოცდილებები კონსულტაციის შემდეგ იგეგმება.
             </p>
-            {FAQ_MOBILE.map((item) => (
-              <details key={item.q} className={styles.mobileFaqItem} open>
+            {FAQ_MOBILE.map((item, i) => (
+              <details key={item.q} className={styles.mobileFaqItem} open={i === 0}>
                 <summary className={styles.mobileFaqSummary}>
                   <span>{item.q}</span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/pricing/m-chevron-down-20.svg" alt="" width={20} height={20} />
+                  <img src="/images/pricing/m-chevron-down-20.svg" alt="" width={20} height={20} className={styles.faqChevron} />
                 </summary>
                 <p className={styles.mobileFaqAnswer}>{item.a}</p>
               </details>

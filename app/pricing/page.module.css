@@ -209,6 +209,19 @@
   padding: 24px;
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-8);
+  transition: border-color var(--duration-standard) var(--ease-premium);
+}
+
+.faqItem:hover {
+  border-color: #cfd0cd;
+}
+
+.faqChevron {
+  transition: transform var(--duration-standard) var(--ease-premium);
+}
+
+details[open] > summary .faqChevron {
+  transform: rotate(180deg);
 }
 
 .faqSummary {

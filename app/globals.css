@@ -697,6 +697,13 @@ img {
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-12);
   background: var(--color-background-primary);
+  transition: border-color var(--duration-standard) var(--ease-premium),
+    box-shadow var(--duration-standard) var(--ease-premium);
+}
+
+.path-card:hover {
+  border-color: #c7c7c4;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .content-block {

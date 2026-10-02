@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Header from "../../../components/Header";
 import SiteFooter from "../../../components/SiteFooter";
 import TemplateCard from "../../../components/TemplateCard";
+import RsvpDemo from "./RsvpDemo";
 import {
   TEMPLATE_INCLUDES,
   TEMPLATES,
@@ -96,10 +97,7 @@ export default async function InvitationDetailPage({ params }: Props) {
                     <span className={styles.dressChip}>Black Tie</span>
                   </div>
                 </div>
-                <div className={styles.rsvp}>
-                  <span>დავესწრები</span>
-                  <span className={styles.rsvpSecondary}>ვერ დავესწრები</span>
-                </div>
+                <RsvpDemo />
               </div>
             </div>
           </div>
