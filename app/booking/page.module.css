@@ -187,15 +187,23 @@
   font: inherit;
   font-size: 14px;
   color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--ease-premium),
+    background-color var(--duration-fast) var(--ease-premium),
+    box-shadow var(--duration-fast) var(--ease-premium);
 }
 
 select.input {
   appearance: auto;
 }
 
+.input:hover {
+  border-color: #bfbfbd;
+}
+
 .input:focus-visible {
   outline: none;
   border-color: #111111;
+  background: #ffffff;
   box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
 }
 
@@ -231,6 +239,16 @@ select.input {
   pointer-events: none;
 }
 
+.checkRow {
+  transition: border-color var(--duration-fast) var(--ease-premium),
+    background-color var(--duration-fast) var(--ease-premium);
+}
+
+.checkRow:hover {
+  border-color: #bfbfbd;
+  background: #f2f2f0;
+}
+
 .checkbox {
   display: flex;
   flex: none;
@@ -240,11 +258,18 @@ select.input {
   height: 20px;
   border: 1.5px solid #bfbfbd;
   border-radius: var(--radius-4);
+  transition: border-color var(--duration-instant) var(--ease-premium),
+    background-color var(--duration-instant) var(--ease-premium);
 }
 
 .checkbox[data-checked="true"] {
   border-color: #111111;
   background: #111111;
+}
+
+.checkRow:focus-within .checkbox {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
 }
 
 .checkbox[data-checked="true"] img {
@@ -383,6 +408,14 @@ select.input {
   font-weight: 600;
   color: var(--color-text-secondary);
   cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-premium),
+    background-color var(--duration-fast) var(--ease-premium),
+    color var(--duration-fast) var(--ease-premium);
+}
+
+.slotOption:hover {
+  border-color: #bfbfbd;
+  background: var(--color-background-subtle);
 }
 
 .slotOption[data-selected="true"] {

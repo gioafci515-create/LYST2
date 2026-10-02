@@ -7,12 +7,15 @@
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-12);
   background: var(--color-background-primary);
-  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: box-shadow var(--duration-standard) var(--ease-premium),
+    border-color var(--duration-standard) var(--ease-premium),
+    transform var(--duration-standard) var(--ease-premium);
 }
 
 .card:hover {
   border-color: #cfd0cd;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transform: translateY(-3px);
 }
 
 .image {

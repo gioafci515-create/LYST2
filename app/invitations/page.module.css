@@ -49,7 +49,8 @@
   white-space: nowrap;
   color: #262626;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-premium),
+    color var(--duration-fast) var(--ease-premium);
 }
 
 .pill:hover {

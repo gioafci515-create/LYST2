@@ -106,10 +106,16 @@
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--ease-premium),
+    box-shadow var(--duration-fast) var(--ease-premium);
 }
 
 .input::placeholder {
   color: var(--color-text-secondary);
+}
+
+.input:hover {
+  border-color: #bfbfbd;
 }
 
 .input:focus-visible {

@@ -20,6 +20,13 @@
   --radius-10: 10px;
   --radius-12: 12px;
 
+  /* motion tokens (Figma "Motion & Interaction System") */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-instant: 110ms;
+  --duration-fast: 170ms;
+  --duration-standard: 240ms;
+  --duration-editorial: 430ms;
+
   --font-sans: var(--font-inter), var(--font-georgian), system-ui, -apple-system,
     "Segoe UI", sans-serif;
   --font-display: var(--font-outfit), var(--font-georgian), system-ui,
@@ -155,7 +162,53 @@ img {
   font-weight: 600;
   line-height: normal;
   white-space: nowrap;
-  transition: opacity 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-premium),
+    color var(--duration-fast) var(--ease-premium),
+    border-color var(--duration-fast) var(--ease-premium),
+    transform var(--duration-instant) var(--ease-premium);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* loading: text hides, spinner shows (pair with data-loading="true") */
+.btn[data-loading="true"] {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn[data-loading="true"] > :not(.btn-spinner) {
+  opacity: 0;
+}
+
+.btn-spinner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: btn-spin 0.7s linear infinite;
+}
+
+.btn-secondary .btn-spinner {
+  border: 2px solid rgba(17, 17, 17, 0.2);
+  border-top-color: #111111;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .btn-primary {
@@ -164,17 +217,27 @@ img {
 }
 
 .btn-primary:hover {
-  opacity: 0.85;
+  background: #262626;
+}
+
+.btn-primary:active {
+  background: #000000;
 }
 
 /* inside stroke, like Figma */
 .btn-secondary {
   box-shadow: inset 0 0 0 1px var(--color-border-default);
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
 }
 
 .btn-secondary:hover {
-  background: var(--color-background-subtle);
+  background: #111111;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px #111111;
+}
+
+.btn-secondary:active {
+  background: #000000;
 }
 
 .btn-sm {
@@ -203,9 +266,14 @@ img {
   color: var(--color-text-primary);
 }
 
-.text-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.text-link .arrow-icon,
+.text-link .arrow-char {
+  transition: transform var(--duration-fast) var(--ease-premium);
+}
+
+.text-link:hover .arrow-icon,
+.text-link:hover .arrow-char {
+  transform: translateX(4px);
 }
 
 .arrow-icon {
@@ -269,8 +337,35 @@ img {
   color: var(--color-text-secondary);
 }
 
+.nav-links a {
+  position: relative;
+  padding-bottom: 6px;
+  transition: color var(--duration-fast) var(--ease-premium);
+}
+
 .nav-links a:hover {
   color: var(--color-text-primary);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 24px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--color-action-primary);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity var(--duration-fast) var(--ease-premium),
+    transform var(--duration-fast) var(--ease-premium);
+}
+
+.nav-links a:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 /* inner pages: 80px bar, current page bold with a short underline */
@@ -279,20 +374,13 @@ img {
 }
 
 .nav-links a[aria-current="page"] {
-  position: relative;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .nav-links a[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 24px;
-  height: 2px;
-  border-radius: 1px;
-  background: var(--color-action-primary);
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .auth-group {
@@ -308,6 +396,11 @@ img {
   line-height: normal;
   white-space: nowrap;
   color: var(--color-text-primary);
+  transition: opacity var(--duration-fast) var(--ease-premium);
+}
+
+.auth-login:hover {
+  opacity: 0.6;
 }
 
 .menu-toggle {

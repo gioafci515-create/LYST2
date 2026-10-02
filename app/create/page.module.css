@@ -438,6 +438,8 @@
   font: inherit;
   font-size: 14px;
   color: var(--color-text-primary);
+  transition: border-color var(--duration-fast) var(--ease-premium),
+    box-shadow var(--duration-fast) var(--ease-premium);
 }
 
 .textarea {
@@ -445,6 +447,11 @@
   padding: 12px 16px;
   resize: vertical;
   line-height: 1.5;
+}
+
+.input:hover,
+.textarea:hover {
+  border-color: #bfbfbd;
 }
 
 .input:focus-visible,
