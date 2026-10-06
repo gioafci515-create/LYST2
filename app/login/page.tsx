@@ -31,7 +31,10 @@ export default function LoginPage() {
           </div>
           <LoginForm />
         </section>
-        <aside className={styles.visual} aria-hidden="true" />
+        <aside className={styles.visual} aria-hidden="true">
+          <div className="glow-dark" />
+          <p className={styles.visualWordmark}>LYST</p>
+        </aside>
       </main>
       <SiteFooter />
     </>

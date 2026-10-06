@@ -5,6 +5,7 @@ import {
   JetBrains_Mono,
   Noto_Sans_Georgian,
 } from "next/font/google";
+import ScrollToTop from "../components/ScrollToTop";
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -53,7 +54,10 @@ export default function RootLayout({
       lang="ka"
       className={`${interTight.variable} ${mono.variable} ${serifAccent.variable} ${georgian.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   );
 }

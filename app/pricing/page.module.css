@@ -60,8 +60,9 @@
 }
 
 .planPremium {
-  border: 1.5px solid #000000;
+  border: 1.5px solid var(--blue-ui);
   background: var(--color-background-subtle);
+  box-shadow: 0 0 0 4px rgba(47, 91, 255, 0.08), 0 12px 32px -12px rgba(47, 91, 255, 0.35);
 }
 
 .planBadge {
@@ -321,7 +322,7 @@ details[open] > summary .faqChevron {
   }
 
   .planPremium {
-    border: 2px solid #111111;
+    border: 1.5px solid var(--blue-ui);
     background: var(--color-background-primary);
   }
 

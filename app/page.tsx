@@ -166,7 +166,7 @@ export default function Home() {
           <div className="cards-row">
             {PHASES.map((phase) => (
               <article key={phase.marker} className="phase-card">
-                <span className="marker">[ {phase.marker} ]</span>
+                <span className="marker">{phase.marker}</span>
                 <h3 className="phase-title">{phase.title}</h3>
                 <p className="t-body">{phase.text}</p>
               </article>

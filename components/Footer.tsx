@@ -75,6 +75,8 @@ export default function Footer() {
       <p className="footer-wordmark" aria-hidden="true">
         LYST
       </p>
+      <br />
+      <br />
     </footer>
   );
 }

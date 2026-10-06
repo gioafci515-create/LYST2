@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import logo from "../public/images/lyst-logo.png";
+import { useEffect, useRef, useState } from "react";
 
 type NavItem = { label: string; href: string };
 
@@ -33,24 +31,44 @@ export default function Header({
   variant?: "home" | "inner";
 }) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
   const pathname = usePathname();
   const nav = variant === "home" ? HOME_NAV : INNER_NAV;
   const close = () => setOpen(false);
   const current = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined;
 
+  useEffect(() => {
+    function onScroll() {
+      const y = window.scrollY;
+      setScrolled(y > 80);
+      // only hide once past the header's own height, and never while the
+      // mobile menu is open — avoids it sliding away mid-interaction
+      setHidden((prev) => {
+        if (open) return false;
+        if (y < 160) return false;
+        if (y > lastY.current + 4) return true;
+        if (y < lastY.current - 4) return false;
+        return prev;
+      });
+      lastY.current = y;
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
+
   return (
-    <header className={`header header--${variant}`}>
+    <header
+      className={`header header--${variant}`}
+      data-scrolled={scrolled}
+      data-hidden={hidden && !open}
+    >
       <div className="header-bar">
         <Link href="/" className="logo-group" aria-label="LYST" onClick={close}>
-          <Image
-            src={logo}
-            alt="LYST"
-            width={112}
-            height={40}
-            priority
-            className="logo-img"
-          />
+          <span className="logo-img">Lyst.</span>
           <span className="badge">პლატფორმა</span>
         </Link>
 
@@ -62,7 +80,6 @@ export default function Header({
               aria-current={current(item.href)}
             >
               {item.label}
-              <span aria-hidden="true" />
             </Link>
           ))}
         </nav>

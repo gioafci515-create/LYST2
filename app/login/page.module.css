@@ -17,8 +17,29 @@
 }
 
 .visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   flex: 1;
-  background: var(--color-action-primary);
+  overflow: hidden;
+  background: var(--black);
+}
+
+.visualWordmark {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 clamp(32px, 6vw, 64px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(64px, 9vw, 140px);
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, var(--blue-mid) 0%, var(--blue-deep) 60%, var(--blue-night) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  user-select: none;
 }
 
 .head {
@@ -45,9 +66,10 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 800;
-  line-height: normal;
+  font-size: clamp(28px, 2.4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .subtitle {
