@@ -261,5 +261,77 @@
     "m5Text": "Not a single photo or voice message gets lost. The moment your event ends, LYST automatically builds a digital archive that keeps those precious moments safe for years to come.",
     "ctaTitle": "Ready for your first event?",
     "ctaLead": "Create your digital invitation today and turn a simple gathering into an unforgettable experience."
+  },
+  "pricing": {
+    "eyebrowDesktop": "Pricing",
+    "eyebrowMobile": "Choose Your Plan",
+    "heroTitle": "Choose the path that fits your event.",
+    "heroTitleMobile": "Pricing",
+    "heroLead": "Two paths for two different needs. Pick the one that matches your event.",
+    "selfTitle": "Digital Invitation",
+    "selfDescDesktop": "Build and manage your own invitation, at your own pace.",
+    "selfDescMobile": "Build and send your own invitation, at your own pace.",
+    "selfPrice": "Price confirmed before you publish",
+    "selfCta": "Create an Invitation",
+    "selfFeatures": [
+      { "text": "Create a digital invitation", "mobile": true },
+      { "text": "RSVP and attendance management", "mobile": true },
+      { "text": "Basic gallery", "mobile": false },
+      { "text": "Email support", "mobile": true },
+      { "text": "Publish on your own schedule", "mobile": false }
+    ],
+    "premiumBadgeDesktop": "A Consultation-Built Experience",
+    "premiumBadgeMobile": "Consultation",
+    "premiumTitle": "LYST Experience",
+    "premiumDesc": "Modules built together in consultation, custom-tailored to your event.",
+    "premiumPrice": "Custom quote",
+    "premiumCta": "Book a Consultation",
+    "premiumFeatures": [
+      { "text": "Modules built through consultation", "mobile": true },
+      { "text": "Custom-tailored to your event", "mobile": true },
+      { "text": "A personal manager", "mobile": false },
+      { "text": "Full event configuration", "mobile": false },
+      { "text": "Priority support", "mobile": true },
+      { "text": "A custom-tailored offer", "mobile": false }
+    ],
+    "comparisonTitle": "Comparing the Paths",
+    "comparisonLabel": "Comparing the paths",
+    "comparisonPathHeader": "Path",
+    "comparisonRows": [
+      ["Goal", "Your own invitation", "A consultation-built experience"],
+      ["Management style", "Self-service", "Guided by consultation"],
+      ["Features", "Core", "Consultation-based"],
+      ["Support", "Email", "Priority"],
+      ["Price", "Before you publish", "Custom"],
+      ["Offer", "Standard", "Custom-tailored"]
+    ],
+    "faqTitle": "Frequently Asked Questions",
+    "faqDesktop": [
+      {
+        "q": "How does RSVP confirmation work?",
+        "a": "Guests get a unique link where one tap lets them confirm attendance, add plus-ones, and share any other details you need."
+      },
+      {
+        "q": "What is the Voice Guestbook?",
+        "a": "It's a digital feature that lets guests record audio messages and well-wishes straight from their phone — kept in your gallery permanently."
+      },
+      {
+        "q": "Can I change paths before the event?",
+        "a": "Yes — we'll sort out the details together during the consultation or publishing process."
+      }
+    ],
+    "faqMobileNote": "Build a digital invitation yourself; extra experiences get planned after a consultation.",
+    "faqMobile": [
+      {
+        "q": "Can I add more experiences later?",
+        "a": "Yes. The LYST team will look at your event date, the experiences you want, and what's needed to prepare them."
+      },
+      {
+        "q": "How do I choose the right path?",
+        "a": "If you just need a digital invitation, start with self-service. For extra experiences, book a consultation."
+      }
+    ],
+    "ctaTitle": "Create your first LYST",
+    "ctaLead": "Turn planning into an enjoyable adventure."
   }
 }

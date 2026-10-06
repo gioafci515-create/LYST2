@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import CtaBand from "@/components/CtaBand";
 import Divider from "@/components/Divider";
@@ -6,64 +7,15 @@ import Header from "@/components/Header";
 import SiteFooter from "@/components/SiteFooter";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "ფასები — LYST",
-  description:
-    "ორი გზა სხვადასხვა საჭიროებისთვის. აირჩიე ის, რაც შენს ღონისძიებას შეესაბამება.",
-};
-
-// `mobile: false` = only listed in the desktop frame; the mobile frame shows a shorter list.
-const SELF_FEATURES = [
-  { text: "ციფრული მოსაწვევის შექმნა", mobile: true },
-  { text: "RSVP და დასწრების მართვა", mobile: true },
-  { text: "ძირითადი გალერეა", mobile: false },
-  { text: "ელფოსტით მხარდაჭერა", mobile: true },
-  { text: "საკუთარი ტემპით გამოქვეყნება", mobile: false },
-];
-
-const PREMIUM_FEATURES = [
-  { text: "კონსულტაციით შექმნილი მოდულები", mobile: true },
-  { text: "ღონისძიებაზე ინდივიდუალურად მორგება", mobile: true },
-  { text: "პერსონალური მენეჯერი", mobile: false },
-  { text: "ღონისძიების კონფიგურაცია", mobile: false },
-  { text: "პრიორიტეტული მხარდაჭერა", mobile: true },
-  { text: "ინდივიდუალურად მორგებული შეთავაზება", mobile: false },
-];
-
-const COMPARISON = [
-  ["მიზანი", "საკუთარი მოსაწვევი", "კონსულტაციით შექმნილი გამოცდილება"],
-  ["მართვის სტილი", "თვითმომსახურება", "კონსულტაციით"],
-  ["ფუნქციები", "ძირითადი", "კონსულტაციით"],
-  ["მხარდაჭერა", "ელფოსტა", "პრიორიტეტული"],
-  ["ფასი", "გამოქვეყნებამდე", "ინდივიდუალური"],
-  ["შეთავაზება", "სტანდარტული", "ინდივიდუალურად მორგებული"],
-];
-
-const FAQ_DESKTOP = [
-  {
-    q: "როგორ ხდება დასწრების დადასტურება (RSVP)?",
-    a: "სტუმრები იღებენ უნიკალურ ბმულს, სადაც ერთი ღილაკის დაჭერით შეუძლიათ დაადასტურონ დასწრება, მიუთითონ პლუს-სტუმრები და სხვა საჭირო ინფორმაცია.",
-  },
-  {
-    q: "რა არის ხმოვანი სტუმართა წიგნი?",
-    a: "ეს არის ციფრული ფუნქცია, რომელიც სტუმრებს საშუალებას აძლევს პირდაპირ ტელეფონებიდან ჩაწერონ აუდიო მილოცვები და ემოციები, რომლებიც სამუდამოდ ინახება თქვენს გალერეაში.",
-  },
-  {
-    q: "შესაძლებელია თუ არა გზის შეცვლა ღონისძიებამდე?",
-    a: "შესაძლებელია — საჭიროებები კონსულტაციის ან გამოქვეყნების პროცესში დაზუსტდება.",
-  },
-];
-
-const FAQ_MOBILE = [
-  {
-    q: "შემიძლია მოგვიანებით დავამატო დამატებითი გამოცდილებები?",
-    a: "კი. LYST-ის გუნდი შეაფასებს ღონისძიების თარიღს, სასურველ გამოცდილებებსა და მომზადების პირობებს.",
-  },
-  {
-    q: "როგორ ავირჩიო შესაბამისი გზა?",
-    a: "თუ მხოლოდ ციფრული მოსაწვევი გჭირდებათ, დაიწყეთ თვითმომსახურებით. დამატებითი გამოცდილებებისთვის დაჯავშნეთ კონსულტაცია.",
-  },
-];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "pricing" });
+  return { title: `${t("eyebrowDesktop")} — LYST`, description: t("heroLead") };
+}
 
 function Check({ strong }: { strong?: boolean }) {
   return (
@@ -88,7 +40,21 @@ function Check({ strong }: { strong?: boolean }) {
   );
 }
 
-export default function PricingPage() {
+export default async function PricingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("pricing");
+
+  const selfFeatures = t.raw("selfFeatures") as { text: string; mobile: boolean }[];
+  const premiumFeatures = t.raw("premiumFeatures") as { text: string; mobile: boolean }[];
+  const comparisonRows = t.raw("comparisonRows") as string[][];
+  const faqDesktop = t.raw("faqDesktop") as { q: string; a: string }[];
+  const faqMobile = t.raw("faqMobile") as { q: string; a: string }[];
+
   return (
     <>
       <Header />
@@ -96,38 +62,29 @@ export default function PricingPage() {
         <section className={styles.hero}>
           <div className="glow-light" aria-hidden="true" />
           <p className={styles.eyebrow}>
-            <span className="d-only">ტარიფები</span>
-            <span className="m-only">აირჩიე შენი გეგმა</span>
+            <span className="d-only">{t("eyebrowDesktop")}</span>
+            <span className="m-only">{t("eyebrowMobile")}</span>
           </p>
           <h1 className={styles.heroTitle}>
-            <span className="d-only">
-              აირჩიე გზა, რომელიც შენს ღონისძიებას შეესაბამება.
-            </span>
-            <span className="m-only">ფასები</span>
+            <span className="d-only">{t("heroTitle")}</span>
+            <span className="m-only">{t("heroTitleMobile")}</span>
           </h1>
-          <p className={styles.heroLead}>
-            ორი გზა სხვადასხვა საჭიროებისთვის. აირჩიე ის, რაც შენს ღონისძიებას
-            შეესაბამება.
-          </p>
+          <p className={styles.heroLead}>{t("heroLead")}</p>
         </section>
 
         <section className={styles.plans}>
           <article className={styles.plan}>
             <header className={styles.planHead}>
-              <h2 className={styles.planTitle}>ციფრული მოსაწვევი</h2>
+              <h2 className={styles.planTitle}>{t("selfTitle")}</h2>
               <p className={styles.planDesc}>
-                <span className="d-only">
-                  საკუთარი მოსაწვევის შექმნა და მართვა საკუთარი ტემპით.
-                </span>
-                <span className="m-only">
-                  საკუთარი მოსაწვევის შექმნა და გაგზავნა საკუთარი ტემპით.
-                </span>
+                <span className="d-only">{t("selfDescDesktop")}</span>
+                <span className="m-only">{t("selfDescMobile")}</span>
               </p>
             </header>
-            <p className={styles.price}>ფასი დადასტურდება გამოქვეყნებამდე</p>
+            <p className={styles.price}>{t("selfPrice")}</p>
             <Divider className={styles.planRule} />
             <ul className={styles.features}>
-              {SELF_FEATURES.map((item) => (
+              {selfFeatures.map((item) => (
                 <li
                   key={item.text}
                   className={`${styles.feature}${item.mobile ? "" : ` ${styles.featureDesktopOnly}`}`}
@@ -138,26 +95,23 @@ export default function PricingPage() {
               ))}
             </ul>
             <Link href="/create" className={styles.planButton}>
-              შექმენი მოსაწვევი
+              {t("selfCta")}
             </Link>
           </article>
 
           <article className={`${styles.plan} ${styles.planPremium}`}>
             <span className={styles.planBadge}>
-              <span className="d-only">კონსულტაციით შექმნილი გამოცდილება</span>
-              <span className="m-only">კონსულტაცია</span>
+              <span className="d-only">{t("premiumBadgeDesktop")}</span>
+              <span className="m-only">{t("premiumBadgeMobile")}</span>
             </span>
             <header className={styles.planHead}>
-              <h2 className={styles.planTitle}>LYST გამოცდილება</h2>
-              <p className={styles.planDesc}>
-                კონსულტაციით შექმნილი მოდულები და ღონისძიებაზე ინდივიდუალურად
-                მორგება.
-              </p>
+              <h2 className={styles.planTitle}>{t("premiumTitle")}</h2>
+              <p className={styles.planDesc}>{t("premiumDesc")}</p>
             </header>
-            <p className={styles.price}>ინდივიდუალური შეთავაზება</p>
+            <p className={styles.price}>{t("premiumPrice")}</p>
             <Divider className={styles.planRule} />
             <ul className={styles.features}>
-              {PREMIUM_FEATURES.map((item) => (
+              {premiumFeatures.map((item) => (
                 <li
                   key={item.text}
                   className={`${styles.feature} ${styles.featureStrong}${item.mobile ? "" : ` ${styles.featureDesktopOnly}`}`}
@@ -168,24 +122,24 @@ export default function PricingPage() {
               ))}
             </ul>
             <Link href="/booking" className={styles.planButton}>
-              დაჯავშნე კონსულტაცია
+              {t("premiumCta")}
             </Link>
           </article>
         </section>
 
         <section className={styles.comparison}>
-          <h2 className={styles.sectionTitle}>გზების შედარება</h2>
-          <div className={styles.table} role="table" aria-label="გზების შედარება">
+          <h2 className={styles.sectionTitle}>{t("comparisonTitle")}</h2>
+          <div className={styles.table} role="table" aria-label={t("comparisonLabel")}>
             <div className={`${styles.row} ${styles.rowHead}`} role="row">
-              <span role="columnheader">გზა</span>
+              <span role="columnheader">{t("comparisonPathHeader")}</span>
               <span role="columnheader" className={styles.cell}>
-                ციფრული მოსაწვევი
+                {t("selfTitle")}
               </span>
               <span role="columnheader" className={styles.cell}>
-                LYST გამოცდილება
+                {t("premiumTitle")}
               </span>
             </div>
-            {COMPARISON.map(([label, a, b]) => (
+            {comparisonRows.map(([label, a, b]) => (
               <div key={label} className={styles.row} role="row">
                 <span role="rowheader">{label}</span>
                 <span role="cell" className={styles.cell}>
@@ -201,9 +155,9 @@ export default function PricingPage() {
 
         {/* desktop FAQ */}
         <section className={styles.faq}>
-          <h2 className={styles.sectionTitle}>ხშირად დასმული კითხვები</h2>
+          <h2 className={styles.sectionTitle}>{t("faqTitle")}</h2>
           <div className={styles.faqList}>
-            {FAQ_DESKTOP.map((item, i) => (
+            {faqDesktop.map((item, i) => (
               <details key={item.q} className={styles.faqItem} open={i === 0}>
                 <summary className={styles.faqSummary}>
                   <span>{item.q}</span>
@@ -218,13 +172,10 @@ export default function PricingPage() {
 
         {/* mobile FAQ */}
         <section className={styles.mobileFaq}>
-          <h2 className={styles.mobileFaqTitle}>ხშირად დასმული კითხვები</h2>
+          <h2 className={styles.mobileFaqTitle}>{t("faqTitle")}</h2>
           <div className={styles.mobileFaqList}>
-            <p className={styles.mobileFaqNote}>
-              ციფრული მოსაწვევი შექმენი თვითმომსახურებით; დამატებითი
-              გამოცდილებები კონსულტაციის შემდეგ იგეგმება.
-            </p>
-            {FAQ_MOBILE.map((item, i) => (
+            <p className={styles.mobileFaqNote}>{t("faqMobileNote")}</p>
+            {faqMobile.map((item, i) => (
               <details key={item.q} className={styles.mobileFaqItem} open={i === 0}>
                 <summary className={styles.mobileFaqSummary}>
                   <span>{item.q}</span>
@@ -238,10 +189,7 @@ export default function PricingPage() {
         </section>
 
         <div className={styles.mobileCta}>
-          <CtaBand
-            title="შექმენი შენი პირველი LYST"
-            lead="გახადე დაგეგმარების პროცესი სასიამოვნო თავგადასავლად."
-          />
+          <CtaBand title={t("ctaTitle")} lead={t("ctaLead")} />
         </div>
       </main>
       <SiteFooter />
