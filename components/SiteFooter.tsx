@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../public/images/lyst-logo.png";
+import logo from "../public/images/lyst-logo-footer.png";
 import Divider from "./Divider";
 
 const COLUMNS = [
@@ -87,6 +87,10 @@ export default function SiteFooter() {
           ))}
         </div>
       </div>
+
+      <p className="footer-wordmark" aria-hidden="true">
+        LYST
+      </p>
     </footer>
   );
 }

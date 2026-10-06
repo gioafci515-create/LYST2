@@ -2,23 +2,43 @@
  * Design tokens (from Figma variables)
  * ------------------------------------------------------------------ */
 :root {
-  --color-background-primary: #ffffff;
-  --color-background-subtle: #f7f7f5;
-  --color-border-default: #e8e9e7;
-  --color-text-primary: #111111;
-  --color-text-secondary: #6b6b69;
-  --color-action-primary: #000000;
-  --color-text-tertiary: #a8a8a5;
-  --color-success-bg: #f0f4ee;
-  --color-success-text: #445f2c;
+  /* ---- editorial design system: black / white / indigo-blue family ---- */
+  --black: #050507;
+  --black-soft: #111114;
+  --white: #ffffff;
+  --off-white: #f3f3f5;
+  --grey-500: #8a8a93;
+  --grey-300: #c4c4cc;
+  --line-light: #e4e4e8;
+  --line-dark: #222228;
+
+  --blue-ui: #2f5bff;
+  --blue-deep: #2a2ed8;
+  --blue-mid: #5e68f0;
+  --blue-haze: #c9cdf7;
+  --blue-night: #0b0b2e;
+
+  /* semantic aliases — every component already consumes these, so the
+     palette swap above is the entire re-theme */
+  --color-background-primary: var(--white);
+  --color-background-subtle: var(--off-white);
+  --color-border-default: var(--line-light);
+  --color-text-primary: var(--black);
+  --color-text-secondary: var(--grey-500);
+  --color-action-primary: var(--blue-ui);
+  --color-text-tertiary: var(--grey-300);
+  --color-success-bg: #eef3ff;
+  --color-success-text: #1a2e8f;
   --color-warning-bg: #fff8f0;
   --color-warning-text: #9e601c;
-  --color-live: #ff3b30;
+  --color-live: var(--blue-ui);
 
-  --radius-4: 4px;
-  --radius-8: 8px;
-  --radius-10: 10px;
-  --radius-12: 12px;
+  /* 0–10px on cards/images; buttons/tags/toggles use --radius-pill instead */
+  --radius-4: 0px;
+  --radius-8: 4px;
+  --radius-10: 8px;
+  --radius-12: 10px;
+  --radius-pill: 999px;
 
   /* motion tokens (Figma "Motion & Interaction System") */
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
@@ -27,10 +47,12 @@
   --duration-standard: 240ms;
   --duration-editorial: 430ms;
 
-  --font-sans: var(--font-inter), var(--font-georgian), system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-display: var(--font-outfit), var(--font-georgian), system-ui,
+  --font-sans: var(--font-inter-tight), var(--font-georgian), system-ui,
     -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-georgian), system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --font-serif-accent: var(--font-serif-accent), Georgia, serif;
+  --font-mono: var(--font-mono), "SFMono-Regular", Consolas, monospace;
 
   /* horizontal page gutter: 80px, content capped at 1280px and centred */
   --pad-x: 80px;
@@ -151,61 +173,203 @@ main section.reveal-play {
 }
 
 /* ------------------------------------------------------------------ *
- * Typography
+ * Typography — tight neo-grotesk display, mono meta labels
  * ------------------------------------------------------------------ */
 .t-display,
 .t-h1,
 .t-h3 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: -0.04em;
   color: var(--color-text-primary);
   overflow-wrap: break-word;
 }
 
 .t-display {
-  font-size: clamp(44px, 5vw, 72px);
-  line-height: 1.1;
+  font-size: clamp(56px, 10vw, 160px);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
 }
 
 .t-h1 {
-  font-size: clamp(32px, 3.34vw, 48px);
-  line-height: 1.1;
+  font-size: clamp(40px, 5.5vw, 88px);
+  line-height: 0.92;
 }
 
 .t-h3 {
-  font-size: 32px;
-  line-height: 1.15;
+  font-size: clamp(28px, 2.6vw, 36px);
+  line-height: 1.05;
 }
 
 .t-body-lg {
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
-
-.t-body {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.5;
   color: var(--color-text-secondary);
 }
 
-.eyebrow {
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
+.t-body {
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--color-text-secondary);
 }
 
+/* accent italic serif — one word per heading, max once or twice a page */
+.t-accent {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* mono "meta" text: section labels, dates, numbering, nav links */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+/* hero/lead intro line, prefixed with "/" per the art direction */
+.t-slash {
+  position: relative;
+  padding-left: 20px;
+}
+
+.t-slash::before {
+  content: "/";
+  position: absolute;
+  left: 0;
+  color: var(--blue-ui);
+  font-weight: 700;
+}
+
+/* two-tone heading/lead: second part dim grey, same size — wrap the muted
+   portion in <span class="t-dim"> inside a .t-display/.t-h1/.t-body-lg */
+.t-dim {
+  color: var(--grey-300);
+}
+
+.section-dark .t-dim {
+  color: var(--grey-500);
+}
+
+/* mono bracketed index, e.g. [ 01 ] */
+.t-index {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blue-ui);
+  letter-spacing: 0.02em;
+}
+
+/* highlighted phrase: solid blue block behind text, no radius */
+mark,
+.t-highlight {
+  background: var(--blue-ui);
+  color: var(--white);
+  padding: 0 6px;
+  font-weight: 600;
+  font-style: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 /* ------------------------------------------------------------------ *
- * Buttons / links
+ * Indigo glow — the signature element. Two variants (place inside a
+ * `position:relative; overflow:hidden` ancestor, z-index:0; content
+ * above it needs z-index:1+). Both drift very slowly and carry a
+ * faint grain layer to avoid gradient banding.
+ * ------------------------------------------------------------------ */
+.glow-light,
+.glow-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.glow-light::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -20%;
+  width: min(1100px, 140%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--blue-deep) 0%,
+    var(--blue-mid) 32%,
+    var(--blue-haze) 58%,
+    transparent 78%
+  );
+  filter: blur(100px);
+  opacity: 0.8;
+  animation: glow-drift 26s ease-in-out infinite alternate;
+}
+
+.glow-dark::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: min(1000px, 130%);
+  aspect-ratio: 1;
+  background: conic-gradient(
+    from 220deg at 50% 50%,
+    transparent 0deg,
+    var(--blue-deep) 40deg,
+    var(--blue-mid) 80deg,
+    var(--blue-night) 140deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+  filter: blur(120px);
+  opacity: 0.9;
+  animation: glow-drift 30s ease-in-out infinite alternate;
+}
+
+.glow-light::after,
+.glow-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes glow-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(3%, -4%) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-light::before,
+  .glow-dark::before {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons / links — pill-shaped, compact, dot/arrow accent
  * ------------------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   padding: 16px 28px;
-  border-radius: var(--radius-10);
+  border-radius: var(--radius-pill);
   font-size: 15px;
   font-weight: 600;
   line-height: normal;
@@ -249,8 +413,8 @@ main section.reveal-play {
 }
 
 .btn-secondary .btn-spinner {
-  border: 2px solid rgba(17, 17, 17, 0.2);
-  border-top-color: #111111;
+  border: 2px solid rgba(5, 5, 7, 0.2);
+  border-top-color: var(--black);
 }
 
 @keyframes btn-spin {
@@ -260,32 +424,32 @@ main section.reveal-play {
 }
 
 .btn-primary {
-  background: var(--color-action-primary);
+  background: var(--blue-ui);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: #262626;
+  background: var(--blue-deep);
 }
 
 .btn-primary:active {
-  background: #000000;
+  background: var(--blue-night);
 }
 
-/* inside stroke, like Figma */
+/* outline pill, inverts to solid black on hover */
 .btn-secondary {
   box-shadow: inset 0 0 0 1px var(--color-border-default);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .btn-secondary:hover {
-  background: #111111;
+  background: var(--black);
   color: #ffffff;
-  box-shadow: inset 0 0 0 1px #111111;
+  box-shadow: inset 0 0 0 1px var(--black);
 }
 
 .btn-secondary:active {
-  background: #000000;
+  background: var(--black);
 }
 
 .btn-sm {
@@ -362,14 +526,16 @@ main section.reveal-play {
 }
 
 .badge {
-  padding: 2px 8px;
+  padding: 3px 8px;
   border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-4);
+  border-radius: var(--radius-pill);
   background: var(--color-background-subtle);
+  font-family: var(--font-mono);
   font-size: 9px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   color: var(--color-text-secondary);
 }
@@ -378,8 +544,11 @@ main section.reveal-play {
   display: flex;
   align-items: center;
   gap: 40px;
-  font-size: 14px;
+  counter-reset: nav-index;
+  font-family: var(--font-mono);
+  font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.01em;
   line-height: normal;
   white-space: nowrap;
   color: var(--color-text-secondary);
@@ -388,7 +557,20 @@ main section.reveal-play {
 .nav-links a {
   position: relative;
   padding-bottom: 6px;
+  counter-increment: nav-index;
   transition: color var(--duration-fast) var(--ease-premium);
+}
+
+.nav-links a span {
+  position: relative;
+  top: -0.5em;
+  margin-left: 1px;
+  font-size: 9px;
+  color: var(--blue-ui);
+}
+
+.nav-links a span::before {
+  content: "0" counter(nav-index);
 }
 
 .nav-links a:hover {
@@ -624,10 +806,14 @@ main section.reveal-play {
  * Hero
  * ------------------------------------------------------------------ */
 .hero {
+  position: relative;
   gap: 0;
+  overflow: hidden;
 }
 
 .hero-split {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 64px;
@@ -668,6 +854,33 @@ main section.reveal-play {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform var(--duration-standard) var(--ease-premium);
+}
+
+/* scale-settle plays only as a bonus alongside the section's own entrance
+   animation (safe-by-default: with no JS/IO, the image is just at its
+   normal scale(1), never stuck oversized) */
+main section.reveal-play .hero-image img {
+  animation: image-settle var(--duration-editorial) var(--ease-premium) both;
+}
+
+@keyframes image-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-image:hover img {
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main section.reveal-play .hero-image img {
+    animation: none;
+  }
 }
 
 /* ------------------------------------------------------------------ *
@@ -687,6 +900,26 @@ main section.reveal-play {
   min-width: 0;
 }
 
+/* a dark section redeclares the semantic tokens for everything nested
+   inside it — cards, eyebrows, hairlines, body text all flip to their
+   dark-appropriate values automatically, no per-component dark CSS */
+.section-dark {
+  background: var(--black);
+  color: var(--white);
+  --color-background-primary: var(--black-soft);
+  --color-background-subtle: var(--black-soft);
+  --color-border-default: var(--line-dark);
+  --color-text-primary: var(--white);
+  --color-text-secondary: var(--grey-500);
+}
+
+/* outline pill inverts to white (not black-on-black) inside a dark section */
+.section-dark .btn-secondary:hover {
+  background: var(--white);
+  color: var(--black);
+  box-shadow: inset 0 0 0 1px var(--white);
+}
+
 .showcase {
   display: flex;
   flex: none;
@@ -703,17 +936,18 @@ main section.reveal-play {
   margin: 0;
   font-family: var(--font-display);
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: normal;
   color: var(--color-text-primary);
 }
 
 /* ------------------------------------------------------------------ *
- * Lifecycle
+ * Lifecycle — dark, numbered list
  * ------------------------------------------------------------------ */
 .cards-row {
   display: flex;
-  gap: 32px;
+  gap: 1px;
+  background: var(--color-border-default);
 }
 
 .phase-card {
@@ -723,38 +957,35 @@ main section.reveal-play {
   align-items: flex-start;
   gap: 24px;
   min-width: 0;
-  padding: 32px;
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-12);
-  background: var(--color-background-subtle);
+  padding: 40px 32px;
+  background: var(--black);
 }
 
 .marker {
-  padding: 4px 10px;
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-4);
-  background: var(--color-background-subtle);
-  font-size: 11px;
-  font-weight: 700;
-  line-height: normal;
-  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--blue-ui);
 }
 
 .phase-title {
   margin: 0;
   font-family: var(--font-display);
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: normal;
   color: var(--color-text-primary);
 }
 
 /* ------------------------------------------------------------------ *
- * Choose path
+ * Choose path — hairline cards, blue border on the featured one
  * ------------------------------------------------------------------ */
 .path-split {
   display: flex;
-  gap: 32px;
+  gap: 1px;
+  background: var(--color-border-default);
 }
 
 .path-card {
@@ -764,16 +995,18 @@ main section.reveal-play {
   gap: 32px;
   min-width: 0;
   padding: 40px;
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-12);
   background: var(--color-background-primary);
+  border: 1px solid transparent;
   transition: border-color var(--duration-standard) var(--ease-premium),
     box-shadow var(--duration-standard) var(--ease-premium);
 }
 
 .path-card:hover {
-  border-color: #c7c7c4;
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.path-card-featured {
+  border-color: var(--blue-ui);
 }
 
 .content-block {
@@ -791,14 +1024,16 @@ main section.reveal-play {
 }
 
 .price {
-  font-size: 16px;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   line-height: normal;
   color: var(--color-text-primary);
 }
 
 /* ------------------------------------------------------------------ *
- * Editorial story
+ * Editorial story / stats — thin blue top-line per stat
  * ------------------------------------------------------------------ */
 .editorial {
   padding-block: 120px;
@@ -821,14 +1056,17 @@ main section.reveal-play {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--blue-ui);
 }
 
 .stat-title {
   font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: normal;
   overflow-wrap: break-word;
   color: var(--color-text-primary);
@@ -841,7 +1079,7 @@ main section.reveal-play {
 }
 
 /* ------------------------------------------------------------------ *
- * Trust
+ * Trust — hairline column divider
  * ------------------------------------------------------------------ */
 .trust {
   gap: 48px;
@@ -849,63 +1087,95 @@ main section.reveal-play {
 
 .trust-grid {
   display: flex;
-  gap: 32px;
+  gap: 1px;
+  background: var(--color-border-default);
 }
 
 .trust-col {
   flex: 1;
   gap: 24px;
   min-width: 0;
+  padding: 0 32px;
+  background: var(--color-background-subtle);
+}
+
+.trust-col:first-child {
+  padding-left: 0;
+}
+
+.trust-col:last-child {
+  padding-right: 0;
 }
 
 /* ------------------------------------------------------------------ *
- * FAQ
+ * FAQ — accordion, hairline rows
  * ------------------------------------------------------------------ */
 .faq {
-  gap: 48px;
-  border-top: 1px solid var(--color-border-default);
+  gap: 0;
 }
 
 .faq-rows {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .faq-row {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
-  border: 1px solid var(--color-border-default);
-  border-radius: var(--radius-8);
-  background: var(--color-background-subtle);
+  padding: 28px 0;
+  border-top: 1px solid var(--color-border-default);
+}
+
+.faq-rows .faq-row:last-child {
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.3;
   color: var(--color-text-primary);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.faq-chevron {
+  flex: none;
+  transition: transform var(--duration-standard) var(--ease-premium);
+}
+
+.faq-row[open] .faq-chevron {
+  transform: rotate(180deg);
 }
 
 .faq-a {
-  font-size: 14px;
+  margin-top: 12px;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--color-text-secondary);
 }
 
 /* ------------------------------------------------------------------ *
- * Final CTA
+ * Final CTA — dark, glow
  * ------------------------------------------------------------------ */
 .final-cta {
+  position: relative;
   align-items: center;
   gap: 48px;
   text-align: center;
+  overflow: hidden;
 }
 
 .cta-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -918,6 +1188,8 @@ main section.reveal-play {
 }
 
 .cta-actions {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -928,17 +1200,18 @@ main section.reveal-play {
  * Footer
  * ------------------------------------------------------------------ */
 .footer {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 48px var(--gutter);
-  background: var(--color-action-primary);
+  padding: 48px var(--gutter) 0;
+  background: var(--black);
   color: #ffffff;
+  overflow: hidden;
 }
 
 .footer a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: var(--blue-ui);
 }
 
 .footer-top {
@@ -975,8 +1248,11 @@ main section.reveal-play {
 
 .footer-nav-column {
   width: 140px;
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   line-height: normal;
   white-space: nowrap;
 }
@@ -991,8 +1267,11 @@ main section.reveal-play {
 }
 
 .footer-utility-title {
+  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .footer-quick-links,
@@ -1007,6 +1286,12 @@ main section.reveal-play {
   color: var(--color-text-secondary);
 }
 
+.footer-nav-column a::after,
+.footer-quick-links a::after {
+  content: " \2192";
+  color: var(--blue-ui);
+}
+
 .footer-line {
   display: block;
   width: 100%;
@@ -1018,7 +1303,9 @@ main section.reveal-play {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  font-family: var(--font-mono);
   font-size: 11px;
+  letter-spacing: 0.02em;
   line-height: normal;
   color: var(--color-text-secondary);
 }
@@ -1026,6 +1313,31 @@ main section.reveal-play {
 .footer-legal {
   display: flex;
   gap: 24px;
+}
+
+/* giant brand wordmark, cropped at the bottom edge, filled with the
+   indigo-blue gradient */
+.footer-wordmark {
+  margin: 0;
+  padding-top: 24px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(120px, 20vw, 320px);
+  line-height: 0.75;
+  letter-spacing: -0.05em;
+  text-align: center;
+  white-space: nowrap;
+  background: linear-gradient(
+    180deg,
+    var(--blue-mid) 0%,
+    var(--blue-deep) 55%,
+    var(--blue-night) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  user-select: none;
 }
 
 /* ------------------------------------------------------------------ *
@@ -1067,12 +1379,25 @@ main section.reveal-play .divider {
 }
 
 .site-footer {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 48px;
-  padding: 80px var(--gutter);
-  border-top: 1px solid var(--color-border-default);
-  background: var(--color-background-subtle);
+  padding: 80px var(--gutter) 0;
+  background: var(--black);
+  color: #ffffff;
+  overflow: hidden;
+  --color-background-primary: var(--black-soft);
+  --color-background-subtle: var(--black-soft);
+  --color-border-default: var(--line-dark);
+  --color-text-primary: var(--white);
+  --color-text-secondary: var(--grey-500);
+}
+
+/* the shared Divider asset is drawn for light backgrounds (#E8E9E7
+   stroke) — force it to a faint white line on this dark footer */
+.site-footer .divider {
+  filter: brightness(0) invert(1) opacity(0.15);
 }
 
 .site-footer-top {
@@ -1116,8 +1441,11 @@ main section.reveal-play .divider {
 }
 
 .site-footer-col h3 {
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--color-text-primary);
 }
 
@@ -1126,8 +1454,13 @@ main section.reveal-play .divider {
   color: var(--color-text-secondary);
 }
 
+.site-footer-col a::after {
+  content: " \2192";
+  color: var(--blue-ui);
+}
+
 .site-footer a:hover {
-  color: var(--color-text-primary);
+  color: var(--blue-ui);
 }
 
 .site-footer-bottom {
@@ -1135,7 +1468,9 @@ main section.reveal-play .divider {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
   line-height: normal;
   color: var(--color-text-secondary);
 }

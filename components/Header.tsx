@@ -62,6 +62,7 @@ export default function Header({
               aria-current={current(item.href)}
             >
               {item.label}
+              <span aria-hidden="true" />
             </Link>
           ))}
         </nav>

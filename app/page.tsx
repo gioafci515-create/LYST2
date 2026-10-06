@@ -89,13 +89,15 @@ export default function Home() {
       <Header variant="home" />
       <main id="top">
         <section className="section hero">
+          <div className="glow-light" aria-hidden="true" />
           <div className="hero-split">
             <div className="hero-content">
               <div className="text-stack">
                 <h1 className="t-display">ერთი ბმული მთელი ღონისძიებისთვის.</h1>
-                <p className="t-body-lg">
-                  შექმენი ციფრული მოსაწვევი, მართე სტუმრების დასწრება და LYST-ის
-                  გუნდთან ერთად აქციე ღონისძიება ცოცხალ გამოცდილებად.
+                <p className="t-body-lg t-slash">
+                  შექმენი ციფრული მოსაწვევი, მართე სტუმრების დასწრება და{" "}
+                  <span className="t-accent">LYST</span>-ის გუნდთან ერთად აქციე
+                  ღონისძიება ცოცხალ გამოცდილებად.
                 </p>
               </div>
               <div className="hero-actions">
@@ -137,8 +139,8 @@ export default function Home() {
             <div className="walkthrough-details">
               <p className="t-body-lg">
                 პლატფორმა გთავაზობთ სრულყოფილ ციფრულ გადაწყვეტას თქვენი
-                სტუმრებისთვის — მარტივი ბმულით, რომელიც მორგებულია ნებისმიერ
-                ეკრანსა და ბრაუზერზე.
+                სტუმრებისთვის — <mark>მარტივი ბმულით</mark>, რომელიც მორგებულია
+                ნებისმიერ ეკრანსა და ბრაუზერზე.
               </p>
               <ul className="check-list">
                 {WALKTHROUGH_POINTS.map((point) => (
@@ -156,7 +158,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="how" className="section lifecycle">
+        <section id="how" className="section lifecycle section-dark">
           <div className="section-header">
             <p className="eyebrow">ციკლი</p>
             <h2 className="t-h1">ერთი ბმული სამ ფაზაში.</h2>
@@ -164,7 +166,7 @@ export default function Home() {
           <div className="cards-row">
             {PHASES.map((phase) => (
               <article key={phase.marker} className="phase-card">
-                <span className="marker">{phase.marker}</span>
+                <span className="marker">[ {phase.marker} ]</span>
                 <h3 className="phase-title">{phase.title}</h3>
                 <p className="t-body">{phase.text}</p>
               </article>
@@ -194,7 +196,7 @@ export default function Home() {
                 </Link>
               </div>
             </article>
-            <article className="path-card">
+            <article className="path-card path-card-featured">
               <div className="content-block">
                 <p className="eyebrow path-eyebrow">პრემიუმ სერვისი</p>
                 <h3 className="t-h3">ინდივიდუალური გამოცდილება</h3>
@@ -265,18 +267,25 @@ export default function Home() {
             <h2 className="t-h3 faq-title">ხშირად დასმული კითხვები</h2>
           </div>
           <div className="faq-rows">
-            {FAQ.map((item) => (
-              <div key={item.q} className="faq-row">
-                <h3 className="faq-q">{item.q}</h3>
+            {FAQ.map((item, i) => (
+              <details key={item.q} className="faq-row" open={i === 0}>
+                <summary className="faq-q">
+                  <span>{item.q}</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/images/pricing/chevron-down-16.svg" alt="" width={16} height={16} className="faq-chevron" />
+                </summary>
                 <p className="faq-a">{item.a}</p>
-              </div>
+              </details>
             ))}
           </div>
         </section>
 
-        <section id="final-cta" className="section section-subtle final-cta">
+        <section id="final-cta" className="section final-cta section-dark">
+          <div className="glow-dark" aria-hidden="true" />
           <div className="cta-content">
-            <h2 className="t-h1">როგორი LYST გჭირდება?</h2>
+            <h2 className="t-h1">
+              როგორი <span className="t-accent">LYST</span> გჭირდება?
+            </h2>
             <p className="t-body-lg">
               დაიწყე მოსაწვევის შექმნა ახლავე ან დაგვიკავშირდი სრული ციფრული
               გამოცდილების დასაგეგმად.

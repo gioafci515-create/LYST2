@@ -71,6 +71,10 @@ export default function Footer() {
           <a>პირობები</a>
         </div>
       </div>
+
+      <p className="footer-wordmark" aria-hidden="true">
+        LYST
+      </p>
     </footer>
   );
 }
