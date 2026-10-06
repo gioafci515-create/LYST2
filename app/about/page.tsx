@@ -61,6 +61,7 @@ export default function AboutPage() {
       <Header />
       <main>
         <section className={styles.hero}>
+          <div className="glow-light" aria-hidden="true" />
           <p className={styles.eyebrow}>
             <span className="d-only">ჩვენს შესახებ</span>
             <span className="m-only">ჩვენი ისტორია</span>

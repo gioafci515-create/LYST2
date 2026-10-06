@@ -100,6 +100,7 @@ export default function FeaturesPage() {
       <Header />
       <main>
         <section className={styles.hero}>
+          <div className="glow-light" aria-hidden="true" />
           <p className={styles.eyebrow}>პლატფორმის შესაძლებლობები</p>
           <h1 className={styles.heroTitle}>
             <span className="d-only">

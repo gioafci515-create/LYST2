@@ -94,6 +94,7 @@ export default function PricingPage() {
       <Header />
       <main>
         <section className={styles.hero}>
+          <div className="glow-light" aria-hidden="true" />
           <p className={styles.eyebrow}>
             <span className="d-only">ტარიფები</span>
             <span className="m-only">აირჩიე შენი გეგმა</span>

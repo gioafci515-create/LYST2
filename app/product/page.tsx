@@ -54,6 +54,7 @@ export default function ProductPage() {
       <Header />
       <main>
         <section className={styles.hero}>
+          <div className="glow-light" aria-hidden="true" />
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>მოსაწვევზე მეტი.</h1>
             <p className={styles.heroLead}>
