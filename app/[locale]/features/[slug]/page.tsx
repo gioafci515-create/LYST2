@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import CtaBand from "@/components/CtaBand";
@@ -16,70 +17,72 @@ import styles from "./page.module.css";
 const SLUGS = ["event-camera", "guest-management"] as const;
 type Slug = (typeof SLUGS)[number];
 
-type Props = { params: Promise<{ slug: string }> };
-
-const META: Record<Slug, { title: string; description: string }> = {
-  "event-camera": {
-    title: "Event Camera — ფუნქციები — LYST",
-    description:
-      "ღონისძიების მომენტები, სტუმრების თვალით. ციფრული ერთჯერადი კამერა თითოეული სტუმრისთვის.",
-  },
-  "guest-management": {
-    title: "სტუმრების მართვა — ფუნქციები — LYST",
-    description:
-      "მართეთ სტუმრების სრული სია რეალურ დროში, დააჯგუფეთ კატეგორიებად და აკონტროლეთ RSVP სტატუსები.",
-  },
-};
+type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
   return SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  return META[slug as Slug] ?? {};
+  const { locale, slug } = await params;
+  if (!SLUGS.includes(slug as Slug)) return {};
+  const t = await getTranslations({ locale, namespace: "featureDetail" });
+  if (slug === "event-camera") {
+    return {
+      title: `Event Camera — ${t("breadcrumbFeatures")} — LYST`,
+      description: t("eventCamera.metaDescription"),
+    };
+  }
+  return {
+    title: `${t("guestManagement.title")} — ${t("breadcrumbFeatures")} — LYST`,
+    description: t("guestManagement.metaDescription"),
+  };
 }
 
-function Breadcrumbs({ current }: { current: string }) {
+function Breadcrumbs({
+  current,
+  featuresLabel,
+}: {
+  current: string;
+  featuresLabel: string;
+}) {
   return (
     <nav className={styles.breadcrumbs} aria-label="breadcrumb">
-      <Link href="/features">ფუნქციები</Link>
+      <Link href="/features">{featuresLabel}</Link>
       <span aria-hidden="true">/</span>
       <span aria-current="page">{current}</span>
     </nav>
   );
 }
 
-function EventCamera() {
+async function EventCamera() {
+  const t = await getTranslations("featureDetail");
+  const guestSteps = t.raw("eventCamera.guestSteps") as string[];
+  const hostSteps = t.raw("eventCamera.hostSteps") as string[];
+
   return (
     <>
-      <Breadcrumbs current="Event Camera" />
+      <Breadcrumbs current="Event Camera" featuresLabel={t("breadcrumbFeatures")} />
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>ციფრული ერთჯერადი კამერა</p>
+          <p className={styles.eyebrow}>{t("eventCamera.eyebrow")}</p>
           <h1 className={styles.heroTitle}>Event Camera</h1>
-          <p className={styles.heroSubtitle}>
-            ღონისძიების მომენტები, სტუმრების თვალით.
-          </p>
-          <p className={styles.heroText}>
-            აღარ არის საჭირო სურათების სხვადასხვა ჩატებში გაფანტვა. Event Camera
-            აძლევს თითოეულ სტუმარს შესაძლებლობას, გადაიღოს და გააზიაროს კადრები
-            პირდაპირ ღონისძიების ბმულიდან.
-          </p>
+          <p className={styles.heroSubtitle}>{t("eventCamera.heroSubtitle")}</p>
+          <p className={styles.heroText}>{t("eventCamera.heroText")}</p>
         </div>
 
         <div className={styles.stage}>
-          <div className={styles.phoneShell} role="img" aria-label="Event Camera-ს გადახედვა">
+          <div className={styles.phoneShell} role="img" aria-label={t("eventCamera.phoneAriaLabel")}>
             <div className={styles.phoneScreen}>
               <div className={styles.shot}>
                 <Image src={cameraShot} alt="" sizes="240px" />
-                <span className={styles.shotChip}>ერთჯერადი რეჟიმი</span>
+                <span className={styles.shotChip}>{t("eventCamera.shotChip")}</span>
               </div>
               <div className={styles.shutter}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/features/shutter.svg" alt="" width={56} height={56} />
-                <span>გადაიღე ფოტო</span>
+                <span>{t("eventCamera.shutterLabel")}</span>
               </div>
             </div>
           </div>
@@ -90,21 +93,21 @@ function EventCamera() {
 
       <section className={styles.dual}>
         <div className={styles.dualCol}>
-          <p className={styles.dualLabel}>სტუმრისთვის</p>
-          <h2 className={styles.dualTitle}>სკანირება. გადაღება.</h2>
+          <p className={styles.dualLabel}>{t("eventCamera.guestLabel")}</p>
+          <h2 className={styles.dualTitle}>{t("eventCamera.guestTitle")}</h2>
           <ol className={styles.steps}>
-            <li>1. სტუმარი ასკანირებს მაგიდაზე განთავსებულ QR კოდს</li>
-            <li>2. მყისიერად იხსნება ვებ-კამერა აპლიკაციის გადმოწერის გარეშე</li>
-            <li>3. იღებს უნიკალურ კადრებს და ამატებს გულწრფელ აღწერას</li>
+            {guestSteps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
           </ol>
         </div>
         <div className={styles.dualCol}>
-          <p className={styles.dualLabel}>მასპინძლისთვის</p>
-          <h2 className={styles.dualTitle}>კონტროლი. არქივი.</h2>
+          <p className={styles.dualLabel}>{t("eventCamera.hostLabel")}</p>
+          <h2 className={styles.dualTitle}>{t("eventCamera.hostTitle")}</h2>
           <ol className={styles.steps}>
-            <li>1. ფოტოების ავტომატური მოდერაცია და დასტური</li>
-            <li>2. პრივატულობის რეჟიმი: დამალე ფოტოები მომდევნო დღემდე</li>
-            <li>3. მაღალი ხარისხის არქივის სრული ექსპორტი ერთი კლიკით</li>
+            {hostSteps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
           </ol>
         </div>
       </section>
@@ -113,8 +116,8 @@ function EventCamera() {
 
       <section className={styles.result}>
         <div className={styles.resultHead}>
-          <p className={styles.dualLabel}>ღონისძიების შემდეგ</p>
-          <h2 className={styles.resultTitle}>ციფრული გალერეა და მოგონებები.</h2>
+          <p className={styles.dualLabel}>{t("eventCamera.afterLabel")}</p>
+          <h2 className={styles.resultTitle}>{t("eventCamera.afterTitle")}</h2>
         </div>
         <div className={styles.gallery}>
           {[gallery1, gallery2, gallery3].map((img, i) => (
@@ -126,33 +129,27 @@ function EventCamera() {
       </section>
 
       <CtaBand
-        title="გამოცადე Event Camera"
-        lead="შექმენი შენი პირველი ინტერაქტიული კამერა და დააკვირდი ღონისძიებას სტუმრების თვალით."
-        mobileTitle="შექმენი შენი პირველი LYST"
-        mobileLead="გახადე დაგეგმარების პროცესი სასიამოვნო თავგადასავლად."
+        title={t("eventCamera.ctaTitle")}
+        lead={t("eventCamera.ctaLead")}
+        mobileTitle={t("eventCamera.ctaMobileTitle")}
+        mobileLead={t("eventCamera.ctaMobileLead")}
       />
     </>
   );
 }
 
-const OUTCOMES = [
-  { value: "98%", label: "სწრაფი გამოხმაურება სტუმრებისგან" },
-  { value: "0", label: "დაკარგული ან დავიწყებული მოსაწვევები" },
-  { value: "100%", label: "კონტროლი დაგეგმვის პროცესზე" },
-];
+async function GuestManagement() {
+  const t = await getTranslations("featureDetail");
+  const outcomes = t.raw("guestManagement.outcomes") as { value: string; label: string }[];
 
-function GuestManagement() {
   return (
     <>
-      <Breadcrumbs current="სტუმრების მართვა" />
+      <Breadcrumbs current={t("guestManagement.title")} featuresLabel={t("breadcrumbFeatures")} />
 
       <section className={`${styles.hero} ${styles.heroSubtle}`}>
         <div className={styles.heroCopy}>
-          <h1 className={styles.heroTitle}>სტუმრების მართვა</h1>
-          <p className={styles.heroText}>
-            მართეთ სტუმრების სრული სია რეალურ დროში, დააჯგუფეთ კატეგორიებად და
-            აკონტროლეთ RSVP სტატუსები მარტივად, ერთ სივრცეში.
-          </p>
+          <h1 className={styles.heroTitle}>{t("guestManagement.title")}</h1>
+          <p className={styles.heroText}>{t("guestManagement.heroText")}</p>
         </div>
         <div className={styles.heroImage}>
           <Image src={guestHero} alt="" priority sizes="(max-width: 1100px) 100vw, 560px" />
@@ -161,37 +158,26 @@ function GuestManagement() {
 
       <section className={styles.perspective}>
         <div className={styles.perspectiveHead}>
-          <h2 className={styles.perspectiveTitle}>ორმხრივი პერსპექტივა</h2>
-          <p className={styles.perspectiveLead}>
-            ერთი პლატფორმა, რომელიც იდეალურად ერგება როგორც მასპინძელს, ასევე
-            მის სტუმარს.
-          </p>
+          <h2 className={styles.perspectiveTitle}>{t("guestManagement.perspectiveTitle")}</h2>
+          <p className={styles.perspectiveLead}>{t("guestManagement.perspectiveLead")}</p>
         </div>
         <div className={styles.perspectiveCards}>
           <article className={styles.perspectiveCard}>
-            <h3>ორგანიზატორის ხედვა</h3>
-            <p>
-              სტუმრების დეტალური სია, RSVP სტატისტიკა რეალურ დროში, ფილტრაცია
-              ჯგუფების მიხედვით (ოჯახი, მეგობრები, კოლეგები) და მარტივი
-              ექსპორტი.
-            </p>
+            <h3>{t("guestManagement.hostCardTitle")}</h3>
+            <p>{t("guestManagement.hostCardText")}</p>
           </article>
           <article className={styles.perspectiveCard}>
-            <h3>სტუმრის ხედვა</h3>
-            <p>
-              მინიმალისტური და მოსახერხებელი გვერდი, სადაც სტუმარს შეუძლია ერთი
-              დაწკაპუნებით დაადასტუროს დასწრება, მონიშნოს მენიუს პრიორიტეტები და
-              ნახოს ლოკაცია.
-            </p>
+            <h3>{t("guestManagement.guestCardTitle")}</h3>
+            <p>{t("guestManagement.guestCardText")}</p>
           </article>
         </div>
       </section>
 
       <section className={styles.outcomes}>
-        <h2 className={styles.outcomesTitle}>მოსალოდნელი შედეგები</h2>
+        <h2 className={styles.outcomesTitle}>{t("guestManagement.outcomesTitle")}</h2>
         <ul className={styles.outcomesList}>
-          {OUTCOMES.map((item) => (
-            <li key={item.value} className={styles.outcome}>
+          {outcomes.map((item) => (
+            <li key={item.label} className={styles.outcome}>
               <span className={styles.outcomeValue}>{item.value}</span>
               <span className={styles.outcomeLabel}>{item.label}</span>
             </li>
@@ -199,16 +185,14 @@ function GuestManagement() {
         </ul>
       </section>
 
-      <CtaBand
-        title="შექმენი შენი პირველი LYST"
-        lead="გახადე დაგეგმარების პროცესი სასიამოვნო თავგადასავლად."
-      />
+      <CtaBand title={t("guestManagement.ctaTitle")} lead={t("guestManagement.ctaLead")} />
     </>
   );
 }
 
 export default async function FeatureDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   if (!SLUGS.includes(slug as Slug)) notFound();
 
   return (

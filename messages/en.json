@@ -453,5 +453,56 @@
     "ctaLead": "Create a completely different kind of anticipation, and turn your guests into co-authors of the event.",
     "ctaMobileTitle": "Create your first LYST",
     "ctaMobileLead": "Turn planning into an enjoyable adventure."
+  },
+  "featureDetail": {
+    "breadcrumbFeatures": "Features",
+    "eventCamera": {
+      "metaDescription": "Event moments, through your guests' eyes. A disposable digital camera for every guest.",
+      "eyebrow": "Disposable Digital Camera",
+      "heroSubtitle": "Event moments, through your guests' eyes.",
+      "heroText": "No more photos scattered across different chats. Event Camera lets every guest shoot and share photos straight from the event link.",
+      "phoneAriaLabel": "Event Camera preview",
+      "shotChip": "Single-Use Mode",
+      "shutterLabel": "Take a Photo",
+      "guestLabel": "For Guests",
+      "guestTitle": "Scan. Shoot.",
+      "guestSteps": [
+        "1. The guest scans the QR code on the table",
+        "2. A web camera opens instantly — no app to download",
+        "3. They capture unique shots and add an honest caption"
+      ],
+      "hostLabel": "For the Host",
+      "hostTitle": "Control. Archive.",
+      "hostSteps": [
+        "1. Automatic moderation and approval of photos",
+        "2. Privacy mode: keep photos hidden until the next day",
+        "3. Full high-quality archive export in one click"
+      ],
+      "afterLabel": "After the Event",
+      "afterTitle": "A digital gallery and lasting memories.",
+      "ctaTitle": "Try Event Camera",
+      "ctaLead": "Create your first interactive camera and watch the event unfold through your guests' eyes.",
+      "ctaMobileTitle": "Create your first LYST",
+      "ctaMobileLead": "Turn planning into an enjoyable adventure."
+    },
+    "guestManagement": {
+      "title": "Guest Management",
+      "metaDescription": "Manage your full guest list in real time, group by category, and track RSVP statuses.",
+      "heroText": "Manage your full guest list in real time, group guests by category, and track RSVP statuses — all simply, in one place.",
+      "perspectiveTitle": "A Two-Sided Perspective",
+      "perspectiveLead": "One platform that works perfectly for both the host and their guests.",
+      "hostCardTitle": "The Organizer's View",
+      "hostCardText": "A detailed guest list, real-time RSVP stats, filtering by group (family, friends, colleagues), and simple export.",
+      "guestCardTitle": "The Guest's View",
+      "guestCardText": "A minimal, convenient page where a guest can confirm attendance in one tap, flag menu preferences, and see the location.",
+      "outcomesTitle": "Expected Results",
+      "outcomes": [
+        { "value": "98%", "label": "Fast responses from guests" },
+        { "value": "0", "label": "Lost or forgotten invitations" },
+        { "value": "100%", "label": "Control over the planning process" }
+      ],
+      "ctaTitle": "Create your first LYST",
+      "ctaLead": "Turn planning into an enjoyable adventure."
+    }
   }
 }
