@@ -1,18 +1,26 @@
 /* Invitations catalog — desktop 1440 / mobile 390 */
 
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 80px var(--gutter) 48px;
+  padding: 140px var(--gutter) 70px;
+  overflow: hidden;
+}
+
+.hero > *:not(:global(.glow-light)) {
+  position: relative;
+  z-index: 1;
 }
 
 .title {
-  max-width: 800px;
+  max-width: 1000px;
   font-family: var(--font-display);
-  font-size: clamp(36px, 3.89vw, 56px);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(36px, 6vw, 92px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
   overflow-wrap: break-word;
 }
 

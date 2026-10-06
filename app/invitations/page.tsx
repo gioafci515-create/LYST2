@@ -16,6 +16,7 @@ export default function InvitationsPage() {
       <Header />
       <main>
         <section className={styles.hero}>
+          <div className="glow-light" aria-hidden="true" />
           <h1 className={styles.title}>
             <span className="d-only">
               ციფრული მოსაწვევები და ინტერაქტიული ღონისძიებები, რომლებიც
