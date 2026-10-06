@@ -1,54 +1,49 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import avatar from "@/public/images/dashboard/avatar-client.png";
 import MobileInviteActions from "./MobileInviteActions";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "ჩემი პანელი — LYST",
-  description: "კლიენტის დეშბორდი: ჩემი ღონისძიებები და მოსაწვევები.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "dashboardClient" });
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
-const SIDEBAR_NAV = [
-  { icon: "home", label: "მთავარი", href: "/dashboard/client", active: true },
-  { icon: "calendarB", label: "ჩემი ღონისძიებები", href: "#events" },
-  { icon: "mail", label: "მოსაწვევები", href: "/invitations" },
-  { icon: "usersB", label: "სტუმრები", href: "/features/guest-management" },
-  { icon: "image", label: "გალერეა", href: "/features/event-camera" },
-  { icon: "settings", label: "პარამეტრები", href: "/login" },
-];
+type Stat = { label: string; value: string; note: string };
+type UpcomingEvent = { title: string; date: string; guests: string; state: string; tone: "amber" | "gray" | "green" };
+type FeedItem = { name: string; note: string; time: string; tone: "green" | "red" };
+type CalendarDay = { label: string; num: number; active: boolean };
 
-const STATS = [
-  { label: "აქტიური ღონისძიებები", value: "2", note: "მიმდინარე თვეში" },
-  { label: "მოწვეული სტუმრები", value: "184", note: "ჯამური რაოდენობა" },
-  { label: "დასწრების პასუხი (RSVP)", value: "76%", note: "საშუალო მაჩვენებელი" },
-];
+export default async function ClientDashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("dashboardClient");
 
-const UPCOMING = [
-  { title: "ანას დაბადების დღე", date: "2026 წ. 5 ნოემბერი", guests: "45 სტუმარი", state: "მომზადების პროცესში", tone: "amber" as const },
-  { title: "კორპორატიული წვეულება", date: "2026 წ. 20 დეკემბერი", guests: "200 სტუმარი", state: "დაგეგმილი", tone: "gray" as const },
-  { title: "ნინოს ნიშნობა", date: "2027 წ. 14 თებერვალი", guests: "80 სტუმარი", state: "მოსაწვევი იგზავნება", tone: "green" as const },
-];
+  const SIDEBAR_NAV = [
+    { icon: "home", label: t("navHome"), href: "/dashboard/client", active: true },
+    { icon: "calendarB", label: t("navMyEvents"), href: "#events" },
+    { icon: "mail", label: t("navInvitations"), href: "/invitations" },
+    { icon: "usersB", label: t("navGuests"), href: "/features/guest-management" },
+    { icon: "image", label: t("navGallery"), href: "/features/event-camera" },
+    { icon: "settings", label: t("navSettings"), href: "/login" },
+  ];
 
-const RSVP_FEED = [
-  { name: "გიორგი ხარაზიშვილი", note: "დაადასტურა", time: "2 სთ წინ", tone: "green" as const },
-  { name: "ნათია ბერიძე", note: "უარყო", time: "5 სთ წინ", tone: "red" as const },
-  { name: "დავით ლომიძე", note: "დაადასტურა +1", time: "1 დღის წინ", tone: "green" as const },
-  { name: "ეკა სულაკაური", note: "დაადასტურა", time: "2 დღის წინ", tone: "green" as const },
-];
+  const stats = t.raw("stats") as Stat[];
+  const upcoming = t.raw("upcoming") as UpcomingEvent[];
+  const feed = t.raw("feed") as FeedItem[];
+  const calendarDays = t.raw("calendarDays") as CalendarDay[];
 
-const CONFIRMED = { title: "ეკას დაბადების დღე", date: "28 იანვარი", place: "რესტორანი „ფუნიკულიორი“" };
-
-const CALENDAR_DAYS = [
-  { label: "ორშ", num: 26, active: false },
-  { label: "სამ", num: 27, active: false },
-  { label: "ოთხ", num: 28, active: true },
-  { label: "ხუთ", num: 29, active: false },
-  { label: "პარ", num: 30, active: false },
-];
-
-export default function ClientDashboardPage() {
   return (
     <>
       {/* ---------------------------------------------------------- */}
@@ -74,9 +69,9 @@ export default function ClientDashboardPage() {
             <div className={styles.sidebarFooter}>
               <Image src={avatar} alt="" width={40} height={40} className={styles.avatar} />
               <div className={styles.sidebarFooterText}>
-                <p className={styles.userName}>მარიამ წიკლაური</p>
+                <p className={styles.userName}>{t("userName")}</p>
                 <Link href="/login" className={styles.profileLink}>
-                  პროფილი
+                  {t("profileLinkCta")}
                 </Link>
               </div>
             </div>
@@ -84,20 +79,20 @@ export default function ClientDashboardPage() {
 
           <main className={styles.main}>
             <div className={styles.topBar}>
-              <h1 className={styles.pageTitle}>ჩემი პანელი</h1>
+              <h1 className={styles.pageTitle}>{t("pageTitle")}</h1>
               <div className={styles.topBarActions}>
                 <span className={styles.notifBell}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/dashboard/icon-bell.svg" alt="შეტყობინებები" width={20} height={20} />
+                  <img src="/images/dashboard/icon-bell.svg" alt={t("notifAlt")} width={20} height={20} />
                 </span>
                 <Link href="/create" className={`btn btn-primary ${styles.newEventBtn}`}>
-                  ახალი ღონისძიება +
+                  {t("newEventCta")}
                 </Link>
               </div>
             </div>
 
             <div className={styles.statsRow}>
-              {STATS.map((stat) => (
+              {stats.map((stat) => (
                 <div key={stat.label} className={styles.statCard}>
                   <p className={styles.statLabel}>{stat.label}</p>
                   <p className={styles.statValue}>{stat.value}</p>
@@ -109,31 +104,31 @@ export default function ClientDashboardPage() {
             <section className={styles.activeEventCard}>
               <div className={styles.eventHead}>
                 <div className={styles.titleStatus}>
-                  <h2 className={styles.eventTitle}>ლუკა და თამარის ქორწილი</h2>
+                  <h2 className={styles.eventTitle}>{t("activeEventTitle")}</h2>
                   <span className={styles.statusBadge}>
                     <span className={styles.statusDot} aria-hidden="true" />
-                    აქტიური
+                    {t("activeTag")}
                   </span>
                 </div>
-                <span className={styles.mainEventTag}>მთავარი ღონისძიება</span>
+                <span className={styles.mainEventTag}>{t("mainEventTag")}</span>
               </div>
               <div className={styles.detailsGrid}>
                 <div className={styles.detailItem}>
-                  <p className={styles.detailLabel}>თარიღი</p>
-                  <p className={styles.detailValue}>2026 წ. 18 ოქტომბერი</p>
+                  <p className={styles.detailLabel}>{t("detailDateLabel")}</p>
+                  <p className={styles.detailValue}>{t("detailDateValue")}</p>
                 </div>
                 <div className={styles.detailItem}>
-                  <p className={styles.detailLabel}>ლოკაცია</p>
-                  <p className={styles.detailValue}>შატო მუხრანი</p>
+                  <p className={styles.detailLabel}>{t("detailLocationLabel")}</p>
+                  <p className={styles.detailValue}>{t("detailLocationValue")}</p>
                 </div>
                 <div className={styles.detailItem}>
-                  <p className={styles.detailLabel}>სტუმრები</p>
-                  <p className={styles.detailValue}>120 / 150</p>
+                  <p className={styles.detailLabel}>{t("detailGuestsLabel")}</p>
+                  <p className={styles.detailValue}>{t("detailGuestsValue")}</p>
                 </div>
               </div>
               <div className={styles.progressSection}>
                 <div className={styles.progressLabel}>
-                  <span>მზადყოფნა</span>
+                  <span>{t("progressLabel")}</span>
                   <strong>80%</strong>
                 </div>
                 <div className={styles.progressTrack}>
@@ -146,32 +141,32 @@ export default function ClientDashboardPage() {
                 <Link href="/invitations/moonlight" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-eye.svg" alt="" width={16} height={16} />
-                  მოსაწვევის ნახვა
+                  {t("quickViewCta")}
                 </Link>
                 <Link href="/features/guest-management" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-users-3.svg" alt="" width={16} height={16} />
-                  სტუმრების მართვა
+                  {t("quickGuestsCta")}
                 </Link>
                 <Link href="/features/event-camera" className={styles.actionBtn}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-image.svg" alt="" width={16} height={16} />
-                  გალერეა
+                  {t("quickGalleryCta")}
                 </Link>
               </div>
             </section>
 
             <section id="events" className={styles.bottomGrid}>
               <div className={styles.eventsPanel}>
-                <h2 className={styles.sectionTitle}>მომავალი ღონისძიებები</h2>
+                <h2 className={styles.sectionTitle}>{t("upcomingTitle")}</h2>
                 <div className={styles.tableContainer}>
                   <div className={`${styles.row} ${styles.rowHead}`}>
-                    <span className={styles.colEvent}>ღონისძიება</span>
-                    <span className={styles.colDate}>თარიღი</span>
-                    <span className={styles.colGuests}>სტუმრები</span>
-                    <span className={styles.colStatus}>სტატუსი</span>
+                    <span className={styles.colEvent}>{t("colEvent")}</span>
+                    <span className={styles.colDate}>{t("colDate")}</span>
+                    <span className={styles.colGuests}>{t("colGuests")}</span>
+                    <span className={styles.colStatus}>{t("colStatus")}</span>
                   </div>
-                  {UPCOMING.map((ev) => (
+                  {upcoming.map((ev) => (
                     <div key={ev.title} className={styles.row}>
                       <span className={styles.colEvent}>{ev.title}</span>
                       <span className={styles.colDate}>{ev.date}</span>
@@ -188,10 +183,10 @@ export default function ClientDashboardPage() {
               </div>
 
               <div className={styles.feedPanel}>
-                <h2 className={styles.sectionTitle}>ბოლო დასწრების პასუხები</h2>
+                <h2 className={styles.sectionTitle}>{t("feedTitle")}</h2>
                 <div className={styles.feedContainer}>
-                  {RSVP_FEED.map((item, i) => (
-                    <div key={item.name} className={styles.feedRow} data-last={i === RSVP_FEED.length - 1}>
+                  {feed.map((item, i) => (
+                    <div key={item.name} className={styles.feedRow} data-last={i === feed.length - 1}>
                       <span className={`${styles.feedDot} ${styles[`feedDot_${item.tone}`]}`} />
                       <div className={styles.feedText}>
                         <p className={styles.feedName}>
@@ -218,48 +213,48 @@ export default function ClientDashboardPage() {
               <span className={styles.mLogo}>LYST</span>
               <span className={styles.mRolePill}>GUEST</span>
             </div>
-            <span className={styles.mAvatar}>ა</span>
+            <span className={styles.mAvatar}>{t("mAvatarInitial")}</span>
           </header>
 
           <div className={styles.mContent}>
             <div className={styles.mGreeting}>
-              <p className={styles.mGreetingTitle}>ჩემი მოსაწვევები</p>
-              <p className={styles.mGreetingSub}>საპასუხო და მოახლოებული ღონისძიებები</p>
+              <p className={styles.mGreetingTitle}>{t("mGreetingTitle")}</p>
+              <p className={styles.mGreetingSub}>{t("mGreetingSub")}</p>
             </div>
 
             <div className={styles.mSection}>
-              <p className={styles.mSectionTitle}>ახალი მოწვევა</p>
+              <p className={styles.mSectionTitle}>{t("mNewInviteTitle")}</p>
               <div className={styles.mInviteCard}>
                 <div className={styles.mInviteTop}>
-                  <p className={styles.mInviteMeta}>ქორწილი · 15 თებერვალი</p>
-                  <p className={styles.mInviteTitle}>გიორგი & ნინო</p>
-                  <p className={styles.mInviteLocation}>ლოკაცია: შერატონ მეტეხი პალასი, თბილისი</p>
+                  <p className={styles.mInviteMeta}>{t("mInviteMeta")}</p>
+                  <p className={styles.mInviteTitle}>{t("mInviteTitle")}</p>
+                  <p className={styles.mInviteLocation}>{t("mInviteLocation")}</p>
                 </div>
                 <MobileInviteActions />
               </div>
             </div>
 
             <div className={styles.mSection}>
-              <p className={styles.mSectionTitle}>დადასტურებული</p>
+              <p className={styles.mSectionTitle}>{t("mConfirmedTitle")}</p>
               <div className={styles.mConfirmedCard}>
                 <div>
-                  <p className={styles.mConfirmedTitle}>{CONFIRMED.title}</p>
+                  <p className={styles.mConfirmedTitle}>{t("confirmedEventTitle")}</p>
                   <p className={styles.mConfirmedMeta}>
-                    {CONFIRMED.date} · {CONFIRMED.place}
+                    {t("confirmedEventDate")} · {t("confirmedEventPlace")}
                   </p>
                 </div>
-                <span className={styles.mConfirmedBadge}>მივდივარ</span>
+                <span className={styles.mConfirmedBadge}>{t("mConfirmedBadge")}</span>
               </div>
             </div>
 
             <div className={styles.mCalendar}>
               <div className={styles.mCalendarHead}>
-                <p className={styles.mCalendarTitle}>იანვარი 2026</p>
+                <p className={styles.mCalendarTitle}>{t("mCalendarMonthTitle")}</p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/dashboard/m-calendar-client.svg" alt="" width={16} height={16} />
               </div>
               <div className={styles.mCalendarDays}>
-                {CALENDAR_DAYS.map((day) => (
+                {calendarDays.map((day) => (
                   <div key={day.num} className={styles.mDay} data-active={day.active}>
                     <p className={styles.mDayLabel}>{day.label}</p>
                     <p className={styles.mDayNum}>{day.num}</p>

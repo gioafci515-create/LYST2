@@ -1,78 +1,63 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import avatar from "@/public/images/dashboard/avatar-admin.png";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "მთავარი პანელი — LYST Admin",
-  description: "სუპერ ადმინის პანელი: პლატფორმის მართვის ცენტრი და მონიტორინგი.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "dashboardAdmin" });
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
-const SIDEBAR_NAV = [
-  { icon: "home", label: "მთავარი", href: "/dashboard/admin", active: true },
-  { icon: "bag", label: "შეკვეთები", href: "#orders" },
-  { icon: "usersB", label: "კლიენტები", href: "/dashboard/client" },
-  { icon: "calendarB", label: "ღონისძიებები", href: "/dashboard/host" },
-  { icon: "barchart", label: "ანალიტიკა", href: "#analytics" },
-  { icon: "dollar", label: "ფინანსები", href: "#finance" },
-  { icon: "usercheck", label: "გუნდი", href: "#activity" },
-  { icon: "settings", label: "პარამეტრები", href: "/login" },
-];
-
-const STATS = [
-  { label: "მთლიანი შემოსავალი", value: "₾47,850", trend: "+12.5%", icon: "creditcard" },
-  { label: "აქტიური შეკვეთები", value: "234", trend: "+8.1%", icon: "activity" },
-  { label: "რეგისტრირებული კლიენტები", value: "1,847", trend: "+15.3%", icon: "usersD" },
-];
-
-const REVENUE_BARS = [
-  { month: "ივნ", value: "₾34000", height: 109 },
-  { month: "ივლ", value: "₾41000", height: 131 },
-  { month: "აგვ", value: "₾38000", height: 122 },
-  { month: "სექტ", value: "₾47850", height: 153 },
-];
-
-const RECENT_ACTIVITY = [
-  { name: "ნინო გოგიაშვილი", note: "შეიძინა ბილეთი ღონისძიებაზე 'Jazz Fest 2026'", time: "3 წუთის წინ" },
-  { name: "გიორგი ხარაზიშვილი", note: "მოითხოვა ანგარიშფაქტურის დუბლიკატი", time: "14 წუთის წინ" },
-  { name: "დავით ლომიძე", note: "დაარეგისტრირა ახალი კომპანია პლატფორმაზე", time: "1 საათის წინ" },
-  { name: "მარიამ წიკლაური", note: "გააუქმა დაჯავშნილი ადგილები კინოჩვენებაზე", time: "2 საათის წინ" },
-  { name: "ანა ჯანელიძე", note: "განაახლა საკონტაქტო ტელეფონის ნომერი", time: "4 საათის წინ" },
-];
-
+type Stat = { label: string; value: string; trend: string };
+type RevenueBar = { month: string; value: string };
+type ActivityItem = { name: string; note: string; time: string };
 type OrderStatus = "confirmed" | "processing" | "done";
+type Order = { id: string; client: string; event: string; date: string; amount: string; status: OrderStatus };
+type Transaction = { name: string; note: string; amount: string };
 
-const ORDERS: Array<{
-  id: string;
-  client: string;
-  event: string;
-  date: string;
-  amount: string;
-  status: OrderStatus;
-}> = [
-  { id: "#1094", client: "ნინო გოგიაშვილი", event: "თბილისი ჯაზ ფესტივალი 2026", date: "15 სექ, 2026", amount: "₾350.00", status: "confirmed" },
-  { id: "#1095", client: "გიორგი ხარაზიშვილი", event: "ბიზნეს კონფერენცია", date: "15 სექ, 2026", amount: "₾120.00", status: "processing" },
-  { id: "#1096", client: "მარიამ წიკლაური", event: "ღვინის დეგუსტაციის ტური", date: "14 სექ, 2026", amount: "₾480.00", status: "done" },
-  { id: "#1097", client: "დავით ლომიძე", event: "ელექტრონული მუსიკის ღამე", date: "14 სექ, 2026", amount: "₾180.00", status: "confirmed" },
-  { id: "#1098", client: "ანა ჯანელიძე", event: "კლასიკური კონცერტების სერია", date: "13 სექ, 2026", amount: "₾250.00", status: "processing" },
-];
-
-const STATUS_COPY: Record<OrderStatus, string> = {
-  confirmed: "დადასტურებული",
-  processing: "პროცესში",
-  done: "დასრულებული",
-};
-
-const MOBILE_TRANSACTIONS = [
-  { name: "დავით კოხრეიძე", note: "საქორწინო პაკეტი · დღეს", amount: "₾ 120" },
-  { name: "ეკა ტაბატაძე", note: "დაბადების დღე VIP · გუშინ", amount: "₾ 85" },
-  { name: "ლადო გოგუაძე", note: "კორპორატიული · 2 დღის წინ", amount: "₾ 250" },
-];
-
+const STAT_ICONS = ["creditcard", "activity", "usersD"];
+const REVENUE_HEIGHTS = [109, 131, 122, 153];
 const SERVER_STATUS = ["Database", "SMS Gateway", "RSVP API"];
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("dashboardAdmin");
+
+  const SIDEBAR_NAV = [
+    { icon: "home", label: t("navHome"), href: "/dashboard/admin", active: true },
+    { icon: "bag", label: t("navOrders"), href: "#orders" },
+    { icon: "usersB", label: t("navClients"), href: "/dashboard/client" },
+    { icon: "calendarB", label: t("navEvents"), href: "/dashboard/host" },
+    { icon: "barchart", label: t("navAnalytics"), href: "#analytics" },
+    { icon: "dollar", label: t("navFinance"), href: "#finance" },
+    { icon: "usercheck", label: t("navTeam"), href: "#activity" },
+    { icon: "settings", label: t("navSettings"), href: "/login" },
+  ];
+
+  const stats = t.raw("stats") as Stat[];
+  const revenueBars = t.raw("revenueBars") as RevenueBar[];
+  const recentActivity = t.raw("recentActivity") as ActivityItem[];
+  const orders = t.raw("orders") as Order[];
+  const mobileTransactions = t.raw("mobileTransactions") as Transaction[];
+
+  const statusCopy: Record<OrderStatus, string> = {
+    confirmed: t("statusConfirmed"),
+    processing: t("statusProcessing"),
+    done: t("statusDone"),
+  };
+
   return (
     <>
       {/* ---------------------------------------------------------- */}
@@ -100,8 +85,8 @@ export default function AdminDashboardPage() {
             <div className={styles.sidebarFooter}>
               <Image src={avatar} alt="" width={40} height={40} className={styles.avatar} />
               <div className={styles.sidebarFooterText}>
-                <p className={styles.userName}>ალექსანდრე</p>
-                <p className={styles.userRole}>ადმინისტრატორი</p>
+                <p className={styles.userName}>{t("userName")}</p>
+                <p className={styles.userRole}>{t("userRole")}</p>
               </div>
             </div>
           </aside>
@@ -109,52 +94,52 @@ export default function AdminDashboardPage() {
           <main className={styles.main}>
             <div className={styles.topBar}>
               <div>
-                <p className={styles.pageTitle}>მთავარი პანელი</p>
-                <p className={styles.pageSubtitle}>პლატფორმის მართვის ცენტრი და მონიტორინგი</p>
+                <p className={styles.pageTitle}>{t("pageTitle")}</p>
+                <p className={styles.pageSubtitle}>{t("pageSubtitle")}</p>
               </div>
               <div className={styles.topBarRight}>
                 <div className={styles.search}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-search.svg" alt="" width={16} height={16} />
-                  <span>ძებნა...</span>
+                  <span>{t("searchPlaceholder")}</span>
                 </div>
                 <div className={styles.dateTag}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/images/dashboard/icon-calendarC.svg" alt="" width={16} height={16} />
-                  <span>სექტემბერი 2026</span>
+                  <span>{t("dateTag")}</span>
                 </div>
                 <span className={styles.notifBell}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/dashboard/icon-bell.svg" alt="შეტყობინებები" width={18} height={18} />
+                  <img src="/images/dashboard/icon-bell.svg" alt={t("notifAlt")} width={18} height={18} />
                 </span>
               </div>
             </div>
 
             <div id="finance" className={styles.statsRow}>
-              {STATS.map((stat) => (
+              {stats.map((stat, i) => (
                 <div key={stat.label} className={styles.statCard}>
                   <div className={styles.statHead}>
                     <p className={styles.statLabel}>{stat.label}</p>
                     <span className={styles.statIconBox}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/images/dashboard/icon-${stat.icon}.svg`} alt="" width={16} height={16} />
+                      <img src={`/images/dashboard/icon-${STAT_ICONS[i]}.svg`} alt="" width={16} height={16} />
                     </span>
                   </div>
                   <p className={styles.statValue}>{stat.value}</p>
                   <p className={styles.statTrend}>
-                    <strong>{stat.trend}</strong> წინა თვესთან შედარებით
+                    <strong>{stat.trend}</strong> {t("trendSuffix")}
                   </p>
                 </div>
               ))}
               <div className={styles.statCard}>
                 <div className={styles.statHead}>
-                  <p className={styles.statLabel}>მიმდინარე ღონისძიებები</p>
+                  <p className={styles.statLabel}>{t("currentEventsLabel")}</p>
                   <span className={styles.statIconBox}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/dashboard/icon-calendarD.svg" alt="" width={16} height={16} />
                   </span>
                 </div>
-                <p className={styles.statValue}>156</p>
+                <p className={styles.statValue}>{t("currentEventsValue")}</p>
               </div>
             </div>
 
@@ -162,16 +147,16 @@ export default function AdminDashboardPage() {
               <div id="analytics" className={styles.chartCard}>
                 <div className={styles.chartHead}>
                   <div>
-                    <p className={styles.chartTitle}>შემოსავლების დინამიკა</p>
-                    <p className={styles.chartSub}>ბოლო 4 თვის შედარებითი ანალიზი (₾)</p>
+                    <p className={styles.chartTitle}>{t("chartTitle")}</p>
+                    <p className={styles.chartSub}>{t("chartSub")}</p>
                   </div>
-                  <span className={styles.chartBadge}>მთლიანი ზრდა +12.5%</span>
+                  <span className={styles.chartBadge}>{t("chartBadge")}</span>
                 </div>
                 <div className={styles.barsRow}>
-                  {REVENUE_BARS.map((bar) => (
+                  {revenueBars.map((bar, i) => (
                     <div key={bar.month} className={styles.barCol}>
                       <p className={styles.barValue}>{bar.value}</p>
-                      <div className={styles.bar} style={{ height: bar.height }} />
+                      <div className={styles.bar} style={{ height: REVENUE_HEIGHTS[i] }} />
                       <p className={styles.barMonth}>{bar.month}</p>
                     </div>
                   ))}
@@ -180,12 +165,12 @@ export default function AdminDashboardPage() {
 
               <div id="activity" className={styles.activityCard}>
                 <div className={styles.activityHead}>
-                  <p className={styles.chartTitle}>ბოლო აქტივობა</p>
+                  <p className={styles.chartTitle}>{t("activityTitle")}</p>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/images/dashboard/icon-refresh.svg" alt="განახლება" width={16} height={16} />
+                  <img src="/images/dashboard/icon-refresh.svg" alt={t("refreshAlt")} width={16} height={16} />
                 </div>
                 <div className={styles.activityList}>
-                  {RECENT_ACTIVITY.map((item) => (
+                  {recentActivity.map((item) => (
                     <div key={item.name} className={styles.activityRow}>
                       <div className={styles.activityTop}>
                         <p className={styles.activityName}>{item.name}</p>
@@ -200,21 +185,21 @@ export default function AdminDashboardPage() {
 
             <div id="orders" className={styles.tableCard}>
               <div className={styles.tableHead}>
-                <p className={styles.chartTitle}>ბოლო შეკვეთები</p>
+                <p className={styles.chartTitle}>{t("ordersTitle")}</p>
                 <Link href="#orders" className={styles.viewAllBtn}>
-                  ყველას ნახვა
+                  {t("viewAllCta")}
                 </Link>
               </div>
               <div className={styles.table}>
                 <div className={`${styles.row} ${styles.rowHead}`}>
-                  <span className={styles.colId}>#</span>
-                  <span className={styles.colClient}>კლიენტი</span>
-                  <span className={styles.colEvent}>ღონისძიება</span>
-                  <span className={styles.colDate}>თარიღი</span>
-                  <span className={styles.colAmount}>თანხა</span>
-                  <span className={styles.colStatus}>სტატუსი</span>
+                  <span className={styles.colId}>{t("colId")}</span>
+                  <span className={styles.colClient}>{t("colClient")}</span>
+                  <span className={styles.colEvent}>{t("colEvent")}</span>
+                  <span className={styles.colDate}>{t("colDate")}</span>
+                  <span className={styles.colAmount}>{t("colAmount")}</span>
+                  <span className={styles.colStatus}>{t("colStatus")}</span>
                 </div>
-                {ORDERS.map((order) => (
+                {orders.map((order) => (
                   <div key={order.id} className={styles.row}>
                     <span className={styles.colId}>{order.id}</span>
                     <span className={styles.colClient}>{order.client}</span>
@@ -223,7 +208,7 @@ export default function AdminDashboardPage() {
                     <span className={styles.colAmount}>{order.amount}</span>
                     <span className={styles.colStatus}>
                       <span className={`${styles.statusBadge} ${styles[`status_${order.status}`]}`}>
-                        {STATUS_COPY[order.status]}
+                        {statusCopy[order.status]}
                       </span>
                     </span>
                   </div>
@@ -249,25 +234,25 @@ export default function AdminDashboardPage() {
           </header>
 
           <div className={styles.mContent}>
-            <p className={styles.mPageTitle}>სისტემური პანელი</p>
+            <p className={styles.mPageTitle}>{t("mPageTitle")}</p>
 
             <div className={styles.mStatsGrid}>
               <div className={styles.mStatCard}>
-                <p className={styles.mStatLabel}>სულ მომხმარებელი</p>
-                <p className={styles.mStatValue}>4,821</p>
-                <p className={styles.mStatTrend}>+12% ამ თვეში</p>
+                <p className={styles.mStatLabel}>{t("mStatUsersLabel")}</p>
+                <p className={styles.mStatValue}>{t("mStatUsersValue")}</p>
+                <p className={styles.mStatTrend}>{t("mStatUsersTrend")}</p>
               </div>
               <div className={styles.mStatCard}>
-                <p className={styles.mStatLabel}>აქტიური ივენთი</p>
-                <p className={styles.mStatValue}>312</p>
-                <p className={styles.mStatTrend}>24 იქმნება დღეს</p>
+                <p className={styles.mStatLabel}>{t("mStatEventsLabel")}</p>
+                <p className={styles.mStatValue}>{t("mStatEventsValue")}</p>
+                <p className={styles.mStatTrend}>{t("mStatEventsTrend")}</p>
               </div>
             </div>
 
             <div className={styles.mRevenueCard}>
               <div>
-                <p className={styles.mStatLabel}>შემოსავალი (GEL)</p>
-                <p className={styles.mStatValue}>₾ 24,850</p>
+                <p className={styles.mStatLabel}>{t("mRevenueLabel")}</p>
+                <p className={styles.mStatValue}>{t("mRevenueValue")}</p>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/dashboard/m-trending-up.svg" alt="" width={24} height={24} />
@@ -275,11 +260,11 @@ export default function AdminDashboardPage() {
 
             <div className={styles.mSection}>
               <div className={styles.mSectionHead}>
-                <p className={styles.mSectionTitle}>ბოლო ტრანზაქციები</p>
-                <span className={styles.mSectionLink}>ყველა</span>
+                <p className={styles.mSectionTitle}>{t("mTransactionsTitle")}</p>
+                <span className={styles.mSectionLink}>{t("mTransactionsAll")}</span>
               </div>
               <div className={styles.mUserList}>
-                {MOBILE_TRANSACTIONS.map((tx) => (
+                {mobileTransactions.map((tx) => (
                   <div key={tx.name} className={styles.mUserCard}>
                     <div>
                       <p className={styles.mUserName}>{tx.name}</p>
@@ -292,7 +277,7 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className={styles.mStatusCard}>
-              <p className={styles.mSectionTitle}>სერვერების სტატუსი</p>
+              <p className={styles.mSectionTitle}>{t("mServerStatusTitle")}</p>
               <div className={styles.mStatusRow}>
                 {SERVER_STATUS.map((name) => (
                   <span key={name} className={styles.mStatusItem}>

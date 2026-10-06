@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 /** Copies the invitation's share link to the clipboard; confirms visually. */
 export default function ShareLinkButton({ className }: { className?: string }) {
+  const t = useTranslations("dashboardHost");
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -20,7 +22,7 @@ export default function ShareLinkButton({ className }: { className?: string }) {
     <button type="button" className={className} onClick={copy}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/images/dashboard/m-share.svg" alt="" width={20} height={20} />
-      <span>{copied ? "ბმული დაკოპირდა" : "ბმულის გაზიარება"}</span>
+      <span>{copied ? t("shareLinkCopied") : t("shareLinkCta")}</span>
     </button>
   );
 }
