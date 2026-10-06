@@ -333,5 +333,56 @@
     ],
     "ctaTitle": "Create your first LYST",
     "ctaLead": "Turn planning into an enjoyable adventure."
+  },
+  "howItWorks": {
+    "eyebrowDesktop": "How LYST Works",
+    "eyebrowMobile": "A Simple Process",
+    "heroTitleDesktop": "One link. One seamless experience.",
+    "heroTitleMobile": "How It Works",
+    "heroLeadDesktop": "From planning to the final memory — a simple, polished, emotional process for you and your guests.",
+    "heroLeadMobile": "Follow four simple steps to create your dream digital invitation and organize your event.",
+    "step1Title": "Create",
+    "step1Text": "The host creates the event and invitation in the dashboard — pick a design, set the time and location, and turn on the modules you need (camera, voice guestbook).",
+    "card1Title": "Create the Event",
+    "card1FieldName": "Name: Autumn Dinner",
+    "card1FieldLocation": "Location: Tbilisi, Georgia",
+    "step2Title": "Invite",
+    "step2Text": "Your guest gets one personal link. No more digging through chats for the address — every detail lives on one polished digital page.",
+    "card2Title": "Share the Personal Link",
+    "copy": "Copy",
+    "copied": "Copied",
+    "step3Title": "Take Part",
+    "step3Text": "The guest confirms attendance and is instantly part of the event. They leave voice messages, take photos, and become a co-author of the evening.",
+    "card3Title": "Record a Voice Message",
+    "card3Hint": "Tap to record",
+    "step4Title": "Remember",
+    "step4Text": "Everything created stays in one place after the event ends. A digital archive forms, keeping the shared memories safe for years to come.",
+    "card4Title": "Digital Memories",
+    "mobileSteps": [
+      {
+        "n": "01",
+        "title": "Choose a Template",
+        "text": "Pick a design that fits your style from our wide gallery — from classic to contemporary."
+      },
+      {
+        "n": "02",
+        "title": "Customize the Details",
+        "text": "Add text, location, music, and a custom questionnaire for guests. Create a mood that's uniquely yours."
+      },
+      {
+        "n": "03",
+        "title": "Invite Your Guests",
+        "text": "Send personalized links via social media or SMS, and get instant responses."
+      },
+      {
+        "n": "04",
+        "title": "Manage the Event",
+        "text": "Track RSVP responses in real time, group your guests, and receive warm keepsake messages."
+      }
+    ],
+    "ctaTitle": "Start planning your event today",
+    "ctaLead": "Turn an ordinary gathering into a premium digital experience, and leave your guests with a truly special memory.",
+    "ctaMobileTitle": "Create your first LYST",
+    "ctaMobileLead": "Turn planning into an enjoyable adventure."
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 /** The "copy" button of the shareable-link mock-up: copies the sample link. */
@@ -10,6 +11,7 @@ export default function CopyLink({
   value: string;
   className?: string;
 }) {
+  const t = useTranslations("howItWorks");
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -24,7 +26,7 @@ export default function CopyLink({
 
   return (
     <button type="button" className={className} onClick={copy}>
-      {copied ? "დაკოპირდა" : "კოპირება"}
+      {copied ? t("copied") : t("copy")}
     </button>
   );
 }
