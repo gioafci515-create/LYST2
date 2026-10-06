@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Template } from "../lib/invitations";
+import type { Template } from "@/lib/invitations";
 import styles from "./TemplateCard.module.css";
 
 export default function TemplateCard({ template }: { template: Template }) {

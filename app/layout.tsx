@@ -5,7 +5,7 @@ import {
   JetBrains_Mono,
   Noto_Sans_Georgian,
 } from "next/font/google";
-import ScrollToTop from "../components/ScrollToTop";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 
 const interTight = Inter_Tight({

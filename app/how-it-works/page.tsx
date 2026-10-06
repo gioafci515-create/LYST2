@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import CtaBand from "../../components/CtaBand";
-import Divider from "../../components/Divider";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
-import preview3 from "../../public/images/invitations/golden.png";
-import preview2 from "../../public/images/invitations/minimal.png";
-import preview1 from "../../public/images/invitations/moonlight.png";
-import preview4 from "../../public/images/features/preview-voice.png";
-import memory1 from "../../public/images/how-it-works/memory-1.png";
-import memory2 from "../../public/images/how-it-works/memory-2.png";
-import memory3 from "../../public/images/how-it-works/memory-3.png";
+import CtaBand from "@/components/CtaBand";
+import Divider from "@/components/Divider";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import preview3 from "@/public/images/invitations/golden.png";
+import preview2 from "@/public/images/invitations/minimal.png";
+import preview1 from "@/public/images/invitations/moonlight.png";
+import preview4 from "@/public/images/features/preview-voice.png";
+import memory1 from "@/public/images/how-it-works/memory-1.png";
+import memory2 from "@/public/images/how-it-works/memory-2.png";
+import memory3 from "@/public/images/how-it-works/memory-3.png";
 import CopyLink from "./CopyLink";
 import styles from "./page.module.css";
 

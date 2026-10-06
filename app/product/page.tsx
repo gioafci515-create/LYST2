@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Divider from "../../components/Divider";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
-import camera from "../../public/images/product/camera.png";
-import memory1 from "../../public/images/product/memory-1.png";
-import memory2 from "../../public/images/product/memory-2.png";
-import phoneHero from "../../public/images/product/phone-hero.png";
+import Divider from "@/components/Divider";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import camera from "@/public/images/product/camera.png";
+import memory1 from "@/public/images/product/memory-1.png";
+import memory2 from "@/public/images/product/memory-2.png";
+import phoneHero from "@/public/images/product/phone-hero.png";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {

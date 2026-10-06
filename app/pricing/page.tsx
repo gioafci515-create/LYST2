@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import CtaBand from "../../components/CtaBand";
-import Divider from "../../components/Divider";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
+import CtaBand from "@/components/CtaBand";
+import Divider from "@/components/Divider";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {

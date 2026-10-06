@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Header from "../../../components/Header";
-import SiteFooter from "../../../components/SiteFooter";
-import TemplateCard from "../../../components/TemplateCard";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import TemplateCard from "@/components/TemplateCard";
 import RsvpDemo from "./RsvpDemo";
 import {
   TEMPLATE_INCLUDES,
   TEMPLATES,
   getTemplate,
-} from "../../../lib/invitations";
+} from "@/lib/invitations";
 import styles from "./page.module.css";
 
 type Props = { params: Promise<{ slug: string }> };

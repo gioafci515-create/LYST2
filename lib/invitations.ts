@@ -1,13 +1,13 @@
 import type { StaticImageData } from "next/image";
-import classic from "../public/images/invitations/classic.png";
-import garden from "../public/images/invitations/garden.png";
-import goldenThumb from "../public/images/invitations/golden-thumb.png";
-import golden from "../public/images/invitations/golden.png";
-import minimalThumb from "../public/images/invitations/minimal-thumb.png";
-import minimal from "../public/images/invitations/minimal.png";
-import modern from "../public/images/invitations/modern.png";
-import moonlightScreen from "../public/images/invitations/moonlight-screen.png";
-import moonlight from "../public/images/invitations/moonlight.png";
+import classic from "@/public/images/invitations/classic.png";
+import garden from "@/public/images/invitations/garden.png";
+import goldenThumb from "@/public/images/invitations/golden-thumb.png";
+import golden from "@/public/images/invitations/golden.png";
+import minimalThumb from "@/public/images/invitations/minimal-thumb.png";
+import minimal from "@/public/images/invitations/minimal.png";
+import modern from "@/public/images/invitations/modern.png";
+import moonlightScreen from "@/public/images/invitations/moonlight-screen.png";
+import moonlight from "@/public/images/invitations/moonlight.png";
 
 export const CATEGORIES = [
   "ქორწილი",

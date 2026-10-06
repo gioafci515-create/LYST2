@@ -4,14 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import Toggle from "../../components/Toggle";
+import Toggle from "@/components/Toggle";
 import {
   CREATION_TEMPLATES,
   EVENT_TYPES,
   INITIAL_WIZARD_DATA,
   STEP_LABELS,
   type WizardData,
-} from "../../lib/creationFlow";
+} from "@/lib/creationFlow";
 import styles from "./page.module.css";
 
 const TOTAL_STEPS = 5;

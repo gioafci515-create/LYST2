@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import avatar from "../../../public/images/dashboard/avatar-client.png";
+import avatar from "@/public/images/dashboard/avatar-client.png";
 import MobileInviteActions from "./MobileInviteActions";
 import styles from "./page.module.css";
 

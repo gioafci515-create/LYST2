@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import CtaBand from "../../components/CtaBand";
-import Divider from "../../components/Divider";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
-import previewCamera from "../../public/images/features/preview-camera.png";
-import previewHidden from "../../public/images/features/preview-hidden.png";
-import previewLetters from "../../public/images/features/preview-letters.png";
-import previewVoice from "../../public/images/features/preview-voice.png";
+import CtaBand from "@/components/CtaBand";
+import Divider from "@/components/Divider";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import previewCamera from "@/public/images/features/preview-camera.png";
+import previewHidden from "@/public/images/features/preview-hidden.png";
+import previewLetters from "@/public/images/features/preview-letters.png";
+import previewVoice from "@/public/images/features/preview-voice.png";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {

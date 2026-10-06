@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "../public/images/lyst-logo-footer.png";
+import logo from "@/public/images/lyst-logo-footer.png";
 import Divider from "./Divider";
 
 const COLUMNS = [

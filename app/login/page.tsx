@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
-import logo from "../../public/images/lyst-logo.png";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import logo from "@/public/images/lyst-logo.png";
 import LoginForm from "./LoginForm";
 import styles from "./page.module.css";
 

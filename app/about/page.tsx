@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import CtaBand from "../../components/CtaBand";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
-import mGallery1 from "../../public/images/about/m-gallery-1.png";
-import mGallery2 from "../../public/images/about/m-gallery-2.png";
-import mGallery3 from "../../public/images/about/m-gallery-3.png";
-import photo1 from "../../public/images/about/photo-1.png";
-import photo2 from "../../public/images/about/photo-2.png";
-import photo3 from "../../public/images/about/photo-3.png";
-import story1 from "../../public/images/about/story-1.png";
-import story2 from "../../public/images/about/story-2.png";
+import CtaBand from "@/components/CtaBand";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
+import mGallery1 from "@/public/images/about/m-gallery-1.png";
+import mGallery2 from "@/public/images/about/m-gallery-2.png";
+import mGallery3 from "@/public/images/about/m-gallery-3.png";
+import photo1 from "@/public/images/about/photo-1.png";
+import photo2 from "@/public/images/about/photo-2.png";
+import photo3 from "@/public/images/about/photo-3.png";
+import story1 from "@/public/images/about/story-1.png";
+import story2 from "@/public/images/about/story-2.png";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {

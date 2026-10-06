@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import TemplateCard from "../../components/TemplateCard";
-import { CATEGORIES, TEMPLATES, type Category } from "../../lib/invitations";
+import TemplateCard from "@/components/TemplateCard";
+import { CATEGORIES, TEMPLATES, type Category } from "@/lib/invitations";
 import styles from "./page.module.css";
 
 const ALL = "ყველა";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Header from "../../components/Header";
-import SiteFooter from "../../components/SiteFooter";
+import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 import InvitationCatalog from "./InvitationCatalog";
 import styles from "./page.module.css";
 

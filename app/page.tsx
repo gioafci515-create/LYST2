@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import heroImage from "../public/images/hero-image.png";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import heroImage from "@/public/images/hero-image.png";
 
 const WALKTHROUGH_POINTS = [
   "მოსაწვევის მომენტალური გახსნა ინსტალაციის გარეშე",

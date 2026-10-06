@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "../public/images/lyst-logo-footer.png";
+import logo from "@/public/images/lyst-logo-footer.png";
 
 const NAV_GROUPS = [
   { label: "პროდუქტი", href: "#product" },
