@@ -504,5 +504,83 @@
       "ctaTitle": "Create your first LYST",
       "ctaLead": "Turn planning into an enjoyable adventure."
     }
+  },
+  "invitations": {
+    "heroTitle": "Digital invitations and interactive events that live on alongside the event itself.",
+    "heroTitleMobile": "An invitation that lives on with your event.",
+    "heroLead": "Explore a collection of digital invitations and interactive events, each crafted with a distinct aesthetic and advanced functionality.",
+    "heroLeadMobile": "Explore our collection of digital invitations and interactive events, crafted with a distinct aesthetic and advanced functionality.",
+    "categoryAriaLabel": "Category",
+    "formatAriaLabel": "Format",
+    "all": "All",
+    "formatDigital": "Digital",
+    "formatInteractive": "Interactive",
+    "cardCta": "View & edit",
+    "previewAlt": "{title} — invitation preview",
+    "demoHost": "Hosted by: Ana & Luka",
+    "demoDate": "Oct 14, 7:00 PM",
+    "demoLocation": "Tbilisi, Veranda.",
+    "demoDressLabel": "Dress code:",
+    "demoDressValue": "Black Tie",
+    "includesTitle": "What this template includes:",
+    "chooseCta": "Choose this invitation",
+    "demoCta": "See live demo",
+    "moreTitle": "More invitations",
+    "moreLinkAll": "View all"
+  },
+  "invitationsData": {
+    "categories": {
+      "wedding": "Wedding",
+      "birthday": "Birthday",
+      "privateDinner": "Private Dinner",
+      "corporate": "Corporate",
+      "other": "Other"
+    },
+    "templates": {
+      "moonlight": {
+        "title": "Moonlight",
+        "description": "An elegant digital invitation with a night-sky and moonlight aesthetic. Perfect for a refined evening wedding.",
+        "tagline": "Wedding · Elegant Invitation",
+        "shortDescription": "An elegant invitation with a night-sky and moonlight aesthetic."
+      },
+      "golden-leaves": {
+        "title": "Golden Leaves",
+        "description": "A warm, contemporary design finished with golden details, for your milestone celebration.",
+        "tagline": "Birthday · Warm Design",
+        "shortDescription": "A warm, contemporary design finished with golden details."
+      },
+      "minimalist": {
+        "title": "Minimalist",
+        "description": "Clean lines, crisp geometry, and a professional aesthetic for business events.",
+        "tagline": "Corporate · Clean Lines",
+        "shortDescription": "Clean lines, crisp geometry, and a professional aesthetic."
+      },
+      "garden-party": {
+        "title": "Garden Party",
+        "description": "Light, organic floral motifs for cozy evenings spent with friends.",
+        "tagline": "Private Dinner · Organic",
+        "shortDescription": "Light, organic floral motifs for cozy evenings."
+      },
+      "classic-elegance": {
+        "title": "Classic Elegance",
+        "description": "Timeless beauty, a classic typeface, and a premium editorial texture.",
+        "tagline": "Wedding · Timeless",
+        "shortDescription": "Timeless beauty, a classic typeface, and a premium texture."
+      },
+      "modern": {
+        "title": "Modern",
+        "description": "Abstract art and living shapes for any kind of unconventional celebration.",
+        "tagline": "Other · Abstract",
+        "shortDescription": "Abstract art and living shapes for an unconventional celebration."
+      }
+    },
+    "includes": [
+      "Personalized text and design",
+      "Instant RSVP confirmation system",
+      "An integrated location map and navigation",
+      "Multilingual support for guests",
+      "Event Camera — a shared gallery feature",
+      "The ability to leave a voice guestbook message"
+    ]
   }
 }
