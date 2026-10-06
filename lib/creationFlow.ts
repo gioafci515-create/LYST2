@@ -4,24 +4,25 @@ export const EVENT_TYPES = [
   // `whiteIcon`: this one asset was exported with a white stroke (drawn for
   // the black "selected" badge) while the other five are black — so its
   // invert logic runs backwards from the rest.
-  { key: "wedding", label: "ქორწილი", icon: "wedding", whiteIcon: true },
-  { key: "birthday", label: "დაბადების დღე", icon: "birthday", whiteIcon: false },
-  { key: "dinner", label: "კერძო ვახშამი", icon: "dinner", whiteIcon: false },
-  { key: "corporate", label: "კორპორაციული ღონისძიება", icon: "corporate", whiteIcon: false },
-  { key: "charity", label: "საქველმოქმედო", icon: "charity", whiteIcon: false },
-  { key: "other", label: "სხვა", icon: "other", whiteIcon: false },
+  { key: "wedding", icon: "wedding", whiteIcon: true },
+  { key: "birthday", icon: "birthday", whiteIcon: false },
+  { key: "dinner", icon: "dinner", whiteIcon: false },
+  { key: "corporate", icon: "corporate", whiteIcon: false },
+  { key: "charity", icon: "charity", whiteIcon: false },
+  { key: "other", icon: "other", whiteIcon: false },
 ] as const;
 
 export type EventTypeKey = (typeof EVENT_TYPES)[number]["key"];
 
 // The wizard's own template gallery reuses the invitation template images;
-// the tag + title copy here is the creation-flow's own (it differs from the
-// /invitations catalog copy in the design).
+// `tag` and the translated title (messages/{locale}.json under
+// create.templates.{slug}) are the creation-flow's own copy — it differs
+// from the /invitations catalog copy in the design.
 export const CREATION_TEMPLATES = [
-  { tag: "Editorial", title: "მინიმალისტური ელეგანტურობა", template: getTemplate("moonlight")! },
-  { tag: "Minimal", title: "შემოდგომის ფოთოლცვენა", template: getTemplate("golden-leaves")! },
-  { tag: "Modern", title: "კლასიკური შავი", template: getTemplate("minimalist")! },
-  { tag: "Classic", title: "მოდერნისტული არქივი", template: getTemplate("modern")! },
+  { tag: "Editorial", template: getTemplate("moonlight")! },
+  { tag: "Minimal", template: getTemplate("golden-leaves")! },
+  { tag: "Modern", template: getTemplate("minimalist")! },
+  { tag: "Classic", template: getTemplate("modern")! },
 ];
 
 export type WizardSettings = {
@@ -63,11 +64,3 @@ export const INITIAL_WIZARD_DATA: WizardData = {
   dressCode: "",
   settings: DEFAULT_SETTINGS,
 };
-
-export const STEP_LABELS = [
-  "ტიპი",
-  "სტილი",
-  "დეტალები",
-  "RSVP და სტუმრები",
-  "გადახედვა და გამოქვეყნება",
-] as const;

@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import CreateWizard from "./CreateWizard";
 
-export const metadata: Metadata = {
-  title: "ახალი მოსაწვევი — LYST",
-  description: "შექმენი ციფრული მოსაწვევი 5 მარტივ ნაბიჯში.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "create" });
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
-export default function CreatePage() {
+export default async function CreatePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return <CreateWizard />;
 }
