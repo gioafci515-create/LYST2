@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import CtaBand from "@/components/CtaBand";
 import Divider from "@/components/Divider";
 import Header from "@/components/Header";

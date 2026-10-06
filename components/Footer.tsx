@@ -1,20 +1,25 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import logo from "@/public/images/lyst-logo-footer.png";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const NAV_GROUPS = [
-  { label: "პროდუქტი", href: "#product" },
-  { label: "მოსაწვევები", href: "#path" },
-  { label: "გამოცდილებები", href: "#experiences" },
-  { label: "როგორ მუშაობს", href: "#how" },
+  { key: "product" as const, href: "#product" },
+  { key: "invitations" as const, href: "#path" },
+  { key: "experiences" as const, href: "#experiences" },
+  { key: "howItWorks" as const, href: "#how" },
 ];
 
 const QUICK_LINKS = [
-  { label: "ფასები", href: "#path" },
-  { label: "ჩვენ შესახებ", href: "#trust" },
-  { label: "შესვლა", href: "/login" },
+  { key: "pricing" as const, href: "#path" },
+  { key: "about" as const, href: "#trust" },
+  { key: "login" as const, href: "/login" },
 ];
 
 export default function Footer() {
+  const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
+
   return (
     <footer className="footer">
       <div className="footer-top">
@@ -26,23 +31,23 @@ export default function Footer() {
             height={30}
             className="footer-logo"
           />
-          <p>მოიწვიე ჭკვიანურად.</p>
+          <p>{t("tagline")}</p>
         </div>
 
-        <nav className="footer-nav-groups" aria-label="ფუტერის ნავიგაცია">
+        <nav className="footer-nav-groups" aria-label={t("navLabel")}>
           {NAV_GROUPS.map((group) => (
-            <div key={group.label} className="footer-nav-column">
-              <a href={group.href}>{group.label}</a>
+            <div key={group.key} className="footer-nav-column">
+              <a href={group.href}>{tNav(group.key)}</a>
             </div>
           ))}
         </nav>
 
         <div className="footer-utility">
-          <p className="footer-utility-title">სწრაფი ბმულები</p>
+          <p className="footer-utility-title">{t("quickLinksTitle")}</p>
           <ul className="footer-quick-links">
             {QUICK_LINKS.map((link) => (
-              <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
+              <li key={link.key}>
+                <a href={link.href}>{tNav(link.key)}</a>
               </li>
             ))}
           </ul>
@@ -50,7 +55,9 @@ export default function Footer() {
             <li>
               <a href="mailto:studio@lyst.app">studio@lyst.app</a>
             </li>
-            <li>ქართული / English / Русский</li>
+            <li>
+              <LanguageSwitcher />
+            </li>
           </ul>
         </div>
       </div>
@@ -65,18 +72,16 @@ export default function Footer() {
       />
 
       <div className="footer-bottom">
-        <p>© LYST. ყველა უფლება დაცულია.</p>
+        <p>{t("copyright")}</p>
         <div className="footer-legal">
-          <a>კონფიდენციალურობა</a>
-          <a>პირობები</a>
+          <a>{t("privacy")}</a>
+          <a>{t("terms")}</a>
         </div>
       </div>
 
       <p className="footer-wordmark" aria-hidden="true">
         LYST
       </p>
-      <br />
-      <br />
     </footer>
   );
 }

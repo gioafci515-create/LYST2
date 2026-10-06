@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Divider from "@/components/Divider";
 import Header from "@/components/Header";
 import SiteFooter from "@/components/SiteFooter";

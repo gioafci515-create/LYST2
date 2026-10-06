@@ -1,32 +1,34 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import logo from "@/public/images/lyst-logo-footer.png";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Link } from "@/i18n/navigation";
 import Divider from "./Divider";
 
 const COLUMNS = [
   {
-    title: "პროდუქტი",
+    titleKey: "productTitle" as const,
     links: [
-      { label: "ფუნქციები", href: "/features" },
-      { label: "ფასები", href: "/pricing" },
-      { label: "შაბლონები", href: "/invitations" },
+      { key: "features" as const, href: "/features" },
+      { key: "pricing" as const, href: "/pricing" },
+      { key: "templates" as const, href: "/invitations" },
     ],
   },
   {
-    title: "კომპანია",
+    titleKey: "companyTitle" as const,
     links: [
-      { label: "ჩვენ შესახებ", href: "/about" },
-      { label: "ბლოგი", href: "#" },
-      { label: "კარიერა", href: "#" },
+      { key: "about" as const, href: "/about" },
+      { key: "blog" as const, href: "#" },
+      { key: "careers" as const, href: "#" },
     ],
   },
   {
-    title: "მხარდაჭერა",
+    titleKey: "supportTitle" as const,
     mobileHidden: true,
     links: [
-      { label: "დახმარება", href: "#" },
-      { label: "კონტაქტი", href: "#" },
-      { label: "წესები", href: "#" },
+      { key: "help" as const, href: "#" },
+      { key: "contact" as const, href: "#" },
+      { key: "rules" as const, href: "#" },
     ],
   },
 ];
@@ -34,6 +36,8 @@ const COLUMNS = [
 const SOCIAL = ["Facebook", "Instagram", "LinkedIn"];
 
 export default function SiteFooter() {
+  const t = useTranslations("footer");
+
   return (
     <footer className="site-footer">
       <div className="site-footer-top">
@@ -47,28 +51,23 @@ export default function SiteFooter() {
               className="site-footer-logo"
             />
           </Link>
-          <p className="d-only">
-            ჭკვიანი ტექნოლოგია. ცოცხალი ემოცია. ციფრული მოსაწვევები და
-            ღონისძიების მართვის პრემიუმ პლატფორმა.
-          </p>
-          <p className="m-only">
-            შექმენით ციფრული გამოცდილება, რომელიც აერთიანებს თქვენს სტუმრებს.
-          </p>
+          <p className="d-only">{t("siteDescriptionLong")}</p>
+          <p className="m-only">{t("siteDescriptionShort")}</p>
         </div>
 
-        <nav className="site-footer-links" aria-label="ფუტერის ნავიგაცია">
+        <nav className="site-footer-links" aria-label={t("navLabel")}>
           {COLUMNS.map((col) => (
             <div
-              key={col.title}
+              key={col.titleKey}
               className={`site-footer-col${col.mobileHidden ? " d-only" : ""}`}
             >
-              <h3>{col.title}</h3>
+              <h3>{t(col.titleKey)}</h3>
               {col.links.map((link) =>
                 link.href === "#" ? (
-                  <a key={link.label}>{link.label}</a>
+                  <a key={link.key}>{t(link.key)}</a>
                 ) : (
-                  <Link key={link.label} href={link.href}>
-                    {link.label}
+                  <Link key={link.key} href={link.href}>
+                    {t(link.key)}
                   </Link>
                 ),
               )}
@@ -80,7 +79,8 @@ export default function SiteFooter() {
       <Divider />
 
       <div className="site-footer-bottom">
-        <p>© LYST. ყველა უფლება დაცულია.</p>
+        <p>{t("copyright")}</p>
+        <LanguageSwitcher className="d-only" />
         <div className="site-footer-social d-only">
           {SOCIAL.map((name) => (
             <a key={name}>{name}</a>

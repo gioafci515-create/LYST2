@@ -1,28 +1,38 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { Link, usePathname } from "@/i18n/navigation";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-type NavItem = { label: string; href: string };
+type NavKey =
+  | "product"
+  | "invitations"
+  | "experiences"
+  | "features"
+  | "howItWorks"
+  | "pricing"
+  | "about";
+
+type NavItem = { key: NavKey; href: string };
 
 // The homepage frame and the inner-page frames use slightly different menus.
 const HOME_NAV: NavItem[] = [
-  { label: "პროდუქტი", href: "/product" },
-  { label: "მოსაწვევები", href: "/invitations" },
-  { label: "გამოცდილებები", href: "/#experiences" },
-  { label: "როგორ მუშაობს", href: "/how-it-works" },
-  { label: "ფასები", href: "/pricing" },
-  { label: "ჩვენ შესახებ", href: "/about" },
+  { key: "product", href: "/product" },
+  { key: "invitations", href: "/invitations" },
+  { key: "experiences", href: "/#experiences" },
+  { key: "howItWorks", href: "/how-it-works" },
+  { key: "pricing", href: "/pricing" },
+  { key: "about", href: "/about" },
 ];
 
 const INNER_NAV: NavItem[] = [
-  { label: "პროდუქტი", href: "/product" },
-  { label: "მოსაწვევები", href: "/invitations" },
-  { label: "ფუნქციები", href: "/features" },
-  { label: "როგორ მუშაობს", href: "/how-it-works" },
-  { label: "ფასები", href: "/pricing" },
-  { label: "ჩვენ შესახებ", href: "/about" },
+  { key: "product", href: "/product" },
+  { key: "invitations", href: "/invitations" },
+  { key: "features", href: "/features" },
+  { key: "howItWorks", href: "/how-it-works" },
+  { key: "pricing", href: "/pricing" },
+  { key: "about", href: "/about" },
 ];
 
 export default function Header({
@@ -30,6 +40,7 @@ export default function Header({
 }: {
   variant?: "home" | "inner";
 }) {
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -69,34 +80,35 @@ export default function Header({
       <div className="header-bar">
         <Link href="/" className="logo-group" aria-label="LYST" onClick={close}>
           <span className="logo-img">Lyst.</span>
-          <span className="badge">პლატფორმა</span>
+          <span className="badge">{t("platformBadge")}</span>
         </Link>
 
-        <nav className="nav-links" aria-label="მთავარი ნავიგაცია">
+        <nav className="nav-links" aria-label={t("mainNavLabel")}>
           {nav.map((item) => (
             <Link
-              key={item.label}
+              key={item.key}
               href={item.href}
               aria-current={current(item.href)}
             >
-              {item.label}
+              {t(item.key)}
             </Link>
           ))}
         </nav>
 
         <div className="auth-group">
+          <LanguageSwitcher compact />
           <Link href="/login" className="auth-login">
-            შესვლა
+            {t("login")}
           </Link>
           <Link href="/create" className="btn btn-primary btn-sm">
-            შექმენი მოსაწვევი
+            {t("createCta")}
           </Link>
         </div>
 
         <button
           type="button"
           className="menu-toggle"
-          aria-label={open ? "მენიუს დახურვა" : "მენიუს გახსნა"}
+          aria-label={open ? t("closeMenu") : t("openMenu")}
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
@@ -108,23 +120,24 @@ export default function Header({
 
       <div id="mobile-menu" className="mobile-menu" data-open={open} aria-hidden={!open}>
         <div className="mobile-menu-inner">
-          <nav aria-label="მობილური ნავიგაცია">
+          <nav aria-label={t("mobileNavLabel")}>
             {nav.map((item) => (
               <Link
-                key={item.label}
+                key={item.key}
                 href={item.href}
                 aria-current={current(item.href)}
                 onClick={close}
                 tabIndex={open ? undefined : -1}
               >
-                {item.label}
+                {t(item.key)}
               </Link>
             ))}
           </nav>
           <div className="mobile-menu-actions">
             <Link href="/create" className="btn btn-primary" onClick={close} tabIndex={open ? undefined : -1}>
-              შექმენი მოსაწვევი
+              {t("createCta")}
             </Link>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>

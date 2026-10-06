@@ -102,6 +102,62 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-switcher-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lang-switcher-sep {
+  color: var(--color-border-default);
+}
+
+.lang-switcher button {
+  border: 0;
+  background: transparent;
+  padding: 2px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-premium);
+}
+
+.lang-switcher button:hover {
+  color: var(--blue-ui);
+}
+
+.lang-switcher button[aria-current="true"] {
+  color: var(--blue-ui);
+  font-weight: 700;
+}
+
+.header .lang-switcher {
+  margin-right: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1279px) {
+  .header .lang-switcher {
+    display: none;
+  }
+}
+
+.mobile-menu-actions .lang-switcher {
+  justify-content: center;
+  padding-top: 8px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
 .scroll-to-top {
   position: fixed;
   left: 24px;
