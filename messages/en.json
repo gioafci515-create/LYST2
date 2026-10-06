@@ -384,5 +384,74 @@
     "ctaLead": "Turn an ordinary gathering into a premium digital experience, and leave your guests with a truly special memory.",
     "ctaMobileTitle": "Create your first LYST",
     "ctaMobileLead": "Turn planning into an enjoyable adventure."
+  },
+  "features": {
+    "eyebrow": "Platform Capabilities",
+    "heroTitleDesktop": "An event doesn't just begin when the guests arrive.",
+    "heroTitleMobile": "Features",
+    "heroLeadDesktop": "Discover a complete ecosystem that brings premium organizational tools together with an interactive guest experience.",
+    "heroLeadMobile": "Everything you need to create the perfect digital invitation and plan your event from start to finish.",
+    "system1Label": "System 01",
+    "system1Title": "Event Management",
+    "rsvpTitle": "RSVP Responses",
+    "rsvpLead": "Make communication simple. Guests confirm attendance in one click, and can add plus-ones or dietary requirements right there.",
+    "rsvpLink": "See Guest Management in Detail",
+    "rsvpCardTitle": "Live RSVP Stats",
+    "rsvpCardMeta": "Updated 2 min ago",
+    "rsvpConfirmed": "Confirmed",
+    "rsvpConfirmedCount": "48 guests",
+    "rsvpPending": "Pending",
+    "rsvpPendingCount": "12 guests",
+    "guestListTitle": "A Detailed Guest List",
+    "guestListLead": "Track every guest and their status in real time. Group by table, category, or response from one convenient panel.",
+    "guestListLink": "Go to the List",
+    "guestListLabel": "Guest List",
+    "guestStatusConfirmed": "Confirmed",
+    "guestNames": ["Giorgi Merabishvili", "Mariam Chkheidze"],
+    "logisticsTitle": "Location, Time & Dress Code",
+    "logisticsLead": "Give guests instant map navigation, calendar links, and visual dress-code inspiration — all in one intuitive interface.",
+    "whereWhenLabel": "Where & When",
+    "whereWhenStrong": "Tbilisi, a cozy veranda",
+    "whereWhenSub": "September 22, 6:30 PM",
+    "dressCodeLabel": "Dress Code",
+    "dressCodeChip": "Casual",
+    "mobileOrgLabel": "Organization",
+    "management": [
+      {
+        "n": "01",
+        "title": "RSVP Responses",
+        "text": "Make communication simple. Guests confirm attendance in one click, and can add plus-ones or dietary requirements right there."
+      },
+      {
+        "n": "02",
+        "title": "A Detailed Guest List",
+        "text": "Track every guest and their status in real time. Group by table, category, or response from one convenient panel."
+      },
+      {
+        "n": "03",
+        "title": "Location, Time & Dress Code",
+        "text": "Give guests instant map navigation, calendar links, and visual dress-code inspiration — all in one intuitive interface."
+      }
+    ],
+    "system2Label": "System 02",
+    "system2Title": "The Memory Experience",
+    "experiences": [
+      { "title": "Voice Guestbook", "text": "Their voice, kept long after the event ends.", "icon": "camera" },
+      { "title": "Hidden Moments", "text": "See the moments you missed yourself.", "icon": "mic" },
+      { "title": "Letters From the Room", "text": "One room's emotions, turned into one living story.", "icon": "clock" },
+      { "title": "Event Camera", "text": "Every guest, photographing your event.", "icon": "lock" },
+      { "title": "Living Archive", "text": "The event ends. The memories don't.", "icon": "mail" },
+      { "title": "Shared Gallery", "text": "Every shot taken by every guest, gathered into one polished, living digital archive.", "icon": "image" }
+    ],
+    "extendedLabel": "Extended Experiences",
+    "extendedSub": "After a Consultation",
+    "mobileNote": "These formats aren't activated directly. They're set up together with a consultant, matched to your event's tone, style and goal.",
+    "consultTextDesktop": "These experiences are built as the result of a consultation and aren't meant to be self-activated.",
+    "consultTextMobile": "Choose a format and schedule a consultation for your preferred time.",
+    "consultButton": "Book a Consultation",
+    "ctaTitle": "Start your first digital adventure",
+    "ctaLead": "Create a completely different kind of anticipation, and turn your guests into co-authors of the event.",
+    "ctaMobileTitle": "Create your first LYST",
+    "ctaMobileLead": "Turn planning into an enjoyable adventure."
   }
 }
