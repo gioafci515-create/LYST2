@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import BookingWizard from "./BookingWizard";
 
-export const metadata: Metadata = {
-  title: "კონსულტაციის დაჯავშნა — LYST",
-  description: "დაჯავშნე კონსულტაცია LYST-ის გუნდთან შენი ღონისძიების დასაგეგმად.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "booking" });
+  return { title: t("metaTitle"), description: t("metaDescription") };
+}
 
-export default function BookingPage() {
+export default async function BookingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return <BookingWizard />;
 }

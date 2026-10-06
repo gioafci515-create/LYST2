@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import styles from "./page.module.css";
@@ -11,6 +12,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * There is no authentication backend yet.
  */
 export default function LoginForm() {
+  const t = useTranslations("login");
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,8 +22,8 @@ export default function LoginForm() {
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const next: typeof errors = {};
-    if (!EMAIL_RE.test(email.trim())) next.email = "შეიყვანეთ სწორი ელფოსტა";
-    if (password.length < 1) next.password = "შეიყვანეთ პაროლი";
+    if (!EMAIL_RE.test(email.trim())) next.email = t("emailError");
+    if (password.length < 1) next.password = t("passwordError");
     setErrors(next);
     if (!next.email && !next.password) router.push("/dashboard");
   }
@@ -30,8 +32,8 @@ export default function LoginForm() {
     <form className={styles.form} onSubmit={onSubmit} noValidate>
       <div className={styles.field}>
         <label className={styles.label} htmlFor="email">
-          <span className="d-only">ელფოსტა</span>
-          <span className="m-only">ელ. ფოსტა</span>
+          <span className="d-only">{t("emailLabelDesktop")}</span>
+          <span className="m-only">{t("emailLabelMobile")}</span>
         </label>
         <input
           id="email"
@@ -39,7 +41,7 @@ export default function LoginForm() {
           type="email"
           autoComplete="email"
           className={styles.input}
-          placeholder="სახელი@მაგალითი.com"
+          placeholder={t("emailPlaceholder")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={Boolean(errors.email)}
@@ -55,11 +57,11 @@ export default function LoginForm() {
       <div className={styles.field}>
         <div className={styles.labelRow}>
           <label className={styles.label} htmlFor="password">
-            პაროლი
+            {t("passwordLabel")}
           </label>
           <a className={styles.forgot}>
-            <span className="d-only">პაროლის აღდგენა</span>
-            <span className="m-only">დაგავიწყდა პაროლი?</span>
+            <span className="d-only">{t("forgotDesktop")}</span>
+            <span className="m-only">{t("forgotMobile")}</span>
           </a>
         </div>
         <div className={styles.passwordWrap}>
@@ -78,7 +80,7 @@ export default function LoginForm() {
           <button
             type="button"
             className={styles.eye}
-            aria-label={showPassword ? "პაროლის დამალვა" : "პაროლის ჩვენება"}
+            aria-label={showPassword ? t("hidePassword") : t("showPassword")}
             aria-pressed={showPassword}
             onClick={() => setShowPassword((v) => !v)}
           >
@@ -94,12 +96,12 @@ export default function LoginForm() {
       </div>
 
       <button type="submit" className={styles.submit}>
-        შესვლა
+        {t("submit")}
       </button>
 
       <div className={styles.or} aria-hidden="true">
         <span className={styles.orLine} />
-        <span>ან</span>
+        <span>{t("or")}</span>
         <span className={styles.orLine} />
       </div>
 
@@ -110,14 +112,14 @@ export default function LoginForm() {
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/images/login/google.svg" alt="" width={20} height={20} />
-        Google-ით შესვლა
+        {t("googleCta")}
       </button>
 
       <div className={styles.rule} aria-hidden="true" />
 
       <p className={styles.signup}>
-        <span>ანგარიში არ გაქვს?</span>
-        <Link href="/create">რეგისტრაცია</Link>
+        <span>{t("signupText")}</span>
+        <Link href="/create">{t("signupCta")}</Link>
       </p>
     </form>
   );

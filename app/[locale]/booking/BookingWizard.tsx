@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useState } from "react";
 import styles from "./page.module.css";
@@ -8,30 +9,28 @@ type Step = "contact" | "event" | "time" | "confirmed" | "reschedule" | "cancell
 
 const EXPERIENCES = ["Voice Guestbook", "Event Camera", "Hidden Moments"] as const;
 
-const SLOTS = ["15 ოქტომბერი - 11:30", "15 ოქტომბერი - 14:00", "16 ოქტომბერი - 10:00"];
-
 type FormData = {
   name: string;
-  contactMethod: "ელფოსტა" | "ტელეფონი";
+  contactMethod: "email" | "phone";
   contact: string;
   eventType: string;
   eventDate: string;
   location: string;
   guests: string;
   experiences: string[];
-  slot: string;
+  slotIndex: number;
 };
 
 const INITIAL: FormData = {
   name: "",
-  contactMethod: "ელფოსტა",
+  contactMethod: "email",
   contact: "",
   eventType: "",
   eventDate: "",
   location: "",
   guests: "",
   experiences: [],
-  slot: SLOTS[0],
+  slotIndex: 0,
 };
 
 function Icon({ src, ...rest }: { src: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
@@ -39,7 +38,19 @@ function Icon({ src, ...rest }: { src: string } & React.ImgHTMLAttributes<HTMLIm
   return <img src={src} alt="" {...rest} />;
 }
 
-function Header({ step, index, total, label }: { step: Step; index: number; total: number; label: string }) {
+function Header({
+  step,
+  index,
+  total,
+  label,
+  statusLabel,
+}: {
+  step: Step;
+  index: number;
+  total: number;
+  label: string;
+  statusLabel: string;
+}) {
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
@@ -49,7 +60,7 @@ function Header({ step, index, total, label }: { step: Step; index: number; tota
       </div>
       <div className={styles.progress}>
         <span className={styles.progressStep}>
-          {step === "cancelled" ? "ჯავშნის სტატუსი" : `${String(index).padStart(2, "0")} / ${String(total).padStart(2, "0")}`}
+          {step === "cancelled" ? statusLabel : `${String(index).padStart(2, "0")} / ${String(total).padStart(2, "0")}`}
         </span>
         <span className={styles.progressLabel}>{label}</span>
       </div>
@@ -57,19 +68,21 @@ function Header({ step, index, total, label }: { step: Step; index: number; tota
   );
 }
 
-function Footer() {
+function Footer({ rights, privacy, terms }: { rights: string; privacy: string; terms: string }) {
   return (
     <footer className={styles.footer}>
-      <p>© LYST. ყველა უფლება დაცულია.</p>
+      <p>{rights}</p>
       <div className={styles.footerLinks}>
-        <a>კონფიდენციალურობა</a>
-        <a>წესები და პირობები</a>
+        <a>{privacy}</a>
+        <a>{terms}</a>
       </div>
     </footer>
   );
 }
 
 export default function BookingWizard() {
+  const t = useTranslations("booking");
+  const slots = t.raw("slots") as string[];
   const [step, setStep] = useState<Step>("contact");
   const [data, setData] = useState<FormData>(INITIAL);
 
@@ -86,35 +99,34 @@ export default function BookingWizard() {
     }));
   }
 
+  const slot = slots[data.slotIndex];
+
   const headerLabel =
     step === "contact"
-      ? "საკონტაქტო ინფორმაცია"
+      ? t("stepLabelContact")
       : step === "event"
-        ? "ღონისძიების დეტალები"
+        ? t("stepLabelEvent")
         : step === "time"
-          ? "დრო და გადამოწმება"
+          ? t("stepLabelTime")
           : step === "confirmed"
-            ? "დადასტურებულია"
+            ? t("stepLabelConfirmed")
             : step === "reschedule"
-              ? "დროის შეცვლა"
-              : "გაუქმებულია";
+              ? t("stepLabelReschedule")
+              : t("stepLabelCancelled");
 
   const headerIndex = step === "contact" ? 1 : step === "event" ? 2 : step === "time" ? 3 : step === "reschedule" ? 5 : 6;
   const headerTotal = step === "contact" || step === "event" || step === "time" ? 3 : 6;
 
   return (
     <div className={styles.wizard} data-subtle={step === "confirmed" || step === "cancelled"}>
-      <Header step={step} index={headerIndex} total={headerTotal} label={headerLabel} />
+      <Header step={step} index={headerIndex} total={headerTotal} label={headerLabel} statusLabel={t("progressStatusLabel")} />
 
       <main className={styles.body}>
         {step === "contact" && (
           <div className={styles.contentRow}>
             <div className={styles.editorial}>
-              <h1 className={styles.editorialTitle}>როგორ დაგიკავშირდეთ?</h1>
-              <p className={styles.editorialText}>
-                დატოვეთ თქვენი საკონტაქტო მონაცემები, რათა ჩვენმა წარმომადგენელმა შეძლოს თქვენთან
-                დაკავშირება და კონსულტაციის დეტალების დაზუსტება.
-              </p>
+              <h1 className={styles.editorialTitle}>{t("contactTitle")}</h1>
+              <p className={styles.editorialText}>{t("contactText")}</p>
               <span className={styles.decorativeLine} aria-hidden="true" />
             </div>
             <form
@@ -125,42 +137,42 @@ export default function BookingWizard() {
               }}
             >
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>სრული სახელი</span>
+                <span className={styles.fieldLabel}>{t("fullNameLabel")}</span>
                 <input
                   className={styles.input}
                   required
                   value={data.name}
                   onChange={(e) => patch({ name: e.target.value })}
-                  placeholder="გიორგი მახარაძე"
+                  placeholder={t("fullNamePlaceholder")}
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>საკონტაქტო მეთოდი</span>
+                <span className={styles.fieldLabel}>{t("contactMethodLabel")}</span>
                 <select
                   className={styles.input}
                   value={data.contactMethod}
                   onChange={(e) => patch({ contactMethod: e.target.value as FormData["contactMethod"] })}
                 >
-                  <option>ელფოსტა</option>
-                  <option>ტელეფონი</option>
+                  <option value="email">{t("contactMethodEmail")}</option>
+                  <option value="phone">{t("contactMethodPhone")}</option>
                 </select>
               </label>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>ტელეფონი / ელფოსტა</span>
+                <span className={styles.fieldLabel}>{t("contactValueLabel")}</span>
                 <input
                   className={styles.input}
                   required
                   value={data.contact}
                   onChange={(e) => patch({ contact: e.target.value })}
-                  placeholder="giorgi@example.com • +995 5XX XX XX XX"
+                  placeholder={t("contactValuePlaceholder")}
                 />
               </label>
               <div className={styles.actions}>
                 <Link href="/" className={styles.backBtn}>
-                  უკან
+                  {t("backCta")}
                 </Link>
                 <button type="submit" className={styles.nextBtn}>
-                  ღონისძიების დეტალები
+                  {t("contactNextCta")}
                 </button>
               </div>
             </form>
@@ -170,16 +182,11 @@ export default function BookingWizard() {
         {step === "event" && (
           <div className={styles.contentRow}>
             <div className={styles.editorial}>
-              <h1 className={styles.editorialTitle}>მოგვიყევი შენი ღონისძიების შესახებ</h1>
-              <p className={styles.editorialText}>
-                ღონისძიების ტიპი და მასშტაბი გვეხმარება სწორად შევარჩიოთ შესაბამისი დამატებითი
-                გამოცდილებები და ტექნიკური აღჭურვილობა.
-              </p>
+              <h1 className={styles.editorialTitle}>{t("eventTitle")}</h1>
+              <p className={styles.editorialText}>{t("eventText")}</p>
               <div className={styles.noticeCard}>
-                <p className={styles.noticeTitle}>გამოცდილებების მონიშვნა</p>
-                <p className={styles.noticeText}>
-                  * ინტერესის მონიშვნა არის სავარაუდო და არ გულისხმობს სერვისების ავტომატურ აქტიურებას.
-                </p>
+                <p className={styles.noticeTitle}>{t("noticeTitleExperiences")}</p>
+                <p className={styles.noticeText}>{t("noticeTextExperiences")}</p>
               </div>
             </div>
             <form
@@ -190,17 +197,17 @@ export default function BookingWizard() {
               }}
             >
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>ღონისძიების ტიპი</span>
+                <span className={styles.fieldLabel}>{t("eventTypeLabel")}</span>
                 <input
                   className={styles.input}
                   required
                   value={data.eventType}
                   onChange={(e) => patch({ eventType: e.target.value })}
-                  placeholder="ქორწილი, დღესასწაული, კორპორატიული..."
+                  placeholder={t("eventTypePlaceholder")}
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>სავარაუდო თარიღი</span>
+                <span className={styles.fieldLabel}>{t("eventDateLabel")}</span>
                 <input
                   type="date"
                   className={styles.input}
@@ -209,26 +216,26 @@ export default function BookingWizard() {
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>ლოკაცია (ქალაქი)</span>
+                <span className={styles.fieldLabel}>{t("locationLabel")}</span>
                 <input
                   className={styles.input}
                   required
                   value={data.location}
                   onChange={(e) => patch({ location: e.target.value })}
-                  placeholder="თბილისი, ბათუმი, ქუთაისი..."
+                  placeholder={t("locationPlaceholder")}
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>სტუმრების რაოდენობა</span>
+                <span className={styles.fieldLabel}>{t("guestsLabel")}</span>
                 <input
                   className={styles.input}
                   value={data.guests}
                   onChange={(e) => patch({ guests: e.target.value })}
-                  placeholder="დაახლოებით 50-150 კაცი"
+                  placeholder={t("guestsPlaceholder")}
                 />
               </label>
               <div className={styles.checkGroup}>
-                <span className={styles.fieldLabel}>გამოცდილებები (არასავალდებულო)</span>
+                <span className={styles.fieldLabel}>{t("experiencesLabel")}</span>
                 <div className={styles.checkStack}>
                   {EXPERIENCES.map((name) => (
                     <label key={name} className={styles.checkRow}>
@@ -250,10 +257,10 @@ export default function BookingWizard() {
               </div>
               <div className={styles.actions}>
                 <button type="button" className={styles.backBtn} onClick={() => setStep("contact")}>
-                  უკან
+                  {t("backCta")}
                 </button>
                 <button type="submit" className={styles.nextBtnPrimary}>
-                  კონსულტაციის დრო
+                  {t("eventNextCta")}
                 </button>
               </div>
             </form>
@@ -263,7 +270,7 @@ export default function BookingWizard() {
         {step === "time" && (
           <div className={styles.contentRow}>
             <div className={styles.editorial}>
-              <h1 className={styles.editorialTitleLg}>გადაამოწმეთ ინფორმაცია დადასტურებამდე</h1>
+              <h1 className={styles.editorialTitleLg}>{t("timeTitle")}</h1>
             </div>
             <form
               className={styles.formPanel}
@@ -273,28 +280,28 @@ export default function BookingWizard() {
               }}
             >
               <div className={styles.timeLabel}>
-                <p className={styles.timeLabelTitle}>აირჩიეთ კონსულტაციის საათი</p>
-                <p className={styles.timeLabelSub}>დროის სარტყელი: Tbilisi (GMT+4)</p>
+                <p className={styles.timeLabelTitle}>{t("chooseTimeTitle")}</p>
+                <p className={styles.timeLabelSub}>{t("timezoneLabel")}</p>
               </div>
               <div className={styles.slotList}>
-                {SLOTS.map((slot) => (
+                {slots.map((s, i) => (
                   <button
-                    key={slot}
+                    key={s}
                     type="button"
                     className={styles.slotOption}
-                    data-selected={data.slot === slot}
-                    onClick={() => patch({ slot })}
+                    data-selected={data.slotIndex === i}
+                    onClick={() => patch({ slotIndex: i })}
                   >
-                    {slot}
+                    {s}
                   </button>
                 ))}
               </div>
               <div className={styles.stackActions}>
                 <button type="submit" className={styles.nextBtnPrimary}>
-                  კონსულტაციის მოთხოვნის გაგზავნა
+                  {t("sendRequestCta")}
                 </button>
                 <button type="button" className={styles.backBtn} onClick={() => setStep("event")}>
-                  ინფორმაციის შეცვლა
+                  {t("editInfoCta")}
                 </button>
               </div>
             </form>
@@ -306,63 +313,64 @@ export default function BookingWizard() {
             <div className={styles.editorial}>
               <div className={styles.statusRow}>
                 <span className={styles.statusDotGreen} aria-hidden="true" />
-                <span className={styles.statusLabel}>მოთხოვნა მიღებულია</span>
+                <span className={styles.statusLabel}>{t("requestReceivedLabel")}</span>
               </div>
-              <h1 className={styles.editorialTitleXl}>კონსულტაციის მოთხოვნა მიღებულია.</h1>
-              <p className={styles.editorialText}>
-                თქვენი შეხვედრის მოთხოვნა წარმატებით დარეგისტრირდა სისტემაში. ჩვენი წარმომადგენელი
-                დეტალურად გაეცნობა თქვენს მიერ მოწოდებულ ინფორმაციას და მოემზადება ინდივიდუალური
-                პრეზენტაციისთვის.
-              </p>
+              <h1 className={styles.editorialTitleXl}>{t("confirmedTitle")}</h1>
+              <p className={styles.editorialText}>{t("confirmedText")}</p>
               <div className={styles.summaryCard}>
-                <p className={styles.summaryKicker}>საკონტაქტო და ღონისძიების ინფორმაცია</p>
+                <p className={styles.summaryKicker}>{t("summaryKicker")}</p>
                 <div className={styles.summaryList}>
                   <div className={styles.summaryRow}>
                     <Icon src="/images/booking/check-16.svg" width={16} height={16} />
-                    <span>სახელი: {data.name || "—"}</span>
+                    <span>{t("summaryName", { name: data.name || "—" })}</span>
                   </div>
                   <div className={styles.summaryRow}>
                     <Icon src="/images/booking/check-16.svg" width={16} height={16} />
-                    <span>საკონტაქტო: {data.contact || "—"}</span>
+                    <span>{t("summaryContact", { contact: data.contact || "—" })}</span>
                   </div>
                   <div className={styles.summaryRow}>
                     <Icon src="/images/booking/check-16.svg" width={16} height={16} />
                     <span>
-                      ღონისძიება: {data.eventType || "—"}, {data.location || "—"}
-                      {data.guests ? ` (${data.guests})` : ""}
+                      {data.guests
+                        ? t("summaryEventWithGuests", {
+                            eventType: data.eventType || "—",
+                            location: data.location || "—",
+                            guests: data.guests,
+                          })
+                        : t("summaryEvent", { eventType: data.eventType || "—", location: data.location || "—" })}
                     </span>
                   </div>
                 </div>
               </div>
-              <p className={styles.footnote}>დადასტურებასა და შეხვედრის დეტალებს მითითებულ ელფოსტაზე მიიღებ.</p>
+              <p className={styles.footnote}>{t("footnote")}</p>
             </div>
 
             <div className={styles.formPanel}>
               <div className={styles.selectedTimeCard}>
-                <p className={styles.noticeTitleSm}>არჩეული დრო</p>
-                <p className={styles.selectedTimeValue}>{data.slot}</p>
-                <p className={styles.timeLabelSub}>დროის სარტყელი: Tbilisi (GMT+4)</p>
+                <p className={styles.noticeTitleSm}>{t("selectedTimeLabel")}</p>
+                <p className={styles.selectedTimeValue}>{slot}</p>
+                <p className={styles.timeLabelSub}>{t("timezoneLabel")}</p>
               </div>
               <div className={styles.stackActions}>
                 <button type="button" className={styles.calendarBtn}>
                   <Icon src="/images/booking/calendar.svg" width={16} height={16} />
-                  კალენდარში დამატება
+                  {t("calendarCta")}
                 </button>
                 <div className={styles.pairActions}>
                   <button type="button" className={styles.backBtn} onClick={() => setStep("reschedule")}>
-                    დროის შეცვლა
+                    {t("stepLabelReschedule")}
                   </button>
                   <button type="button" className={styles.cancelBtn} onClick={() => setStep("cancelled")}>
-                    გაუქმება
+                    {t("cancelCta")}
                   </button>
                 </div>
               </div>
               <div className={styles.navActions}>
                 <Link href="/" className={styles.nextBtnPrimary}>
-                  მთავარ გვერდზე დაბრუნება
+                  {t("backHomeCta")}
                 </Link>
                 <Link href="/dashboard/client" className={styles.textLink}>
-                  პანელზე დაბრუნება
+                  {t("backDashboardCta")}
                 </Link>
               </div>
             </div>
@@ -372,14 +380,11 @@ export default function BookingWizard() {
         {step === "reschedule" && (
           <div className={styles.contentRow}>
             <div className={styles.editorial}>
-              <h1 className={styles.editorialTitle}>საკონსულტაციო შეხვედრის გადატანა</h1>
-              <p className={styles.editorialText}>
-                თუ მიმდინარე დრო აღარ არის თქვენთვის ხელსაყრელი, გთხოვთ ქვემოთ მონიშნოთ სხვა სასურველი
-                ალტერნატივა. მიმდინარე ჯავშანი ძალაში დარჩება ახალი დროის დადასტურებამდე.
-              </p>
+              <h1 className={styles.editorialTitle}>{t("rescheduleTitle")}</h1>
+              <p className={styles.editorialText}>{t("rescheduleText")}</p>
               <div className={styles.noticeCard}>
-                <p className={styles.noticeTitle}>აქტიური ჯავშანი</p>
-                <p className={styles.noticeText}>{data.slot} (Tbilisi Time)</p>
+                <p className={styles.noticeTitle}>{t("activeBookingLabel")}</p>
+                <p className={styles.noticeText}>{t("activeBookingValue", { slot })}</p>
               </div>
             </div>
             <form
@@ -390,27 +395,27 @@ export default function BookingWizard() {
               }}
             >
               <div className={styles.timeLabel}>
-                <p className={styles.timeLabelTitle}>აირჩიეთ ახალი საათი</p>
+                <p className={styles.timeLabelTitle}>{t("chooseNewTimeTitle")}</p>
               </div>
               <div className={styles.slotList}>
-                {SLOTS.map((slot) => (
+                {slots.map((s, i) => (
                   <button
-                    key={slot}
+                    key={s}
                     type="button"
                     className={styles.slotOption}
-                    data-selected={data.slot === slot}
-                    onClick={() => patch({ slot })}
+                    data-selected={data.slotIndex === i}
+                    onClick={() => patch({ slotIndex: i })}
                   >
-                    {slot}
+                    {s}
                   </button>
                 ))}
               </div>
               <div className={styles.stackActions}>
                 <button type="submit" className={styles.nextBtnPrimary}>
-                  გადატანის მოთხოვნა
+                  {t("rescheduleRequestCta")}
                 </button>
                 <button type="button" className={styles.backBtn} onClick={() => setStep("confirmed")}>
-                  გაუქმება
+                  {t("cancelCta")}
                 </button>
               </div>
             </form>
@@ -423,14 +428,11 @@ export default function BookingWizard() {
               <span className={styles.cancelIcon} aria-hidden="true">
                 ✕
               </span>
-              <h1 className={styles.editorialTitleXl}>ჯავშანი გაუქმდა</h1>
-              <p className={styles.editorialText}>
-                თქვენი საკონსულტაციო შეხვედრა წარმატებით გაუქმდა. იმედს ვიტოვებთ, მომავალში კვლავ
-                ისარგებლებთ ჩვენი ციფრული სერვისებით.
-              </p>
+              <h1 className={styles.editorialTitleXl}>{t("cancelledTitle")}</h1>
+              <p className={styles.editorialText}>{t("cancelledText")}</p>
               <div className={styles.noticeCard}>
-                <p className={styles.noticeTitle}>გაუქმებული შეხვედრის დეტალები</p>
-                <p className={styles.noticeText}>გადაწყვეტილი დრო ყოფილიყო: {data.slot}</p>
+                <p className={styles.noticeTitle}>{t("cancelledDetailsTitle")}</p>
+                <p className={styles.noticeText}>{t("cancelledDetailsValue", { slot })}</p>
               </div>
               <div className={styles.cancelActions}>
                 <button
@@ -441,14 +443,14 @@ export default function BookingWizard() {
                     setStep("contact");
                   }}
                 >
-                  კონსულტაციის ხელახლა დაჯავშნა
+                  {t("rebookCta")}
                 </button>
                 <div className={styles.pairActions}>
                   <Link href="/" className={styles.backBtn}>
-                    დაბრუნება მთავარ გვერდზე
+                    {t("cancelledBackHome")}
                   </Link>
                   <Link href="/dashboard/client" className={styles.backBtn}>
-                    დაბრუნება პანელზე
+                    {t("cancelledBackDashboard")}
                   </Link>
                 </div>
               </div>
@@ -457,7 +459,7 @@ export default function BookingWizard() {
         )}
       </main>
 
-      <Footer />
+      <Footer rights={t("footerRights")} privacy={t("footerPrivacy")} terms={t("footerTerms")} />
     </div>
   );
 }
