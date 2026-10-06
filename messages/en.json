@@ -162,5 +162,104 @@
       "createCta": "Create an Invitation",
       "bookConsult": "Book a Consultation"
     }
+  },
+  "about": {
+    "eyebrowDesktop": "About Us",
+    "eyebrowMobile": "Our Story",
+    "heroTitle": "LYST was built so an event isn't just organized — it's memorable.",
+    "heroTitleMobile": "About Us",
+    "quote": "“Our mission is to turn getting ready for a celebration into something simple, enjoyable, and modern.”",
+    "missionLabel": "Our Mission",
+    "missionTitle": "Why LYST Exists",
+    "missionBody": "A traditional invitation is a single moment. We wanted to build something that covers the whole experience of an event — from the invite to the memory.",
+    "transformLabel": "Transformation",
+    "transformTitle": "What We Change",
+    "changes": [
+      {
+        "from": "Scattered communication",
+        "to": "One refined digital space",
+        "text": "Your invitation, event details, RSVPs and guest communication all live in one place — saving time and making everything easier to manage."
+      },
+      {
+        "from": "Static details",
+        "to": "Interactive map and RSVP",
+        "text": "Guests get instant updates, the exact location, and can confirm attendance with a tap."
+      },
+      {
+        "from": "Scattered chats and albums",
+        "to": "One living memory",
+        "text": "Every photo, video and voice message comes together in one place and stays there, permanently."
+      }
+    ],
+    "visionLabel": "Vision",
+    "visionTitle": "Technology in service of emotion",
+    "visionBody": "We believe digital products should bring people closer together. Every feature in LYST is built to cut through the organizational chaos and give you more time to actually enjoy the celebration.",
+    "photosTitle": "Atmospheric Moments",
+    "principlesLabel": "Principles",
+    "principles": [
+      {
+        "n": "01",
+        "title": "Digital Craft",
+        "text": "We believe an invitation is the face of an event. That's why we give every detail of the design our full attention."
+      },
+      {
+        "n": "02",
+        "title": "Innovation & Function",
+        "text": "We combine the latest technology with a simple user experience, so you get maximum results for minimum effort."
+      },
+      {
+        "n": "03",
+        "title": "A Living Connection",
+        "text": "Digital invitation, RSVP, photos, video and voice messages — all in one space, connecting guests before, during and after the event."
+      }
+    ],
+    "galleryLabel": "Gallery",
+    "ctaTitle": "Create your first LYST",
+    "ctaLead": "Turn planning into an enjoyable adventure."
+  },
+  "product": {
+    "heroTitle": "More than an invitation.",
+    "heroLead": "LYST brings event planning, guest management, interaction and memory-keeping together in one place.",
+    "seeHow": "See How It Works",
+    "demoEventTitle": "Autumn Dinner",
+    "demoEventHost": "Hosted by Nino & Giorgi",
+    "demoEventWhen": "Sep 22, 6:30 PM — late",
+    "demoEventWhere": "Veranda, Tbilisi",
+    "demoRsvpAttend": "I'll be there",
+    "m1Eyebrow": "01 // The Invitation",
+    "m1Title": "Every detail of the event, on one link.",
+    "m1Text": "Guests no longer have to dig through chats for the address, time, or dress code. Everything lives in one polished, responsive digital space that opens perfectly from any phone.",
+    "m2Eyebrow": "02 // RSVP Responses",
+    "m2Title": "Every guest's response and status, in one place.",
+    "m2Text": "Confirming attendance takes one tap — no extra calls or messages. Guests can add plus-ones and share the details that matter to you.",
+    "rsvpPanelTitle": "Responses From Guests",
+    "rsvpPanelChip": "Stats",
+    "rsvpConfirmed": "Confirmed",
+    "rsvpConfirmedCount": "74 guests",
+    "rsvpDeclined": "Can't attend",
+    "rsvpDeclinedCount": "12 guests",
+    "m3Eyebrow": "03 // Guest Management",
+    "m3Title": "A simple control panel for the host.",
+    "m3Text": "Keep track of your entire guest flow from one central panel. Export your data, group guests by table or status, and save time on the logistics.",
+    "guestListTitle": "Guest List",
+    "guestListHint": "Updates in real time",
+    "guests": [
+      { "name": "Alexander Midivani", "note": "+1 guest", "status": "ok" },
+      { "name": "Tamar Lortkipanidze", "note": "Attending solo", "status": "ok" },
+      { "name": "Lasha Giorgobiani", "note": "No response yet", "status": "wait" }
+    ],
+    "guestStatusOk": "Confirmed",
+    "guestStatusWait": "Pending",
+    "m4Eyebrow": "04 // Taking Part in the Event",
+    "m4Title": "Photos, videos and voice messages.",
+    "m4Text": "Turn your guests into co-creators of the event. With a one-time digital camera and voice messages recorded live, every emotion gets captured in real time.",
+    "voiceName": "Nino Mariamidze",
+    "liveCameraDesktop": "Live Camera Mode",
+    "liveCameraMobile": "Live Camera",
+    "m5Eyebrow": "05 // Memories",
+    "m5Title": "Everything created stays in one place, long after the event ends.",
+    "m5Text": "Not a single photo or voice message gets lost. The moment your event ends, LYST automatically builds a digital archive that keeps those precious moments safe for years to come.",
+    "ctaTitle": "Ready for your first event?",
+    "ctaLead": "Create your digital invitation today and turn a simple gathering into an unforgettable experience."
   }
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import CtaBand from "@/components/CtaBand";
 import Header from "@/components/Header";
 import SiteFooter from "@/components/SiteFooter";
@@ -13,49 +14,31 @@ import story1 from "@/public/images/about/story-1.png";
 import story2 from "@/public/images/about/story-2.png";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "ჩვენს შესახებ — LYST",
-  description:
-    "LYST შეიქმნა იმისთვის, რომ ღონისძიება მხოლოდ ორგანიზებული კი არა, დასამახსოვრებელიც იყოს.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
+  return {
+    title: `${t("eyebrowDesktop")} — LYST`,
+    description: t("heroTitle"),
+  };
+}
 
-const CHANGES = [
-  {
-    from: "დაშლილი კომუნიკაცია",
-    to: "დახვეწილი ციფრული სივრცე",
-    text: "მოსაწვევი, ღონისძიების დეტალები, RSVP და სტუმართა კომუნიკაცია ერთ სივრცეში ერთიანდება, რაც ზოგავს დროს და ამარტივებს მართვას.",
-  },
-  {
-    from: "სტატიკური დეტალები",
-    to: "ინტერაქტიული რუკა და RSVP",
-    text: "სტუმრები მყისიერად იღებენ განახლებებს, ზუსტ ლოკაციას და მარტივად ადასტურებენ დასწრებას.",
-  },
-  {
-    from: "ცალკეული ჩატები და ალბომები",
-    to: "ერთიანი ცოცხალი მოგონება",
-    text: "ყველა ფოტო, ვიდეო და ხმოვანი მილოცვა ერთად იყრის თავს და სამუდამოდ ინახება.",
-  },
-];
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("about");
 
-const PRINCIPLES = [
-  {
-    n: "01",
-    title: "ციფრული ესთეტიკა",
-    text: "ჩვენ გვჯერა, რომ მოსაწვევი ღონისძიების სახეა. სწორედ ამიტომ, დიზაინის თითოეულ დეტალს განსაკუთრებულ ყურადღებას ვუთმობთ.",
-  },
-  {
-    n: "02",
-    title: "ინოვაცია & ფუნქციურობა",
-    text: "ჩვენ ვაერთიანებთ უახლეს ტექნოლოგიებს მარტივ სამომხმარებლო ინტერფეისთან, რათა მინიმალური ძალისხმევით მიაღწიოთ მაქსიმალურ შედეგს.",
-  },
-  {
-    n: "03",
-    title: "ცოცხალი კავშირი",
-    text: "ციფრული მოსაწვევი, RSVP, ფოტოები, ვიდეო და ხმოვანი გზავნილები ერთ სივრცეში აერთიანებს სტუმრებს ღონისძიებამდე, ღონისძიებისას და მის შემდეგ.",
-  },
-];
+  const changes = t.raw("changes") as { from: string; to: string; text: string }[];
+  const principles = t.raw("principles") as { n: string; title: string; text: string }[];
 
-export default function AboutPage() {
   return (
     <>
       <Header />
@@ -63,33 +46,23 @@ export default function AboutPage() {
         <section className={styles.hero}>
           <div className="glow-light" aria-hidden="true" />
           <p className={styles.eyebrow}>
-            <span className="d-only">ჩვენს შესახებ</span>
-            <span className="m-only">ჩვენი ისტორია</span>
+            <span className="d-only">{t("eyebrowDesktop")}</span>
+            <span className="m-only">{t("eyebrowMobile")}</span>
           </p>
           <h1 className={styles.heroTitle}>
-            <span className="d-only">
-              LYST შეიქმნა იმისთვის, რომ ღონისძიება მხოლოდ ორგანიზებული კი არა,
-              დასამახსოვრებელიც იყოს.
-            </span>
-            <span className="m-only">ჩვენს შესახებ</span>
+            <span className="d-only">{t("heroTitle")}</span>
+            <span className="m-only">{t("heroTitleMobile")}</span>
           </h1>
-          <p className={styles.quote}>
-            „ჩვენი მისიაა გარდავქმნათ დღესასწაულებისთვის მზადების პროცესი
-            მარტივ, სასიამოვნო და თანამედროვე გამოცდილებად.“
-          </p>
+          <p className={styles.quote}>{t("quote")}</p>
         </section>
 
         {/* desktop story ------------------------------------------- */}
         <div className={styles.desktopOnly}>
           <section className={styles.story}>
             <div className={styles.storyText}>
-              <p className={styles.label}>ჩვენი მისია</p>
-              <h2 className={styles.storyTitle}>რატომ შეიქმნა LYST</h2>
-              <p className={styles.storyBody}>
-                ტრადიციული მოსაწვევი ერთი მომენტია. ჩვენ გვინდოდა შეგვექმნა
-                რაღაც, რაც ღონისძიების მთელ გამოცდილებას მოიცავს — მოწვევიდან
-                მოგონებამდე.
-              </p>
+              <p className={styles.label}>{t("missionLabel")}</p>
+              <h2 className={styles.storyTitle}>{t("missionTitle")}</h2>
+              <p className={styles.storyBody}>{t("missionBody")}</p>
             </div>
             <div className={styles.storyImage}>
               <Image src={story1} alt="" sizes="(max-width: 1100px) 100vw, 560px" />
@@ -98,11 +71,11 @@ export default function AboutPage() {
 
           <section className={`${styles.story} ${styles.storySubtle} ${styles.storyStack}`}>
             <div className={styles.storyHead}>
-              <p className={styles.label}>ტრანსფორმაცია</p>
-              <h2 className={styles.storyTitle}>რას ვცვლით</h2>
+              <p className={styles.label}>{t("transformLabel")}</p>
+              <h2 className={styles.storyTitle}>{t("transformTitle")}</h2>
             </div>
             <div className={styles.changes}>
-              {CHANGES.map((item) => (
+              {changes.map((item) => (
                 <article key={item.from} className={styles.change}>
                   <div className={styles.changeHead}>
                     <span className={styles.changeFrom}>{item.from}</span>
@@ -121,21 +94,14 @@ export default function AboutPage() {
               <Image src={story2} alt="" sizes="(max-width: 1100px) 100vw, 560px" />
             </div>
             <div className={styles.storyText}>
-              <p className={styles.label}>ხედვა</p>
-              <h2 className={styles.storyTitle}>
-                ტექნოლოგია, რომელიც ემოციას ემსახურება
-              </h2>
-              <p className={styles.storyBody}>
-                ჩვენ გვჯერა, რომ ციფრული პროდუქტები უნდა აახლოებდეს ადამიანებს.
-                LYST-ის თითოეული ფუნქცია შექმნილია იმისათვის, რომ გაამარტივოს
-                საორგანიზაციო ქაოსი და მეტი დრო დაგიტოვოთ დღესასწაულით
-                ტკბობისთვის.
-              </p>
+              <p className={styles.label}>{t("visionLabel")}</p>
+              <h2 className={styles.storyTitle}>{t("visionTitle")}</h2>
+              <p className={styles.storyBody}>{t("visionBody")}</p>
             </div>
           </section>
 
           <section className={styles.photos}>
-            <h2 className={styles.photosTitle}>ატმოსფერული მომენტები</h2>
+            <h2 className={styles.photosTitle}>{t("photosTitle")}</h2>
             <div className={styles.photoRow}>
               {[photo1, photo2, photo3].map((img, i) => (
                 <div key={i} className={styles.photo}>
@@ -150,11 +116,11 @@ export default function AboutPage() {
         <div className={styles.mobileOnly}>
           <section className={styles.mobileSection}>
             <div className={styles.sectionLabel}>
-              <span className={styles.sectionLabelMain}>პრინციპები</span>
+              <span className={styles.sectionLabelMain}>{t("principlesLabel")}</span>
               <span className={styles.sectionLabelSub}>01 // 03</span>
             </div>
             <ol className={styles.principles}>
-              {PRINCIPLES.map((p) => (
+              {principles.map((p) => (
                 <li key={p.n} className={styles.principle}>
                   <div className={styles.principleHead}>
                     <span className={styles.principleN}>{p.n}</span>
@@ -168,7 +134,7 @@ export default function AboutPage() {
 
           <section className={`${styles.mobileSection} ${styles.mobileGallery}`}>
             <div className={styles.sectionLabel}>
-              <span className={styles.sectionLabelMain}>გალერეა</span>
+              <span className={styles.sectionLabelMain}>{t("galleryLabel")}</span>
               <span className={styles.sectionLabelSub}>02 // 03</span>
             </div>
             <div className={styles.galleryList}>
@@ -180,10 +146,7 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <CtaBand
-            title="შექმენი შენი პირველი LYST"
-            lead="გახადე დაგეგმარების პროცესი სასიამოვნო თავგადასავლად."
-          />
+          <CtaBand title={t("ctaTitle")} lead={t("ctaLead")} />
         </div>
       </main>
       <SiteFooter />

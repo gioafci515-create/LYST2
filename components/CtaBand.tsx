@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import styles from "./CtaBand.module.css";
 
@@ -17,9 +18,10 @@ export default function CtaBand({
   lead,
   mobileTitle,
   mobileLead,
-  cta = "შექმენი მოსაწვევი",
+  cta,
   href = "/create",
 }: Props) {
+  const tNav = useTranslations("nav");
   return (
     <section className={styles.band}>
       <div className={styles.text}>
@@ -33,7 +35,7 @@ export default function CtaBand({
         </p>
       </div>
       <Link href={href} className={`btn btn-primary ${styles.button}`}>
-        {cta}
+        {cta ?? tNav("createCta")}
       </Link>
     </section>
   );

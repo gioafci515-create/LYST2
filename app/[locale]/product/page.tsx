@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Divider from "@/components/Divider";
 import Header from "@/components/Header";
@@ -10,25 +11,18 @@ import memory2 from "@/public/images/product/memory-2.png";
 import phoneHero from "@/public/images/product/phone-hero.png";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "პროდუქტი — LYST",
-  description:
-    "LYST აერთიანებს ღონისძიების დაგეგმვას, სტუმრების მართვას, ინტერაქციას და მოგონებების შენახვას ერთ სივრცეში.",
-};
-
-const GUESTS = [
-  { name: "ალექსანდრე მდივანი", note: "+1 სტუმარი", status: "ok" as const },
-  {
-    name: "თამარ ლორთქიფანიძე",
-    note: "მხოლოდ თავად",
-    status: "ok" as const,
-    extra: true,
-  },
-  { name: "ლაშა გიორგობიანი", note: "პასუხი არ არის", status: "wait" as const },
-];
-
 // bar heights of the voice-message waveform; the last two are "unplayed"
 const WAVE = [18, 12, 24, 6, 16, 10];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "product" });
+  return { title: `${t("heroTitle")} — LYST`, description: t("heroLead") };
+}
 
 function Copy({
   eyebrow,
@@ -48,7 +42,22 @@ function Copy({
   );
 }
 
-export default function ProductPage() {
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("product");
+  const tNav = await getTranslations("nav");
+  const guests = t.raw("guests") as {
+    name: string;
+    note: string;
+    status: "ok" | "wait";
+    extra?: boolean;
+  }[];
+
   return (
     <>
       <Header />
@@ -56,18 +65,15 @@ export default function ProductPage() {
         <section className={styles.hero}>
           <div className="glow-light" aria-hidden="true" />
           <div className={styles.heroText}>
-            <h1 className={styles.heroTitle}>მოსაწვევზე მეტი.</h1>
-            <p className={styles.heroLead}>
-              LYST აერთიანებს ღონისძიების დაგეგმვას, სტუმრების მართვას,
-              ინტერაქციას და მოგონებების შენახვას ერთ სივრცეში.
-            </p>
+            <h1 className={styles.heroTitle}>{t("heroTitle")}</h1>
+            <p className={styles.heroLead}>{t("heroLead")}</p>
           </div>
           <div className={styles.heroActions}>
             <Link href="/create" className="btn btn-primary btn-md">
-              შექმენი მოსაწვევი
+              {tNav("createCta")}
             </Link>
             <Link href="/how-it-works" className={styles.heroLink}>
-              ნახე როგორ მუშაობს
+              {t("seeHow")}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/product/arrow-right-16.svg"
@@ -110,24 +116,24 @@ export default function ProductPage() {
                   <Image src={phoneHero} alt="" sizes="270px" />
                 </div>
                 <div className={styles.phoneBody}>
-                  <p className={styles.phoneTitle}>შემოდგომის ვახშამი</p>
-                  <p className={styles.phoneHost}>მასპინძლები: ნინო და გიორგი</p>
+                  <p className={styles.phoneTitle}>{t("demoEventTitle")}</p>
+                  <p className={styles.phoneHost}>{t("demoEventHost")}</p>
                   <Divider />
                   <div className={styles.phoneMeta}>
                     <div className={styles.phoneMetaRow}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/images/product/icon-calendar.svg" alt="" width={14} height={14} />
-                      <span>22 სექტ, 18:30 - გვიან</span>
+                      <span>{t("demoEventWhen")}</span>
                     </div>
                     <div className={styles.phoneMetaRow}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/images/product/icon-pin.svg" alt="" width={14} height={14} />
-                      <span>ვერანდა, თბილისი</span>
+                      <span>{t("demoEventWhere")}</span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.phoneRsvp}>
-                  <span>დავესწრები</span>
+                  <span>{t("demoRsvpAttend")}</span>
                 </div>
               </div>
             </div>
@@ -135,10 +141,8 @@ export default function ProductPage() {
           <div className={`${styles.media} ${styles.mobileImage}`}>
             <Image src={phoneHero} alt="" sizes="(max-width: 640px) 100vw, 1px" />
           </div>
-          <Copy eyebrow="01 // მოსაწვევი" title="ღონისძიების ყველა მნიშვნელოვანი ინფორმაცია ერთ ბმულზე.">
-            სტუმარს აღარ უწევს სხვადასხვა ჩატებში მისამართების, დროისა თუ ჩაცმის
-            სტილის ძებნა. ყველაფერი დახვეწილ, ადაპტირებულ ციფრულ სივრცეშია
-            წარმოდგენილი, რომელიც ნებისმიერი სმარტფონიდან იდეალურად იხსნება.
+          <Copy eyebrow={t("m1Eyebrow")} title={t("m1Title")}>
+            {t("m1Text")}
           </Copy>
         </section>
 
@@ -149,25 +153,23 @@ export default function ProductPage() {
           <div className={styles.media}>
             <div className={styles.panel}>
               <div className={styles.panelHead}>
-                <p className={styles.panelTitle}>სტუმრებიდან მიღებული პასუხები</p>
-                <span className={styles.chip}>სტატისტიკა</span>
+                <p className={styles.panelTitle}>{t("rsvpPanelTitle")}</p>
+                <span className={styles.chip}>{t("rsvpPanelChip")}</span>
               </div>
               <div className={styles.stats}>
                 <div className={styles.stat}>
-                  <p className={styles.statLabel}>დადასტურებული</p>
-                  <p className={styles.statValue}>74 სტუმარი</p>
+                  <p className={styles.statLabel}>{t("rsvpConfirmed")}</p>
+                  <p className={styles.statValue}>{t("rsvpConfirmedCount")}</p>
                 </div>
                 <div className={styles.stat}>
-                  <p className={styles.statLabel}>ვერ დაესწრება</p>
-                  <p className={styles.statValue}>12 სტუმარი</p>
+                  <p className={styles.statLabel}>{t("rsvpDeclined")}</p>
+                  <p className={styles.statValue}>{t("rsvpDeclinedCount")}</p>
                 </div>
               </div>
             </div>
           </div>
-          <Copy eyebrow="02 // დასწრების პასუხები" title="სტუმრების პასუხები და სტატუსები ერთ სივრცეში.">
-            დასწრების დადასტურება ხდება უმარტივესად, ზედმეტი ზარებისა და
-            შეტყობინებების გარეშე. სტუმარს შეუძლია მიუთითოს პლუს-სტუმრები და
-            გაგიზიაროთ მნიშვნელოვანი დეტალები.
+          <Copy eyebrow={t("m2Eyebrow")} title={t("m2Title")}>
+            {t("m2Text")}
           </Copy>
         </section>
 
@@ -178,11 +180,11 @@ export default function ProductPage() {
           <div className={styles.media}>
             <div className={styles.guestPanel}>
               <div className={styles.guestHead}>
-                <p className={styles.panelTitle}>სტუმრების სია</p>
-                <p className={styles.guestHint}>მყისიერი განახლებები</p>
+                <p className={styles.panelTitle}>{t("guestListTitle")}</p>
+                <p className={styles.guestHint}>{t("guestListHint")}</p>
               </div>
               <ul className={styles.guestList}>
-                {GUESTS.map((guest) => (
+                {guests.map((guest) => (
                   <li
                     key={guest.name}
                     className={`${styles.guestRow}${guest.extra ? ` ${styles.guestRowExtra}` : ""}`}
@@ -194,17 +196,15 @@ export default function ProductPage() {
                     <span
                       className={`${styles.badge} ${guest.status === "ok" ? styles.badgeOk : styles.badgeWait}`}
                     >
-                      {guest.status === "ok" ? "დადასტურებულია" : "მოლოდინში"}
+                      {guest.status === "ok" ? t("guestStatusOk") : t("guestStatusWait")}
                     </span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-          <Copy eyebrow="03 // სტუმრების მართვა" title="მასპინძლისთვის მარტივი მართვის პანელი.">
-            აკონტროლეთ სტუმრების სრული ნაკადი ერთი ცენტრალიზებული პანელიდან.
-            მოახდინეთ მონაცემების ექსპორტირება, დააჯგუფეთ სტუმრები მაგიდების ან
-            სტატუსის მიხედვით და დაზოგეთ დრო საორგანიზაციო საკითხებზე.
+          <Copy eyebrow={t("m3Eyebrow")} title={t("m3Title")}>
+            {t("m3Text")}
           </Copy>
         </section>
 
@@ -221,7 +221,7 @@ export default function ProductPage() {
                 </span>
                 <div className={styles.voiceBody}>
                   <div className={styles.voiceMeta}>
-                    <strong>ნინო მარიამიძე</strong>
+                    <strong>{t("voiceName")}</strong>
                     <span>22:15</span>
                   </div>
                   <div className={styles.wave} aria-hidden="true">
@@ -235,8 +235,8 @@ export default function ProductPage() {
               <div className={styles.camera}>
                 <div className={styles.cameraHead}>
                   <p className={styles.cameraLabel}>
-                    <span className="d-only">პირდაპირი კამერის რეჟიმი</span>
-                    <span className="m-only">პირდაპირი კამერა</span>
+                    <span className="d-only">{t("liveCameraDesktop")}</span>
+                    <span className="m-only">{t("liveCameraMobile")}</span>
                   </p>
                   <span className={styles.liveDot} aria-hidden="true" />
                 </div>
@@ -246,10 +246,8 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
-          <Copy eyebrow="04 // ღონისძიებაში მონაწილეობა" title="ფოტოები, ვიდეოები და ხმოვანი გზავნილები.">
-            აქციეთ თქვენი სტუმრები ღონისძიების თანაავტორებად. ციფრული ერთჯერადი
-            კამერისა და პირდაპირ ეთერში ჩაწერილი ხმოვანი გზავნილების მეშვეობით,
-            თითოეული ემოცია რეალურ დროში ფიქსირდება.
+          <Copy eyebrow={t("m4Eyebrow")} title={t("m4Title")}>
+            {t("m4Text")}
           </Copy>
         </section>
 
@@ -267,24 +265,18 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
-          <Copy eyebrow="05 // მოგონებები" title="დასრულების შემდეგ შექმნილი კონტენტი ერთ სივრცეში რჩება.">
-            არცერთი დაკარგული ფოტო ან ხმოვანი მილოცვა. ღონისძიების
-            დასრულებისთანავე, LYST ავტომატურად აგენერირებს ციფრულ არქივს,
-            რომელიც წლების განმავლობაში შეგინახავთ იმ ძვირფას მომენტებს,
-            რომლებიც ერთად შექმენით.
+          <Copy eyebrow={t("m5Eyebrow")} title={t("m5Title")}>
+            {t("m5Text")}
           </Copy>
         </section>
 
         <section className={styles.cta}>
           <div className={styles.ctaText}>
-            <h2 className={styles.ctaTitle}>მზად ხარ პირველი ღონისძიებისთვის?</h2>
-            <p className={styles.ctaLead}>
-              შექმენი შენი ციფრული მოსაწვევი დღესვე და გადააქციე უბრალო შეკრება
-              დაუვიწყარ გამოცდილებად.
-            </p>
+            <h2 className={styles.ctaTitle}>{t("ctaTitle")}</h2>
+            <p className={styles.ctaLead}>{t("ctaLead")}</p>
           </div>
           <Link href="/create" className="btn btn-primary btn-md">
-            შექმენი მოსაწვევი
+            {tNav("createCta")}
           </Link>
         </section>
       </main>
