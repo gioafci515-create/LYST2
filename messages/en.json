@@ -41,5 +41,126 @@
     "contact": "Contact",
     "rules": "Terms",
     "login": "Log In"
+  },
+  "home": {
+    "hero": {
+      "title": "One link for your whole event.",
+      "leadPrefix": "Create a digital invitation, track your guests' RSVPs, and turn your event into a living experience with the",
+      "leadSuffix": "team.",
+      "createCta": "Create an Invitation",
+      "bookConsult": "Book a Consultation",
+      "seeHow": "See How It Works"
+    },
+    "walkthrough": {
+      "eyebrow": "Product",
+      "title": "See How LYST Works",
+      "leadPrefix": "The platform gives your guests a complete digital experience —",
+      "leadHighlight": "one simple link",
+      "leadSuffix": " that adapts to any screen and browser.",
+      "points": [
+        "Opens instantly for guests — no app install",
+        "Full event details and location in one place",
+        "Automatic RSVP confirmation",
+        "A live, interactive mode on the day of the event",
+        "A permanent digital archive (Living Archive)"
+      ],
+      "showcaseTitle": "RSVP Control for Every Guest",
+      "showcaseText": "Guests just enter their name and status to confirm. No account, no registration."
+    },
+    "lifecycle": {
+      "eyebrow": "The Cycle",
+      "title": "One link, three phases.",
+      "phases": [
+        {
+          "marker": "01",
+          "title": "It invites.",
+          "text": "Your guest gets everything they need on one personal link — location, dress code, and the full schedule."
+        },
+        {
+          "marker": "02",
+          "title": "It comes alive.",
+          "text": "On the day itself, the link transforms: the camera and voice guestbook switch on, and guests become part of the story."
+        },
+        {
+          "marker": "03",
+          "title": "It keeps the memory.",
+          "text": "Afterwards, every photo, message and moment is turned into a lasting, securely stored digital keepsake."
+        }
+      ]
+    },
+    "path": {
+      "eyebrow": "Your Path",
+      "title": "Choose your path.",
+      "self": {
+        "eyebrow": "Self-Service",
+        "title": "Digital Invitation",
+        "lead": "Build it yourself, manage your guest list, and use a ready-made template.",
+        "price": "Price confirmed before you publish",
+        "cta": "Create an Invitation"
+      },
+      "premium": {
+        "eyebrow": "Premium Service",
+        "title": "A Custom Experience",
+        "lead": "Full digital staging, interactive modules, and our team's complete support from start to finish.",
+        "price": "Custom quote",
+        "cta": "Book a Consultation"
+      }
+    },
+    "experiences": {
+      "eyebrow": "Experiences",
+      "title": "An experience, built with you",
+      "lead": "Our studio in Tbilisi helps hosts build a unique digital atmosphere — a voice memory book, local photo printers and cameras, all synced to one lasting digital archive.",
+      "stats": [
+        {
+          "title": "Consultation",
+          "text": "Your event's experience is planned around exactly what you need."
+        },
+        {
+          "title": "Control",
+          "text": "Hosts keep full control over guest attendance and event information."
+        }
+      ]
+    },
+    "trust": {
+      "eyebrow": "Secure & Simple",
+      "title": "Trust, backed by a real digital status",
+      "columns": [
+        [
+          "No app required — runs right in the browser",
+          "No sign-up for guests",
+          "One secure, personal link for the whole event"
+        ],
+        [
+          "Hosts keep full control over who sees what",
+          "RSVP Preview before guests even respond",
+          "Data stored on secure European servers"
+        ]
+      ]
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "q": "Does a guest need to download an app?",
+          "a": "No — everything works straight from a mobile browser, with one simple link."
+        },
+        {
+          "q": "How do I add Voice Guestbook or Event Camera?",
+          "a": "These are add-on modules we plan individually and activate after a consultation with our team."
+        },
+        {
+          "q": "When is the final price confirmed?",
+          "a": "You'll see the invitation's price before it's published; for custom events, we put together a personal quote."
+        }
+      ]
+    },
+    "finalCta": {
+      "titlePrefix": "Which",
+      "titleSuffix": "do you need?",
+      "lead": "Start building your invitation now, or get in touch with us to plan a full digital experience.",
+      "createCta": "Create an Invitation",
+      "bookConsult": "Book a Consultation"
+    }
   }
 }

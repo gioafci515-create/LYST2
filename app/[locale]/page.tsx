@@ -1,62 +1,9 @@
 import Image from "next/image";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import heroImage from "@/public/images/hero-image.png";
-
-const WALKTHROUGH_POINTS = [
-  "მოსაწვევის მომენტალური გახსნა ინსტალაციის გარეშე",
-  "ღონისძიების დეტალური ინფორმაცია და ლოკაცია",
-  "დასწრების ავტომატური დადასტურება (RSVP)",
-  "ღონისძიების დღის ცოცხალი ინტერაქტიული რეჟიმი",
-  "მუდმივი ციფრული არქივი (Living Archive)",
-];
-
-const PHASES = [
-  {
-    marker: "01",
-    title: "ის გიწვევს.",
-    text: "სტუმარი ერთ პირად ბმულზე იღებს ყველა საჭირო ინფორმაციას, ლოკაციას, დრესკოდსა და განრიგს.",
-  },
-  {
-    marker: "02",
-    title: "ის ცოცხლდება.",
-    text: "ღონისძიების დღეს ბმული იცვლის სახეს: აქტიურდება კამერა, ხმოვანი სტუმართა წიგნი და სტუმრები ხდებიან თანაშემქმნელები.",
-  },
-  {
-    marker: "03",
-    title: "ის ინახავს.",
-    text: "საბოლოოდ, შეგროვებული ფოტოები, მილოცვები და ემოციები გარდაიქმნება დაცულ ციფრულ მოგონებად.",
-  },
-];
-
-const TRUST_COLUMNS = [
-  [
-    "არანაირი აპლიკაცია — მუშაობს პირდაპირ ბრაუზერში",
-    "არანაირი რეგისტრაცია სტუმრებისთვის",
-    "ერთი პირადი დაცული ბმული მთელი ღონისძიებისთვის",
-  ],
-  [
-    "მასპინძლის სრული კონტროლი კონტენტის წვდომაზე",
-    "დასწრების წინასწარი გადახედვა (RSVP Preview)",
-    "მონაცემები ინახება დაცულ ევროპულ სერვერებზე",
-  ],
-];
-
-const FAQ = [
-  {
-    q: "სჭირდება თუ არა სტუმარს აპლიკაციის ჩამოტვირთვა?",
-    a: "არა, ყველა ფუნქციონალი ხელმისაწვდომია მობილური ბრაუზერიდან, მარტივი ბმულით.",
-  },
-  {
-    q: "როგორ ემატება Voice Guestbook ან Event Camera?",
-    a: "ეს დამატებითი მოდულები იგეგმება ინდივიდუალურად და აქტიურდება ჩვენს გუნდთან კონსულტაციის შემდეგ.",
-  },
-  {
-    q: "როდის ხდება საბოლოო ფასის დადასტურება?",
-    a: "მოსაწვევის ფასი გეცნობებათ გამოქვეყნებამდე, ხოლო ინდივიდუალური ღონისძიებებისთვის იქმნება პერსონალური შეთავაზება.",
-  },
-];
 
 function CheckRow({ children }: { children: React.ReactNode }) {
   return (
@@ -83,7 +30,24 @@ function ArrowIcon() {
   );
 }
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("home");
+
+  const walkthroughPoints = t.raw("walkthrough.points") as string[];
+  const phases = t.raw("lifecycle.phases") as {
+    marker: string;
+    title: string;
+    text: string;
+  }[];
+  const trustColumns = t.raw("trust.columns") as string[][];
+  const faqItems = t.raw("faq.items") as { q: string; a: string }[];
+
   return (
     <>
       <Header variant="home" />
@@ -93,23 +57,22 @@ export default function Home() {
           <div className="hero-split">
             <div className="hero-content">
               <div className="text-stack">
-                <h1 className="t-display">ერთი ბმული მთელი ღონისძიებისთვის.</h1>
+                <h1 className="t-display">{t("hero.title")}</h1>
                 <p className="t-body-lg t-slash">
-                  შექმენი ციფრული მოსაწვევი, მართე სტუმრების დასწრება და{" "}
-                  <span className="t-accent">LYST</span>-ის გუნდთან ერთად აქციე
-                  ღონისძიება ცოცხალ გამოცდილებად.
+                  {t("hero.leadPrefix")} <span className="t-accent">LYST</span>{" "}
+                  {t("hero.leadSuffix")}
                 </p>
               </div>
               <div className="hero-actions">
                 <Link href="/create" className="btn btn-primary">
-                  შექმენი მოსაწვევი
+                  {t("hero.createCta")}
                 </Link>
                 <a href="#path" className="btn btn-secondary hero-consult">
-                  დაჯავშნე კონსულტაცია
+                  {t("hero.bookConsult")}
                   <ArrowIcon />
                 </a>
                 <a href="#product" className="text-link">
-                  ნახე როგორ მუშაობს
+                  {t("hero.seeHow")}
                   <span className="arrow-char" aria-hidden="true">
                     {" "}
                     →
@@ -132,39 +95,36 @@ export default function Home() {
 
         <section id="product" className="section section-subtle walkthrough">
           <div className="section-header">
-            <p className="eyebrow">პროდუქტი</p>
-            <h2 className="t-h1">ნახე, როგორ მუშაობს LYST</h2>
+            <p className="eyebrow">{t("walkthrough.eyebrow")}</p>
+            <h2 className="t-h1">{t("walkthrough.title")}</h2>
           </div>
           <div className="walkthrough-grid">
             <div className="walkthrough-details">
               <p className="t-body-lg">
-                პლატფორმა გთავაზობთ სრულყოფილ ციფრულ გადაწყვეტას თქვენი
-                სტუმრებისთვის — <mark>მარტივი ბმულით</mark>, რომელიც მორგებულია
-                ნებისმიერ ეკრანსა და ბრაუზერზე.
+                {t("walkthrough.leadPrefix")}{" "}
+                <mark>{t("walkthrough.leadHighlight")}</mark>
+                {t("walkthrough.leadSuffix")}
               </p>
               <ul className="check-list">
-                {WALKTHROUGH_POINTS.map((point) => (
+                {walkthroughPoints.map((point) => (
                   <CheckRow key={point}>{point}</CheckRow>
                 ))}
               </ul>
             </div>
             <div className="showcase">
-              <h3 className="showcase-title">დასწრების კონტროლი სტუმრისთვის</h3>
-              <p className="t-body">
-                სტუმრები დადასტურებისას უთითებენ სახელსა და სტატუსს. არ არის
-                საჭირო რეგისტრაცია.
-              </p>
+              <h3 className="showcase-title">{t("walkthrough.showcaseTitle")}</h3>
+              <p className="t-body">{t("walkthrough.showcaseText")}</p>
             </div>
           </div>
         </section>
 
         <section id="how" className="section lifecycle section-dark">
           <div className="section-header">
-            <p className="eyebrow">ციკლი</p>
-            <h2 className="t-h1">ერთი ბმული სამ ფაზაში.</h2>
+            <p className="eyebrow">{t("lifecycle.eyebrow")}</p>
+            <h2 className="t-h1">{t("lifecycle.title")}</h2>
           </div>
           <div className="cards-row">
-            {PHASES.map((phase) => (
+            {phases.map((phase) => (
               <article key={phase.marker} className="phase-card">
                 <span className="marker">{phase.marker}</span>
                 <h3 className="phase-title">{phase.title}</h3>
@@ -176,39 +136,33 @@ export default function Home() {
 
         <section id="path" className="section section-subtle choose-path">
           <div className="section-header">
-            <p className="eyebrow">გზა</p>
-            <h2 className="t-h1">აირჩიე შენი გზა.</h2>
+            <p className="eyebrow">{t("path.eyebrow")}</p>
+            <h2 className="t-h1">{t("path.title")}</h2>
           </div>
           <div className="path-split">
             <article className="path-card">
               <div className="content-block">
-                <p className="eyebrow path-eyebrow">თვითმომსახურება</p>
-                <h3 className="t-h3">ციფრული მოსაწვევი</h3>
-                <p className="t-body-lg">
-                  შექმენი დამოუკიდებლად, მართე სტუმრები და გამოიყენე მზა
-                  შაბლონები.
-                </p>
+                <p className="eyebrow path-eyebrow">{t("path.self.eyebrow")}</p>
+                <h3 className="t-h3">{t("path.self.title")}</h3>
+                <p className="t-body-lg">{t("path.self.lead")}</p>
               </div>
               <div className="price-action">
-                <p className="price">ფასი დადასტურდება გამოქვეყნებამდე</p>
+                <p className="price">{t("path.self.price")}</p>
                 <Link href="/create" className="btn btn-primary">
-                  შექმენი მოსაწვევი
+                  {t("path.self.cta")}
                 </Link>
               </div>
             </article>
             <article className="path-card path-card-featured">
               <div className="content-block">
-                <p className="eyebrow path-eyebrow">პრემიუმ სერვისი</p>
-                <h3 className="t-h3">ინდივიდუალური გამოცდილება</h3>
-                <p className="t-body-lg">
-                  სრული ციფრული სცენოგრაფია, ინტერაქტიული მოდულები და ჩვენი
-                  გუნდის სრული მხარდაჭერა.
-                </p>
+                <p className="eyebrow path-eyebrow">{t("path.premium.eyebrow")}</p>
+                <h3 className="t-h3">{t("path.premium.title")}</h3>
+                <p className="t-body-lg">{t("path.premium.lead")}</p>
               </div>
               <div className="price-action">
-                <p className="price">ინდივიდუალური შეთავაზება</p>
+                <p className="price">{t("path.premium.price")}</p>
                 <a href="#final-cta" className="btn btn-secondary">
-                  დაჯავშნე კონსულტაცია
+                  {t("path.premium.cta")}
                 </a>
               </div>
             </article>
@@ -218,40 +172,30 @@ export default function Home() {
         <section id="experiences" className="section editorial">
           <div className="story-narrative">
             <div className="section-header">
-              <p className="eyebrow">გამოცდილებები</p>
-              <h2 className="t-h1">კონსულტაციით შექმნილი გამოცდილება</h2>
+              <p className="eyebrow">{t("experiences.eyebrow")}</p>
+              <h2 className="t-h1">{t("experiences.title")}</h2>
             </div>
-            <p className="t-body-lg">
-              ჩვენი სტუდია თბილისში ეხმარება მასპინძლებს უნიკალური ციფრული
-              ატმოსფეროს შექმნაში. ხმოვანი მოსაგონარი წიგნაკი, ლოკალური
-              ფოტო-პრინტერები და კამერები სინქრონიზებულია ერთიან, მდგრად
-              ციფრულ არქივთან.
-            </p>
+            <p className="t-body-lg">{t("experiences.lead")}</p>
             <div className="editorial-stats">
-              <div className="stat-item">
-                <p className="stat-title">კონსულტაცია</p>
-                <p className="stat-text">
-                  ღონისძიების გამოცდილება შენი საჭიროებების მიხედვით განიგება.
-                </p>
-              </div>
-              <div className="stat-item">
-                <p className="stat-title">კონტროლი</p>
-                <p className="stat-text">
-                  მასპინძლებს სრული კონტროლი აქვთ სტუმრების დასწრებაზე და
-                  ღონისძიების ინფორმაციაზე.
-                </p>
-              </div>
+              {(t.raw("experiences.stats") as { title: string; text: string }[]).map(
+                (stat) => (
+                  <div key={stat.title} className="stat-item">
+                    <p className="stat-title">{stat.title}</p>
+                    <p className="stat-text">{stat.text}</p>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         </section>
 
         <section id="trust" className="section section-subtle trust">
           <div className="section-header">
-            <p className="eyebrow">უსაფრთხოება &amp; სიმარტივე</p>
-            <h2 className="t-h1">ნდობა რეალური ციფრული სტატუსით</h2>
+            <p className="eyebrow">{t("trust.eyebrow")}</p>
+            <h2 className="t-h1">{t("trust.title")}</h2>
           </div>
           <div className="trust-grid">
-            {TRUST_COLUMNS.map((column, index) => (
+            {trustColumns.map((column, index) => (
               <ul key={index} className="check-list trust-col">
                 {column.map((point) => (
                   <CheckRow key={point}>{point}</CheckRow>
@@ -263,11 +207,11 @@ export default function Home() {
 
         <section id="faq" className="section faq">
           <div className="section-header">
-            <p className="eyebrow">FAQ</p>
-            <h2 className="t-h3 faq-title">ხშირად დასმული კითხვები</h2>
+            <p className="eyebrow">{t("faq.eyebrow")}</p>
+            <h2 className="t-h3 faq-title">{t("faq.title")}</h2>
           </div>
           <div className="faq-rows">
-            {FAQ.map((item, i) => (
+            {faqItems.map((item, i) => (
               <details key={item.q} className="faq-row" open={i === 0}>
                 <summary className="faq-q">
                   <span>{item.q}</span>
@@ -284,19 +228,17 @@ export default function Home() {
           <div className="glow-dark" aria-hidden="true" />
           <div className="cta-content">
             <h2 className="t-h1">
-              როგორი <span className="t-accent">LYST</span> გჭირდება?
+              {t("finalCta.titlePrefix")} <span className="t-accent">LYST</span>{" "}
+              {t("finalCta.titleSuffix")}
             </h2>
-            <p className="t-body-lg">
-              დაიწყე მოსაწვევის შექმნა ახლავე ან დაგვიკავშირდი სრული ციფრული
-              გამოცდილების დასაგეგმად.
-            </p>
+            <p className="t-body-lg">{t("finalCta.lead")}</p>
           </div>
           <div className="cta-actions">
             <Link href="/create" className="btn btn-primary">
-              შექმენი მოსაწვევი
+              {t("finalCta.createCta")}
             </Link>
             <a href="#path" className="btn btn-secondary">
-              დაჯავშნე კონსულტაცია
+              {t("finalCta.bookConsult")}
             </a>
           </div>
         </section>
